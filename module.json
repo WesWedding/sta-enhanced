@@ -1,0 +1,17 @@
+{
+  "id": "sta-enhanced",
+  "title": "Enhancements to the Unofficial STA System",
+  "description": "Improved character sheet behaviors, layout, and organization.",
+  "version": "0.1.0",
+  "compatibility": {
+    "verified": 12
+  },
+  "esmodules": ["sta-enhanced.mjs"],
+  "styles": ["sta-enhanced.css"],
+  "relationships": {
+    "systems": [{
+      "id": "sta",
+      "type": "system"
+    }]
+  }
+}

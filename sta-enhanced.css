@@ -1,0 +1,22 @@
+.sta-enhanced.sheet .window-content {
+  color: #33CCCC;
+}
+
+.sta-enhanced .section.note .editor {
+  min-height: 100px;
+  height: 100px;
+}
+
+.sta-enhanced .lcars-header {
+  /** See: STA system .sta.sheet.actor .main .row .column .section .header.row */
+  background-color: #444A77;
+  color: #000000;
+  font-weight: bold;
+  padding-left: 2px;
+  padding-right: 2px;
+  border-bottom: 2px solid #0F0F0F;
+}
+
+.sta-enhanced .lcars-header:empty:after {
+  content: '\a0';
+}
