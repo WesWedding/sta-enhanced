@@ -2,6 +2,10 @@
   color: #33CCCC;
 }
 
+.sta-enhanced .main .header .column {
+  flex-basis: 90%;
+}
+
 .sta-enhanced .section.note .editor {
   min-height: 100px;
   height: 100px;
