@@ -1,0 +1,130 @@
+<div class="tab" data-tab="details" data-group="primary-tabs">
+  <div class="row">
+    <div class="lcars-column">
+      <div class="lcars-item1-top-block"></div>
+      <div class="lcars-item1-connect-block"></div>
+      <div class="lcars-item1-general-block"></div>
+    </div>
+  <div class="column left-column">
+    <div class="section talents">
+      <div class="title">
+        {{localize 'sta.item.talent.title'}}
+      </div>
+      <div class="header row item">
+        <div class="image"></div>
+        <div class="one-column-with-roll secondary-title">{{localize 'sta.item.genericitem.name'}}</div>
+        <a class="control create" title="Create item" data-type="talent"><i class="fas fa-plus"></i></a>
+      </div>
+      {{#each items as |item id|}}
+        {{#if (eq item.type "talent")}}
+          <li class="row entry" data-item-id="{{item.id}}" data-item-type="{{item.type}}" data-item-value="{{item.name}}">
+            <div class="image"><img class="chat" src="{{item.img}}" title="{{item.name}}"/></div>
+            <div class="one-column-no-roll list-entry talent-tooltip-clickable" id="talent-tooltip-clickable-{{item.id}}" data-talent-name="{{item.name}}">{{item.name}}</div>
+            <div class="control">
+              <a class="edit" title="Edit Item"><i class="fas fa-edit"></i></a>
+              <a class="delete" title="Delete Item"><i class="fas fa-trash"></i></a>
+            </div>
+          </li>
+          <li class="row entry talent-tooltip-container hide" id="talent-tooltip-container-{{item.id}}">
+            <div class="list-entry talent-tooltip-text" id="talent-tooltip-text-{{item.id}}">{{item.system.description}}</div>
+          </li>
+        {{/if}}
+      {{/each}}
+    </div>
+  </div>
+  <div class="column center-column">
+    <div class="section values">
+      <div class="title">
+        {{localize 'sta.actor.value.title'}}
+      </div>
+      <div class="header row item">
+        <div class="image"></div>
+        <div class="value-used">{{localize 'sta.actor.value.used'}}</div>
+        <div class="one-column-with-roll">{{localize 'sta.item.genericitem.name'}}</div>
+        <a class="control create" title="Create item" data-type="value"><i class="fas fa-plus"></i></a>
+      </div>
+      {{#each items as |item id|}}
+        {{#if (eq item.type "value")}}
+          <li class="row entry" data-item-id="{{item.id}}" data-item-type="{{item.type}}" data-item-value="{{item.name}}">
+            <div class="image"><img class="chat" src="{{item.img}}" title="{{item.name}}"/></div>
+            <a class="value-used control toggle"><i class="fas fa-toggle-{{#if (eq item.system.used true)}}on{{else}}off{{/if}}"></i></a>
+            <h4 class="one-column-with-roll list-entry {{#if (eq item.system.used true)}}strike-through{{/if}}">{{name}}</h4>
+            <div class="control">
+              <a class="edit" title="Edit Item"><i class="fas fa-edit"></i></a>
+              <a class="delete" title="Delete Item"><i class="fas fa-trash"></i></a>
+            </div>
+          </li>
+        {{/if}}
+      {{/each}}
+    </div>
+  </div>
+  <div class="column right-column">
+    <div class="section focuses">
+      <div class="title">
+        {{localize 'sta.actor.focus.title'}}
+      </div>
+      <div class="header row item">
+        <div class="image"></div>
+        <div class="one-column-with-roll">{{localize 'sta.item.genericitem.name'}}</div>
+        <a class="control create" title="Create item" data-type="focus"><i class="fas fa-plus"></i></a>
+      </div>
+      {{#each items as |item id|}}
+        {{#if (eq item.type "focus")}}
+          <li class="row entry" data-item-id="{{item.id}}" data-item-type="{{item.type}}" data-item-value="{{item.name}}">
+            <div class="image"><img class="chat" src="{{item.img}}" title="{{item.name}}"/></div>
+            <h4 class="one-column-with-roll list-entry">{{item.name}}</h4>
+            <div class="control">
+              <a class="edit" title="Edit Item"><i class="fas fa-edit"></i></a>
+              <a class="delete" title="Delete Item"><i class="fas fa-trash"></i></a>
+            </div>
+          </li>
+        {{/if}}
+      {{/each}}
+    </div>
+  </div>
+  </div>
+  <div class="row">
+    <div class="lcars-column">
+      <div class="lcars-item2-general-block1"></div>
+      <div class="lcars-item2-general-block2"></div>
+    </div>
+    <div class="column left-column">
+      <div class="section">
+        <div class="title">&nbsp; </div>
+        <div class="header row item">
+          <div class="one-column-no-roll">&nbsp;</div>
+        </div>
+      </div>
+    </div>
+    <div class="column center-column">
+      <div class="section injuries">
+        <div class="title">
+          {{localize 'sta.actor.injury.title'}}
+        </div>
+        <div class="header row item">
+          <div class="one-column-no-roll">{{localize 'sta.item.genericitem.name'}}</div>
+          <a class="control create" title="Create item" data-type="injury"><i class="fas fa-plus"></i></a>
+        </div>
+        {{#each items as |item id|}}
+          {{#if (eq item.type "injury")}}
+            <li class="row entry" data-item-id="{{item.id}}" data-item-type="{{item.type}}" data-item-value="{{item.name}}">
+              <h4 class="one-column-no-roll list-entry">{{item.name}}</h4>
+              <div class="control">
+                <a class="edit" title="Edit Item"><i class="fas fa-edit"></i></a>
+                <a class="delete" title="Delete Item"><i class="fas fa-trash"></i></a>
+              </div>
+            </li>
+          {{/if}}
+        {{/each}}
+      </div>
+    </div>
+    <div class="column right-column">
+      <div class="section">
+        <div class="title">&nbsp; </div>
+        <div class="header row item">
+          <div class="one-column-no-roll">&nbsp;</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

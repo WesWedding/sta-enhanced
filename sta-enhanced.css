@@ -2,8 +2,9 @@
   color: #33CCCC;
 }
 
-.sta-enhanced .main .header .column {
-  flex-basis: 90%;
+.sta-enhanced.sheet.actor .lcars-column {
+  flex-shrink: 0;
+  flex-grow: 0;
 }
 
 .sta-enhanced .section.note .editor {

@@ -1,11 +1,20 @@
 <div class="tab" data-tab="reputation" data-group="primary-tabs">
-  <div class="section reputation">
-    <div class="title">
-      {{localize 'sta.actor.character.reputation'}}
+  <div class="row">
+    <div class="lcars-column">
+      <div class="lcars-item1-top-block"></div>
+      <div class="lcars-item1-connect-block"></div>
+      <div class="lcars-item1-general-block"></div>
     </div>
-    <div class="track">
-      <input type="hidden" id="total-rep" name="system.reputation" value="{{system.reputation}}" data-dtype="Number" />
-      <div id="bar-rep-renderer" class=" bar"></div>
+    <div class="column">
+      <div class="section reputation">
+        <div class="title">
+          {{localize 'sta.actor.character.reputation'}}
+        </div>
+        <div class="track">
+          <input type="hidden" id="total-rep" name="system.reputation" value="{{system.reputation}}" data-dtype="Number" />
+          <div id="bar-rep-renderer" class=" bar"></div>
+        </div>
+      </div>
     </div>
   </div>
 </div>

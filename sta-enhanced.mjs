@@ -41,7 +41,7 @@ class STACharacterEnhancedSheet extends STACharacterSheet {
 
 async function preloadHandlebarsTemplates() {
   const paths = {
-    [`sta-enhanced.tabs.character`]: "modules/sta-enhanced/templates/actors/tabs/character.hbs",
+    [`sta-enhanced.tabs.details`]: "modules/sta-enhanced/templates/actors/tabs/details.hbs",
     [`sta-enhanced.tabs.belongings`]: "modules/sta-enhanced/templates/actors/tabs/belongings.hbs",
     [`sta-enhanced.tabs.reputation`]: "modules/sta-enhanced/templates/actors/tabs/reputation.hbs",
     [`sta-enhanced.tabs.biography`]: "modules/sta-enhanced/templates/actors/tabs/biography.hbs",
