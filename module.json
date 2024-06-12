@@ -40,5 +40,5 @@
   ],
   "url": "https://github.com/WesWedding/sta-enhanced",
   "manifest": "https://raw.githubusercontent.com/WesWedding/sta-enhanced/main/module.json",
-  "download": "https://raw.githubusercontent.com/WesWedding/sta-enhanced/v0.1.1/package/sta-enhanced-v0.1.1.zip"
+  "download": "https://github.com/WesWedding/sta-enhanced/releases/download/v0.1.1/sta-enhanced-v0.1.1.zip"
 }
