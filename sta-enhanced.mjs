@@ -5,7 +5,7 @@ Hooks.once("init", () => {
   // Register sheets.
   Actors.registerSheet("sta-enhanced", STACharacterEnhancedSheet, {
     types: ["character"],
-    label: "ENHANCED CHAR SHEET", // TODO: Localize.
+    label: "sta-enhanced.SheetClassCharacter",
     // makeDefault: true
   });
   

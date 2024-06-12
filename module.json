@@ -6,6 +6,13 @@
   "compatibility": {
     "verified": 12
   },
+  "languages": [
+    {
+      "lang": "en",
+      "name": "English",
+      "path": "lang/en.json"
+    }
+  ],
   "esmodules": ["sta-enhanced.mjs"],
   "styles": ["sta-enhanced.css"],
   "relationships": {
