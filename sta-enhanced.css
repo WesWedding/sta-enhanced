@@ -13,7 +13,7 @@
 }
 
 .sta-enhanced .lcars-header {
-  /** See: STA system .sta.sheet.actor .main .row .column .section .header.row */
+  /** Copied from STA system's CSS: .sta.sheet.actor .main .row .column .section .header.row */
   background-color: #444A77;
   color: #000000;
   font-weight: bold;
