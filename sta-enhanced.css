@@ -22,6 +22,29 @@
   border-bottom: 2px solid #0F0F0F;
 }
 
+/* Prevent the lcars headers from collapsing when they're empty. */
 .sta-enhanced .lcars-header:empty:after {
   content: '\a0';
+}
+
+.sta-enhanced .tabs {
+  justify-content: space-around;
+  margin: 22px 0 5px;
+  width: 100%;
+}
+
+.sta-enhanced .tabs > [data-tab] {
+  background-color: #FFCC33;
+  border-radius: 25px;
+  color: #000000;
+  font-size: 14pt;
+  font-weight: bold;
+  height: 30px;
+  line-height: 30px;
+  padding: 0 22px;
+  text-shadow: none;
+}
+
+.sta-enhanced .tabs > [data-tab].active {
+  background-color: #FF2200;
 }
