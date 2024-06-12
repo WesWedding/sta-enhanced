@@ -2,23 +2,43 @@
   "id": "sta-enhanced",
   "title": "Enhancements to the Unofficial STA System",
   "description": "Improved character sheet behaviors, layout, and organization.",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "compatibility": {
-    "verified": 12
+    "verified": "12",
+    "minimum": "10"
   },
   "languages": [
     {
       "lang": "en",
       "name": "English",
-      "path": "lang/en.json"
+      "path": "lang/en.json",
+      "flags": {}
     }
   ],
-  "esmodules": ["sta-enhanced.mjs"],
-  "styles": ["sta-enhanced.css"],
+  "esmodules": [
+    "sta-enhanced.mjs"
+  ],
+  "styles": [
+    "sta-enhanced.css"
+  ],
   "relationships": {
-    "systems": [{
-      "id": "sta",
-      "type": "system"
-    }]
-  }
+    "systems": [
+      {
+        "id": "sta",
+        "type": "system",
+        "compatibility": {}
+      }
+    ]
+  },
+  "authors": [
+    {
+      "name": "Weston Wedding",
+      "url": "https://www.westonwedding.com",
+      "discord": "razoras",
+      "flags": {}
+    }
+  ],
+  "url": "https://github.com/WesWedding/sta-enhanced",
+  "manifest": "https://raw.githubusercontent.com/WesWedding/sta-enhanced/main/module.json",
+  "download": "https://raw.githubusercontent.com/WesWedding/sta-enhanced/v0.1.1/package/sta-enhanced-v0.1.1.zip"
 }
