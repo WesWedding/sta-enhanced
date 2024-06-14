@@ -90,22 +90,22 @@
             {{/each}}
             <div class="check-button btn attribute">{{localize 'sta.actor.attdis.task'}}</div>
           </div>
-        </div>
       </div>
     </div>
-      <nav class="tabs" data-group="primary-tabs">
+    </div>
+    <nav class="tabs" data-group="primary-tabs">
         <a class="item" data-tab="details" data-group="primary-tabs">{{ localize 'sta-enhanced.CharacterDetails' }}</a>
         <a class="item" data-tab="belongings" data-group="primary-tabs">{{ localize 'sta-enhanced.Belongings' }}</a>
         <a class="item" data-tab="reputation" data-group="primary-tabs">{{ localize 'sta-enhanced.Reputation' }}</a>
         <a class="item" data-tab="biography" data-group="primary-tabs">{{ localize 'sta-enhanced.Biography' }}</a>
       </nav>
     <div class="sheet-details main">
-      <section class="tab-area">
-        {{> "sta-enhanced.tabs.details" }}
-        {{> "sta-enhanced.tabs.belongings" }}
-        {{> "sta-enhanced.tabs.reputation" }}
-        {{> "sta-enhanced.tabs.biography" }}
-      </section>
-    </div>
+        <section class="tab-area">
+          {{> "sta-enhanced.tabs.details" }}
+          {{> "sta-enhanced.tabs.belongings" }}
+          {{> "sta-enhanced.tabs.reputation" }}
+          {{> "sta-enhanced.tabs.biography" }}
+        </section>
+      </div>
   </div>
 </form>
