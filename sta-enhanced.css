@@ -12,6 +12,11 @@
   height: 100px;
 }
 
+.sta-enhanced.sta.sheet.actor .main .row {
+  /* Override forcing lists to be narrow and scrollable.*/
+  max-height: none;
+}
+
 .sta-enhanced .lcars-header {
   /** Copied from STA system's CSS: .sta.sheet.actor .main .row .column .section .header.row */
   background-color: #444A77;
@@ -25,6 +30,41 @@
 /* Prevent the lcars headers from collapsing when they're empty. */
 .sta-enhanced .lcars-header:empty:after {
   content: '\a0';
+}
+
+.sta-enhanced .main-content {
+  display: grid;
+  grid-template-areas: "header" "attributes" "tabs" "details";
+  grid-template-rows: auto auto auto 1fr;
+  height:100%;
+}
+
+.sta-enhanced .header {
+  grid-area:header;
+}
+
+.sta-enhanced .row.main {
+  grid-area: attributes;
+}
+
+.sta-enhanced .tabs {
+  grid-area: tabs;
+}
+
+.sta-enhanced .sheet-details {
+  grid-area: details;
+  position: relative;
+}
+
+.sta-enhanced.sheet.actor .tab-area {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  overflow: hidden auto;
 }
 
 .sta-enhanced .tabs {
