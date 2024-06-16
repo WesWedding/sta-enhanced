@@ -1,7 +1,8 @@
 import { STACharacterSheet } from '../../systems/sta/module/actors/sheets/character-sheet.js'
+import { STAActor } from '../../systems/sta/module/actors/actor.js'
 
 Hooks.once("init", () => {
-  
+
   // Register sheets.
   Actors.registerSheet("sta-enhanced", STACharacterEnhancedSheet, {
     types: ["character"],
@@ -36,6 +37,32 @@ class STACharacterEnhancedSheet extends STACharacterSheet {
     if ( !game.user.isGM && this.actor.limited ) return "systems/sta/templates/actors/limited-sheet.html";
     return "modules/sta-enhanced/templates/actors/character-sheet.hbs";
   }
+
+  /** @inheritDoc */
+  activateListeners($html) {
+    super.activateListeners($html);
+
+    const html = $html[0];
+
+    // New inputs need new handlers
+    flagInputHandler(this.actor, html, "gender");
+  }
+}
+
+/**
+ * Set a listener for a flag input.
+ *
+ * Stops the form change handler from triggering a 2nd update by preventing propagation.
+ *
+ * @param {Actor} actor
+ * @param {HTMLElement} html
+ * @param {string} flagName
+ */
+function flagInputHandler(actor, html, flagName) {
+  html.querySelector(`input[name="sta-enhanced.flags.${flagName}"]`)?.addEventListener("change", (/** Event */) => {
+    event.stopImmediatePropagation();
+    actor.setFlag("sta-enhanced", flagName, event.target.value);
+  })
 }
 
 

@@ -4,5 +4,7 @@
   "sta-enhanced.CharacterDetails": "Details",
   "sta-enhanced.Belongings": "Belongings",
   "sta-enhanced.Reputation": "Reputation",
-  "sta-enhanced.Biography": "Biography"
+  "sta-enhanced.Biography": "Biography",
+
+  "sta-enhanced.gender": "Gender/Pronouns"
 }
