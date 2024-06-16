@@ -6,5 +6,6 @@
   "sta-enhanced.Reputation": "Reputation",
   "sta-enhanced.Biography": "Biography",
 
-  "sta-enhanced.gender": "Gender/Pronouns"
+  "sta-enhanced.actor.gender": "Gender/Pronouns",
+  "sta-enhanced.actor.personality": "Personality"
 }

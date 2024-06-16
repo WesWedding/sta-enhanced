@@ -46,6 +46,7 @@ class STACharacterEnhancedSheet extends STACharacterSheet {
 
     // New inputs need new handlers
     flagInputHandler(this.actor, html, "gender");
+    flagInputHandler(this.actor, html, "personality");
   }
 }
 
