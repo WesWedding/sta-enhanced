@@ -1,5 +1,19 @@
+:root {
+  --sta-black: #0F0F0F;
+  --sta-red: #CC2233;
+  --sta-red-orange: #FF2200;
+  --sta-orange: #FF7700;
+  --sta-orange-yellow: #FAA41B;
+  --sta-light-blue: #33CCCC;
+  --sta-blue-purple: #4455FF;
+  --sta-purple-pink: #CC88FF;
+  --sta-purple: #9944FF;
+  --sta-dark-purple: #444A77;
+  --sta-yellow: #FFCC33;
+}
+
 .sta-enhanced.sheet .window-content {
-  color: #33CCCC;
+  color: var(--sta-light-blue);
 }
 
 .sta-enhanced.sheet.actor .lcars-column {
@@ -18,13 +32,14 @@
 }
 
 .sta-enhanced .lcars-header {
-  /** Copied from STA system's CSS: .sta.sheet.actor .main .row .column .section .header.row */
-  background-color: #444A77;
+  /** Copied from STA system's CSS: .sta.sheet.actor .main .row .column .section .header.row
+   Subbed in var() colors. */
+  background-color: var(--sta-dark-purple);
   color: #000000;
   font-weight: bold;
   padding-left: 2px;
   padding-right: 2px;
-  border-bottom: 2px solid #0F0F0F;
+  border-bottom: 2px solid var(--sta-black);
 }
 
 /* Prevent the lcars headers from collapsing when they're empty. */
@@ -74,9 +89,9 @@
 }
 
 .sta-enhanced .tabs > [data-tab] {
-  background-color: #FFCC33;
+  background-color: var(--sta-yellow);
   border-radius: 25px;
-  color: #000000;
+  color: var(--sta-black);
   font-size: 14pt;
   font-weight: bold;
   height: 30px;
@@ -86,5 +101,5 @@
 }
 
 .sta-enhanced .tabs > [data-tab].active {
-  background-color: #FF2200;
+  background-color: var(--sta-red-orange);
 }
