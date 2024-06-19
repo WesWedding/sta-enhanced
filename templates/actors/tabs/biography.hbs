@@ -1,4 +1,4 @@
-<div class="tab" data-tab="biography" data-group="primary-tabs">
+<div class="tab biography" data-tab="biography" data-group="primary-tabs">
   <div class="row">
     <div class="lcars-column">
       <div class="lcars-item1-top-block"></div>
@@ -6,6 +6,17 @@
       <div class="lcars-item1-general-block"></div>
     </div>
     <div class="column" style="width:100%">
+      <div class="row">
+        <div class="column title">
+          {{localize 'sta.actor.note.title'}}
+        </div>
+      </div>
+      <div class="section note">
+        <div class="lcars-header row item"></div>
+        <div class="note">
+          {{editor system.notes target="system.notes" button=true editable=true engine="prosemirror"}}
+        </div>
+      </div>
       <div class="row">
         <div class="column title">
           <div> {{localize 'sta.actor.character.environment'}} </div>
@@ -22,15 +33,17 @@
           <input name="system.upbringing" class="text-entry" type="text" value="{{system.upbringing}}" placeholder="{{localize 'sta.actor.character.upbringing'}}" />
         </div>
       </div>
-      <div class="section note">
-        <div class="title">
-          {{localize 'sta.actor.note.title'}}
-        </div>
-        <div class="lcars-header row item"></div>
-        <div class="note">
-          {{editor system.notes target="system.notes" button=true owner=owner editable=true}}
+      <div class="row">
+        <div class="column title">
+          {{localize 'sta-enhanced.Biography'}}
         </div>
       </div>
+        <div class="section biography">
+          <div class="lcars-header row item"></div>
+          <div class="biography">
+            {{editor sta-enhanced.character.enrichedBiography target="flags.sta-enhanced.character.biography" button=true editable=true engine="prosemirror"}}
+          </div>
+        </div>
     </div>
   </div>
 </div>

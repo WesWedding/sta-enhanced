@@ -26,8 +26,17 @@ class STACharacterEnhancedSheet extends STACharacterSheet {
   }
   
   /** @inheritDoc */
-  getData(options = {}) {
+  async getData(options) {
     const context = super.getData(options);
+
+    const characterFlags = this.object.flags['sta-enhanced']?.character;
+    context['sta-enhanced'] = {
+      'character': {
+        gender: characterFlags?.gender,
+        personality: characterFlags?.personality,
+        enrichedBiography: await TextEditor.enrichHTML(characterFlags?.biography, {async: true}),
+      },
+    };
     
     return context;
   }
@@ -41,32 +50,28 @@ class STACharacterEnhancedSheet extends STACharacterSheet {
   /** @inheritDoc */
   activateListeners($html) {
     super.activateListeners($html);
+  }
 
-    const html = $html[0];
+  async _updateObject(event, formData) {
+    //  It might not be possible for this to happen, but seems like a good check, anyway.
+    if (!game.user.isOwner) {
+      return super._updateObject(event, formData);
+    }
 
-    // New inputs need new handlers
-    flagInputHandler(this.actor, html, "gender");
-    flagInputHandler(this.actor, html, "personality");
+    // TODO: Is there a way to roll this in to the update behavior so 2 updates aren't triggered?
+    this.actor.setFlag("sta-enhanced", "character", {
+      "gender": formData["sta-enhanced.character.gender"],
+      "personality": formData["sta-enhanced.character.personality"],
+      "biography": formData["flags.sta-enhanced.character.biography"],
+    });
+
+    return super._updateObject(event, formData);
   }
 }
 
 /**
- * Set a listener for a flag input.
- *
- * Stops the form change handler from triggering a 2nd update by preventing propagation.
- *
- * @param {Actor} actor
- * @param {HTMLElement} html
- * @param {string} flagName
+ * Loads specific template for the different chunks of our handlebars templates.
  */
-function flagInputHandler(actor, html, flagName) {
-  html.querySelector(`input[name="sta-enhanced.flags.${flagName}"]`)?.addEventListener("change", (/** Event */) => {
-    event.stopImmediatePropagation();
-    actor.setFlag("sta-enhanced", flagName, event.target.value);
-  })
-}
-
-
 async function preloadHandlebarsTemplates() {
   const paths = {
     [`sta-enhanced.tabs.details`]: "modules/sta-enhanced/templates/actors/tabs/details.hbs",
