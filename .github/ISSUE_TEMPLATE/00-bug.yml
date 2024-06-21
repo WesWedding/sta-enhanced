@@ -1,0 +1,46 @@
+# https://docs.github.com/en/communities/using-templates-to-encourage-useful-issues-and-pull-requests/configuring-issue-templates-for-your-repository#creating-issue-forms
+# https://docs.github.com/en/communities/using-templates-to-encourage-useful-issues-and-pull-requests/syntax-for-githubs-form-schema
+# Most of this is grabbed from the excellend GoLang yaml bug template.
+name: Bugs
+description: Bugs, errors, unexpected behaviors happen when this Plugin is running.
+title: "issue title"
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for helping us improve! 🙏 Please answer these questions and provide as much information as possible about your problem.
+
+  - type: input
+    id: foundry-version
+    attributes:
+      label: Foundry VTT Version
+      description: |
+        What version of Foundry are you using?
+      placeholder: ex. foundry 12.13
+    validations:
+      required: true
+
+  - type: textarea
+    id: what-did-you-do
+    attributes:
+      label: "What did you do?"
+      description: "If possible, provide a recipe for reproducing the error.  Step by step, click-by-click."
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual-behavior
+    attributes:
+      label: "What did you see happen?"
+      description: Describe the expected behavior, including windows you expect to appear or texts you expect to see.
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected-behavior
+    attributes:
+      label: "What did you expect to see?"
+      description: Why is the current output or behavior incorrect, and any additional context we may need to understand the issue.  Pressing F12 (the Developer Tools) to find error logs can be very helpful!
+    validations:
+      required: true
