@@ -4,7 +4,9 @@
 name: Bugs
 description: Bugs, errors, unexpected behaviors happen when this Plugin is running.
 title: "issue title"
-
+labels: ["bug", "triage"]
+assignees:
+  - WesWedding
 body:
   - type: markdown
     attributes:
