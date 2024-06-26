@@ -137,6 +137,8 @@
 }
 
 .sta-enhanced .tabs {
+  background-color: var(--sta-purple);
+  border-radius: 40px 0 0 0;
   grid-area: tabs;
 }
 
@@ -158,22 +160,58 @@
 
 .sta-enhanced .tabs {
   justify-content: space-around;
-  margin: 22px 0 5px;
+  margin: 22px 0 0px;
+  padding: 10px 0 10px 10%;
   width: 100%;
 }
 
 .sta-enhanced .tabs > [data-tab] {
-  background-color: var(--sta-yellow);
+  background-color: var(--sta-black);
   border-radius: 25px;
-  color: var(--sta-black);
+  color: var(--sta-yellow);
   font-size: 14pt;
   font-weight: bold;
   height: 30px;
   line-height: 30px;
   padding: 0 22px;
   text-shadow: none;
+  margin: 0 10px;
 }
 
 .sta-enhanced .tabs > [data-tab].active {
-  background-color: var(--sta-red-orange);
+  background-color: var(--sta-yellow);
+  color: var(--sta-black);
+}
+
+.sta-enhanced.sheet.actor .lcars-column .lcars-item3-general-block {
+  background-color: var(--sta-dark-purple);
+  flex: 1;
+  border-top: 5px solid #0F0F0F;
+}
+
+.sta-enhanced.sheet.actor .tab .lcars-column .noradius {
+  border-top: 5px solid var(--sta-black);
+  border-top-left-radius: 0;
+  flex: 0 1 57px;
+}
+
+.sta-enhanced.sheet.actor .column.fields {
+  margin: 0 5px;
+}
+
+.sta-enhanced.sheet.actor .row.labels {
+  margin-top: 10px;
+}
+
+.sta-enhanced.sheet.actor .tab-area .row .section .title {
+  margin-top: 10px;
+}
+
+.sta-enhanced.sheet.actor .column.wide.right {
+  margin-left: 5px;
+}
+
+.sta-enhanced.sheet.actor .main .row .section .column.wide.left .entry.row,
+.sta-enhanced.sheet.actor .main .row .column.left-column .section .entry.row {
+  margin-left: 5px;
 }
