@@ -1,6 +1,7 @@
 import { STACharacterSheet } from '../../systems/sta/module/actors/sheets/character-sheet.js'
 import { STAActor } from '../../systems/sta/module/actors/actor.js'
-import { MigrationRunner } from './migrations/MigrationRunner.mjs'
+import { MigrationRunner } from './migration/MigrationRunner.mjs'
+import {MigrationList} from "./migration/MigrationList.mjs";
 
 /**
  * Store the world system and schema versions for the first time.
@@ -83,7 +84,7 @@ Hooks.once("ready", () => {
     // Ensure only a single GM will run migrations if multiple users are logged in.
     if (game.user !== game.users.activeGM) return;
 
-    const migrationRunner = new MigrationRunner();
+    const migrationRunner = new MigrationRunner(MigrationList.constructFromVersion(currentVersion));
     if (migrationRunner.needsMigration()) {
       if (currentVersion && currentVersion < MigrationRunner.MINIMUM_SAFE_VERSION) {
         ui.notifications.error(
@@ -128,7 +129,7 @@ class STACharacterEnhancedSheet extends STACharacterSheet {
       'character': {
         gender: characterFlags?.gender,
         personality: characterFlags?.personality,
-        enrichedBiography: await TextEditor.enrichHTML(characterFlags?.biography, {async: true}),
+        enrichedBackground: await TextEditor.enrichHTML(characterFlags?.background, {async: true}),
       },
     };
     
