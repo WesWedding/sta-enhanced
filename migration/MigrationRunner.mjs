@@ -21,9 +21,9 @@
 export class MigrationRunner {
   static LATEST_SCHEMA_VERSION = 0.1;
 
-  static MINIMUM_SAFE_VERSION= 0.1;
+  static MINIMUM_SAFE_VERSION= 0.0;
 
-  static RECOMMENDED_SAFE_VERSION = 0.1;
+  static RECOMMENDED_SAFE_VERSION = 0.0;
 
   /** @type {MigrationBase[]} */
   migrations;
@@ -32,7 +32,6 @@ export class MigrationRunner {
    * @param {MigrationBase[]} migrations
    */
   constructor(migrations) {
-    console.log('migrations', migrations);
     this.migrations = migrations.sort((a, b) => a.version - b.version);
   }
 
@@ -40,7 +39,6 @@ export class MigrationRunner {
     const currentVersion = game.settings.get("sta-enhanced", "worldSchemaVersion");
     return currentVersion < MigrationRunner.LATEST_SCHEMA_VERSION;
   }
-
 
   /**
    * @param {MigrationBase[]}migrations
@@ -79,8 +77,7 @@ export class MigrationRunner {
           const updated = await this.#migrateActor(migrations, actor);
           if (updated) {
             try {
-              console.warn('Would update the actor attached to token here')
-              //await actor.update(updated, { noHook: true });
+              await actor.update(updated, { noHook: true });
             } catch (error) {
               console.warn(error);
             }
@@ -101,7 +98,6 @@ export class MigrationRunner {
     ui.notifications.info(game.i18n.format("sta-enhanced.Migrations.Starting", { version: systemVersion}));
 
     const migrationsToRun = this.migrations.filter((x) => schemaVersion.current < x.version);
-    console.log('migrations to run: ', migrationsToRun);
 
     /** @type MigrationBase[][] */
     const migrationPhases = [[]];
@@ -118,6 +114,7 @@ export class MigrationRunner {
       }
     }
 
+    await game.settings.set("sta-enhanced", "worldSchemaVersion", schemaVersion.latest);
   }
 
   /**
@@ -151,12 +148,10 @@ export class MigrationRunner {
       const updated = await this.#migrateActor(migrations, document, { pack });
       if (updated) updateGroup.push(updated);
     }
-    // debugger;
-    console.log('update group', updateGroup);
+
     if (updateGroup.length > 0) {
       try {
-        console.warn("update a doc");
-        //await documentClass.updateDocuments(updateGroup, { noHook: true, pack });
+        await documentClass.updateDocuments(updateGroup, { noHook: true, pack });
         if (progress) progress.current += updateGroup.length;
       } catch (error) {
         console.warn(error);
@@ -185,6 +180,7 @@ export class MigrationRunner {
         return null;
       }
     })();
+
     if (!updatedActor) return null;
 
     return updatedActor;
@@ -201,16 +197,13 @@ export class MigrationRunner {
     try {
       const updatedToken = await this.getUpdatedToken(token, migrations);
       const changes = foundry.utils.diffObject(token.toObject(), updatedToken);
-      console.log("token changes?", changes);
 
       if (Object.keys(changes).length === 0) {
         return updatedToken;
       }
 
       try {
-        console.log('changes to update with (not applying yet)', changes);
-        return;
-        //await token.update(changes, { noHook: true });
+        await token.update(changes, { noHook: true });
       } catch (error) {
         console.warn(error);
       }
@@ -226,37 +219,33 @@ export class MigrationRunner {
    *
    * @param actor
    * @param {MigrationBase[]} migrations
-   * @return {Promise<void>}
+   * @return {Promise<Actor>}
    */
   async getUpdatedActor(actor, migrations) {
-
-    if (actor.flags) {
-      console.log('flags before clone', actor.flags)
-    }
     const currentActor = foundry.utils.deepClone(actor);
-    if (actor.flags) {
-      console.log('flags after clone', currentActor.flags)
-    }
 
     for (const migration of migrations) {
       await migration.updateActor(currentActor);
       // Also do (maybe someday) updates on items belonging to this actor here.
     }
 
-    // Do something about not setting the schema record on compendium JSON
-    if ("game" in globalThis) {
-      const latestMigration = migrations.slice(-1)[0];
-      if (currentActor.flags['sta-enhanced']) {
-        currentActor.flags['sta-enhanced']._migration ??= { version: null, previous: null };
-        this.#updateMigrationRecord(currentActor.flags['sta-enhanced']._migration, latestMigration);
-      }
-      for (const itemSource of currentActor.items) {
-        if (itemSource.flags['sta-enhanced']) {
-          itemSource.flags['sta-enhanced']._migration ??= { version: null, previous: null };
-          this.#updateMigrationRecord(itemSource.flags['sta-enhanced']._migration, latestMigration);
-        }
-      }
+    // Keep schema records from being added to compendium JSON documents.
+    if (!"game" in globalThis) {
+      return currentActor;
     }
+
+    const latestMigration = migrations.slice(-1)[0];
+    if (!currentActor.flags['sta-enhanced']) currentActor.flags['sta-enhanced'] = {};
+    currentActor.flags['sta-enhanced']._migration ??= { version: null, previous: null };
+    this.#updateMigrationRecord(currentActor.flags['sta-enhanced']._migration, latestMigration);
+
+    for (const itemSource of currentActor.items) {
+      if (!itemSource.flags['sta-enhanced']) itemSource.flags['sta-enhanced'] = {};
+      itemSource.flags['sta-enhanced']._migration ??= {version: null, previous: null};
+      this.#updateMigrationRecord(itemSource.flags['sta-enhanced']._migration, latestMigration);
+    }
+
+    return currentActor;
   }
 
   /**

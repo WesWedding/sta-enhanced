@@ -2,6 +2,7 @@ import { STACharacterSheet } from '../../systems/sta/module/actors/sheets/charac
 import { STAActor } from '../../systems/sta/module/actors/actor.js'
 import { MigrationRunner } from './migration/MigrationRunner.mjs'
 import {MigrationList} from "./migration/MigrationList.mjs";
+import {MigrationSummary} from "./migration/MigrationSummary.mjs";
 
 /**
  * Store the world system and schema versions for the first time.
@@ -13,15 +14,13 @@ async function storeInitialWorldVersions() {
   if (!game.user.hasRole(CONST.USER_ROLES.GAMEMASTER)) return;
 
   const storedModuleVersion = game.settings.storage.get("world").getItem("sta-enhanced.worldModuleVersion");
-  console.log("stored module version");
   if (!storedModuleVersion) {
-    // await game.settings.set("sta-advanced", "worldModuleVersion", game.modules["sta-enhanced"].version);
+    const module = game.modules.get('sta-enhanced');
+    await game.settings.set("sta-enhanced", "worldModuleVersion", module.version);
   }
 
   const storedSchemaVersion = game.settings.storage.get("world").getItem("sta-enhanced.worldSchemaVersion");
-  console.log("stored schema version", storedSchemaVersion);
   if (!storedSchemaVersion) {
-    console.log("no schema found, setting default");
     const minVersion = MigrationRunner.RECOMMENDED_SAFE_VERSION;
     const currentVersion = game.actors.size === 0
         ? game.settings.get("sta-enhanced", "worldSchemaVersion")
@@ -33,14 +32,11 @@ async function storeInitialWorldVersions() {
             minVersion
         );
 
-    console.log("todo: set the schema to", currentVersion);
     await game.settings.set("sta-enhanced", "worldSchemaVersion", currentVersion);
   }
 }
 
 Hooks.once("init", () => {
-
-  console.log(game.modules)
 
   // Register settings
   game.settings.register("sta-enhanced", "worldSchemaVersion", {
@@ -48,11 +44,17 @@ Hooks.once("init", () => {
     hint: "sta-enhanced.settings.worldSchemaVersion.Hint",
     scope: "world",
     config: true,
-    default: MigrationRunner.LATEST_SCHEMA_VERSION,
     type: Number,
     requiresReload: true,
   });
 
+  game.settings.register("sta-enhanced", "worldModuleVersion", {
+    name: "World Module Version",
+    scope: "world",
+    config: false,
+    default: game.modules.get("sta-enhanced").version,
+    type: String,
+  });
 
   // Register sheets.
   Actors.registerSheet("sta-enhanced", STACharacterEnhancedSheet, {
@@ -61,25 +63,15 @@ Hooks.once("init", () => {
     // makeDefault: true
   });
 
-  console.log("Has type data????", STAActor.hasTypeData);
-
-  console.log("CONFIG.Actor.dataModels", CONFIG.Actor.dataModels);
-
-
-  
   // Preload Handlebars partials.
   preloadHandlebarsTemplates();
 });
 
 Hooks.once("ready", () => {
-  console.log("ready");
-
-
-  // Determine whether a system migration is required and feasible.
+  // Determine whether a system migration is required and feasible (later).
   const currentVersion = game.settings.get("sta-enhanced", "worldSchemaVersion");
-  console.log("worldSchema version detected at ready", currentVersion);
 
-  // Run flag data migrations.
+  //Store the current world schema version if it hasn't before.
   storeInitialWorldVersions().then(async () => {
     // Ensure only a single GM will run migrations if multiple users are logged in.
     if (game.user !== game.users.activeGM) return;
@@ -93,6 +85,14 @@ Hooks.once("ready", () => {
         );
       }
       await migrationRunner.runMigration();
+      MigrationSummary.reportMigrationStatus();
+    }
+
+    // Update the world module version.
+    const previous = game.settings.get("sta-enhanced", "worldModuleVersion");
+    const current = game.modules.get("sta-enhanced").version;
+    if (foundry.utils.isNewerVersion(current, previous)) {
+      await game.settings.set("sta-enhanced", "worldModuleVersion", current);
     }
   });
 });
@@ -129,7 +129,7 @@ class STACharacterEnhancedSheet extends STACharacterSheet {
       'character': {
         gender: characterFlags?.gender,
         personality: characterFlags?.personality,
-        enrichedBackground: await TextEditor.enrichHTML(characterFlags?.background, {async: true}),
+        enrichedBackstory: await TextEditor.enrichHTML(characterFlags?.backstory, {async: true}),
       },
     };
     
@@ -157,7 +157,7 @@ class STACharacterEnhancedSheet extends STACharacterSheet {
     this.actor.setFlag("sta-enhanced", "character", {
       "gender": formData["sta-enhanced.character.gender"],
       "personality": formData["sta-enhanced.character.personality"],
-      "biography": formData["flags.sta-enhanced.character.biography"],
+      "backstory": formData["flags.sta-enhanced.character.backstory"],
     });
 
     return super._updateObject(event, formData);

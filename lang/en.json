@@ -7,5 +7,10 @@
   "sta-enhanced.Biography": "Biography",
 
   "sta-enhanced.actor.gender": "Gender/Pronouns",
-  "sta-enhanced.actor.personality": "Personality"
+  "sta-enhanced.actor.personality": "Personality",
+
+  "sta-enhanced.Migrations": {
+    "Starting": "Applying STA-Enhanced Migration to version {version}.  Please do not close your game or shut down your server.",
+    "Summary": "Migration finished.  Migrated: {migrated}/{total}"
+  }
 }
