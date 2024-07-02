@@ -146,22 +146,6 @@ class STACharacterEnhancedSheet extends STACharacterSheet {
   activateListeners($html) {
     super.activateListeners($html);
   }
-
-  async _updateObject(event, formData) {
-    //  It might not be possible for this to happen, but seems like a good check, anyway.
-    if (!game.user.isOwner) {
-      return super._updateObject(event, formData);
-    }
-
-    // TODO: Is there a way to roll this in to the update behavior so 2 updates aren't triggered?
-    this.actor.setFlag("sta-enhanced", "character", {
-      "gender": formData["sta-enhanced.character.gender"],
-      "personality": formData["sta-enhanced.character.personality"],
-      "backstory": formData["flags.sta-enhanced.character.backstory"],
-    });
-
-    return super._updateObject(event, formData);
-  }
 }
 
 /**
