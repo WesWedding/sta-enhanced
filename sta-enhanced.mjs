@@ -97,7 +97,7 @@ function registerSheets() {
   Actors.registerSheet('sta-enhanced', STACharacterEnhancedSheet, {
     types: ['character'],
     label: 'sta-enhanced.SheetClassCharacter',
-    // makeDefault: true
+    makeDefault: true,
   });
 }
 
