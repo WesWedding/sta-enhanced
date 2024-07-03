@@ -1,4 +1,4 @@
-import {MigrationBase} from "./MigrationBase.mjs";
+import { MigrationBase } from './MigrationBase.mjs';
 /**
  * Extend MigrationBase and include them here as exports.
  */
@@ -12,10 +12,10 @@ export class Migration0001MoveToBackstory extends MigrationBase {
    * @override
    */
   async updateActor(source) {
-    if (source.type !== "character") {
+    if (source.type !== 'character') {
       return;
     }
-    const biography =  source.flags['sta-enhanced']?.character?.biography;
+    const biography = source.flags['sta-enhanced']?.character?.biography;
     if (!biography) {
       return;
     }

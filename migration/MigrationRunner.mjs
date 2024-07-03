@@ -21,7 +21,7 @@
 export class MigrationRunner {
   static LATEST_SCHEMA_VERSION = 0.1;
 
-  static MINIMUM_SAFE_VERSION= 0.0;
+  static MINIMUM_SAFE_VERSION = 0.0;
 
   static RECOMMENDED_SAFE_VERSION = 0.0;
 
@@ -36,7 +36,7 @@ export class MigrationRunner {
   }
 
   needsMigration() {
-    const currentVersion = game.settings.get("sta-enhanced", "worldSchemaVersion");
+    const currentVersion = game.settings.get('sta-enhanced', 'worldSchemaVersion');
     return currentVersion < MigrationRunner.LATEST_SCHEMA_VERSION;
   }
 
@@ -46,7 +46,6 @@ export class MigrationRunner {
    */
   async runMigrations(migrations) {
     if (migrations.length === 0) return;
-
 
     /** A roughly estimated "progress max" to reach, for displaying progress. */
     const progress = {
@@ -58,8 +57,8 @@ export class MigrationRunner {
     await this.#migrateDocuments(game.actors, migrations, progress);
 
     // Migrate tokens, especially synthetic actors attached.
-    for (const /** @type Scene */ scene of game.scenes) {
-      for (const /** @type TokenDocument */ token  of scene.tokens) {
+    for (const /** @type {Scene} */ scene of game.scenes) {
+      for (const /** @type {TokenDocument} */ token of scene.tokens) {
         const { actor } = token;
         if (!actor) continue;
 
@@ -67,10 +66,10 @@ export class MigrationRunner {
         if (!wasSuccessful) continue;
 
         const deltaSource = token.delta?._source;
-        const hasMigratableData =
-          (!!deltaSource && !!deltaSource.flags['sta-enhanced']) ||
-          ((deltaSource ?? {}).items ?? []).length > 0 ||
-          Object.keys(deltaSource?.system ?? {}).length > 0;
+        const hasMigratableData
+          = (!!deltaSource && !!deltaSource.flags['sta-enhanced'])
+          || ((deltaSource ?? {}).items ?? []).length > 0
+          || Object.keys(deltaSource?.system ?? {}).length > 0;
 
         if (!actor.isToken) return;
         if (hasMigratableData) {
@@ -78,24 +77,24 @@ export class MigrationRunner {
           if (updated) {
             try {
               await actor.update(updated, { noHook: true });
-            } catch (error) {
+            }
+            catch (error) {
               console.warn(error);
             }
           }
         }
       }
     }
-
   }
 
   async runMigration() {
     const schemaVersion = {
       latest: MigrationRunner.LATEST_SCHEMA_VERSION,
-      current: game.settings.get("sta-enhanced", "worldSchemaVersion")
+      current: game.settings.get('sta-enhanced', 'worldSchemaVersion'),
     };
     const systemVersion = game.system.version;
 
-    ui.notifications.info(game.i18n.format("sta-enhanced.Migrations.Starting", { version: systemVersion}));
+    ui.notifications.info(game.i18n.format('sta-enhanced.Migrations.Starting', { version: systemVersion }));
 
     const migrationsToRun = this.migrations.filter((x) => schemaVersion.current < x.version);
 
@@ -114,7 +113,7 @@ export class MigrationRunner {
       }
     }
 
-    await game.settings.set("sta-enhanced", "worldSchemaVersion", schemaVersion.latest);
+    await game.settings.set('sta-enhanced', 'worldSchemaVersion', schemaVersion.latest);
   }
 
   /**
@@ -128,7 +127,7 @@ export class MigrationRunner {
    */
   async #migrateDocuments(collection, migrations, progress) {
     const documentClass = collection.documentClass;
-    const pack = "metadata" in collection ? collection.metadata.id : null;
+    const pack = 'metadata' in collection ? collection.metadata.id : null;
     const updateGroup = [];
 
     for (const document of collection.contents) {
@@ -138,9 +137,11 @@ export class MigrationRunner {
           if (progress) {
             progress.current += updateGroup.length;
           }
-        } catch (error) {
+        }
+        catch (error) {
           console.warn(error);
-        } finally {
+        }
+        finally {
           updateGroup.length = 0;
         }
       }
@@ -153,7 +154,8 @@ export class MigrationRunner {
       try {
         await documentClass.updateDocuments(updateGroup, { noHook: true, pack });
         if (progress) progress.current += updateGroup.length;
-      } catch (error) {
+      }
+      catch (error) {
         console.warn(error);
       }
     }
@@ -162,18 +164,16 @@ export class MigrationRunner {
   /**
    * @param {MigrationBase[]} migrations
    * @param {Actor} actor
-   * @param {Object|Undefined} options
-   * @param {string|Undefined} options.pack
    * @return {Promise<void>}
    */
-  async #migrateActor(migrations, actor, options = {}) {
-    const pack = options.pack;
+  async #migrateActor(migrations, actor) {
     const baseActor = actor.toObject();
 
     const updatedActor = await (async () => {
       try {
         return await this.getUpdatedActor(baseActor, migrations);
-      } catch (error) {
+      }
+      catch (error) {
         if (error instanceof Error) {
           console.error(`Error thrown while migrating ${actor.uuid}: ${error.message}`);
         }
@@ -204,17 +204,17 @@ export class MigrationRunner {
 
       try {
         await token.update(changes, { noHook: true });
-      } catch (error) {
+      }
+      catch (error) {
         console.warn(error);
       }
-
-    } catch (error) {
+    }
+    catch (error) {
       console.error(error);
       return null;
     }
   }
 
-  //ActorSourcePF2e
   /**
    *
    * @param actor
@@ -241,7 +241,7 @@ export class MigrationRunner {
 
     for (const itemSource of currentActor.items) {
       if (!itemSource.flags['sta-enhanced']) itemSource.flags['sta-enhanced'] = {};
-      itemSource.flags['sta-enhanced']._migration ??= {version: null, previous: null};
+      itemSource.flags['sta-enhanced']._migration ??= { version: null, previous: null };
       this.#updateMigrationRecord(itemSource.flags['sta-enhanced']._migration, latestMigration);
     }
 
@@ -268,9 +268,9 @@ export class MigrationRunner {
    * @param {MigrationBase} latestMigration
    */
   #updateMigrationRecord(migrations, latestMigration) {
-    if (!("game" in globalThis && latestMigration)) return;
+    if (!('game' in globalThis && latestMigration)) return;
 
-    const fromVersion = typeof migrations.version === "number" ? migrations.version : null;
+    const fromVersion = typeof migrations.version === 'number' ? migrations.version : null;
     migrations.version = latestMigration.version;
     migrations.previous = {
       schema: fromVersion,

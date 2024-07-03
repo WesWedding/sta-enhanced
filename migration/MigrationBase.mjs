@@ -1,6 +1,7 @@
 /**
  * @abstract
  */
+/* eslint no-unused-vars: off */
 export class MigrationBase {
 
   /** @type {Number} */

@@ -1,15 +1,17 @@
-import globals from 'globals'
-import jsdoc from 'eslint-plugin-jsdoc'
-import js from '@eslint/js'
-import stylistic from '@stylistic/eslint-plugin'
+import globals from 'globals';
+import jsdoc from 'eslint-plugin-jsdoc';
+import js from '@eslint/js';
+import stylistic from '@stylistic/eslint-plugin';
 
 export default [
   jsdoc.configs['flat/recommended'],
   js.configs.recommended,
-  stylistic.configs['recommended-flat'],
+  stylistic.configs.customize({
+    semi: true,
+  }),
   {
     languageOptions: {
-      ecmaVersion: 2021,
+      ecmaVersion: 2022,
       sourceType: 'module',
       globals: {
         ...globals.browser,
@@ -32,7 +34,9 @@ export default [
       reportUnusedDisableDirectives: 'warn',
     },
     rules: {
-      eqeqeq: ['error', 'smart'],
+      'eqeqeq': ['error', 'smart'],
+      'jsdoc/tag-lines': ['warn', 'any', { startLines: 1 }],
+      '@stylistic/arrow-parens': ['error', 'always'],
     },
     settings: {
       jsdoc: {
@@ -43,4 +47,4 @@ export default [
       },
     },
   },
-]
+];

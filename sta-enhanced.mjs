@@ -1,25 +1,24 @@
-import { STACharacterSheet } from '../../systems/sta/module/actors/sheets/character-sheet.js'
-import { MigrationRunner } from './migration/MigrationRunner.mjs'
-import { MigrationList } from "./migration/MigrationList.mjs";
-import { MigrationSummary } from "./migration/MigrationSummary.mjs";
+import { STACharacterSheet } from '../../systems/sta/module/actors/sheets/character-sheet.js';
+import { MigrationRunner } from './migration/MigrationRunner.mjs';
+import { MigrationList } from './migration/MigrationList.mjs';
+import { MigrationSummary } from './migration/MigrationSummary.mjs';
 
-Hooks.once("init", () => {
-
+Hooks.once('init', () => {
   // Register settings
-  game.settings.register("sta-enhanced", "worldSchemaVersion", {
-    name: "sta-enhanced.settings.worldSchemaVersion.Name",
-    hint: "sta-enhanced.settings.worldSchemaVersion.Hint",
-    scope: "world",
+  game.settings.register('sta-enhanced', 'worldSchemaVersion', {
+    name: 'sta-enhanced.settings.worldSchemaVersion.Name',
+    hint: 'sta-enhanced.settings.worldSchemaVersion.Hint',
+    scope: 'world',
     config: true,
     type: Number,
     requiresReload: true,
   });
 
-  game.settings.register("sta-enhanced", "worldModuleVersion", {
-    name: "World Module Version",
-    scope: "world",
+  game.settings.register('sta-enhanced', 'worldModuleVersion', {
+    name: 'World Module Version',
+    scope: 'world',
     config: false,
-    default: game.modules.get("sta-enhanced").version,
+    default: game.modules.get('sta-enhanced').version,
     type: String,
   });
 
@@ -27,11 +26,11 @@ Hooks.once("init", () => {
   preloadHandlebarsTemplates();
 });
 
-Hooks.once("ready", () => {
+Hooks.once('ready', () => {
   // Determine whether a system migration is required and feasible (later).
-  const currentVersion = game.settings.get("sta-enhanced", "worldSchemaVersion");
+  const currentVersion = game.settings.get('sta-enhanced', 'worldSchemaVersion');
 
-  //Store the current world schema version if it hasn't before.
+  // Store the current world schema version if it hasn't before.
   storeInitialWorldVersions().then(async () => {
     // Ensure only a single GM will run migrations if multiple users are logged in.
     if (game.user !== game.users.activeGM) return;
@@ -41,7 +40,7 @@ Hooks.once("ready", () => {
       if (currentVersion && currentVersion < MigrationRunner.MINIMUM_SAFE_VERSION) {
         ui.notifications.error(
           `Your STA Enhanced data is from too old a Foundry version and cannot be reliably migrated to the latest version.  An attempt will be made, but errors may occur.`,
-          {permanent: true},
+          { permanent: true },
         );
       }
       await migrationRunner.runMigration();
@@ -49,10 +48,10 @@ Hooks.once("ready", () => {
     }
 
     // Update the world module version.
-    const previous = game.settings.get("sta-enhanced", "worldModuleVersion");
-    const current = game.modules.get("sta-enhanced").version;
+    const previous = game.settings.get('sta-enhanced', 'worldModuleVersion');
+    const current = game.modules.get('sta-enhanced').version;
     if (foundry.utils.isNewerVersion(current, previous)) {
-      await game.settings.set("sta-enhanced", "worldModuleVersion", current);
+      await game.settings.set('sta-enhanced', 'worldModuleVersion', current);
     }
   });
 });
@@ -69,7 +68,7 @@ Hooks.on('preUpdateActor', (actor, changed, options, userId) => {
 Hooks.on('updateActor', (actor, change, options, userId) => {
   if (actor.type !== 'character') return;
   console.warn('STA character updated!', actor, change, options, userId);
-})
+});
 
 /**
  * Store the world system and schema versions for the first time.
@@ -80,34 +79,34 @@ Hooks.on('updateActor', (actor, change, options, userId) => {
 async function storeInitialWorldVersions() {
   if (!game.user.hasRole(CONST.USER_ROLES.GAMEMASTER)) return;
 
-  const storedModuleVersion = game.settings.storage.get("world").getItem("sta-enhanced.worldModuleVersion");
+  const storedModuleVersion = game.settings.storage.get('world').getItem('sta-enhanced.worldModuleVersion');
   if (!storedModuleVersion) {
     const module = game.modules.get('sta-enhanced');
-    await game.settings.set("sta-enhanced", "worldModuleVersion", module.version);
+    await game.settings.set('sta-enhanced', 'worldModuleVersion', module.version);
   }
 
-  const storedSchemaVersion = game.settings.storage.get("world").getItem("sta-enhanced.worldSchemaVersion");
+  const storedSchemaVersion = game.settings.storage.get('world').getItem('sta-enhanced.worldSchemaVersion');
   if (!storedSchemaVersion) {
     const minVersion = MigrationRunner.RECOMMENDED_SAFE_VERSION;
     const currentVersion = game.actors.size === 0
-        ? game.settings.get("sta-enhanced", "worldSchemaVersion")
-        : Math.max(
-            Math.min(...new Set(game.actors.map((actor) => {
-              console.log("actor", actor.flags["sta-enhanced"]?.schemaVersion);
-              return actor.flags["sta-enhanced"]?.schemaVersion ?? minVersion
-            }))),
-            minVersion
-        );
+      ? game.settings.get('sta-enhanced', 'worldSchemaVersion')
+      : Math.max(
+        Math.min(...new Set(game.actors.map((actor) => {
+          console.log('actor', actor.flags['sta-enhanced']?.schemaVersion);
+          return actor.flags['sta-enhanced']?.schemaVersion ?? minVersion;
+        }))),
+        minVersion,
+      );
 
-    await game.settings.set("sta-enhanced", "worldSchemaVersion", currentVersion);
+    await game.settings.set('sta-enhanced', 'worldSchemaVersion', currentVersion);
   }
 }
 
 function registerSheets() {
   // Register sheets.
-  Actors.registerSheet("sta-enhanced", STACharacterEnhancedSheet, {
-    types: ["character"],
-    label: "sta-enhanced.SheetClassCharacter",
+  Actors.registerSheet('sta-enhanced', STACharacterEnhancedSheet, {
+    types: ['character'],
+    label: 'sta-enhanced.SheetClassCharacter',
     // makeDefault: true
   });
 }
@@ -116,33 +115,33 @@ class STACharacterEnhancedSheet extends STACharacterSheet {
   /** @inheritDoc */
   static get defaultOptions() {
     return foundry.utils.mergeObject(super.defaultOptions, {
-      classes: super.defaultOptions.classes.concat(["sta-enhanced"]),
+      classes: super.defaultOptions.classes.concat(['sta-enhanced']),
       tabs: [
-        {navSelector: "nav", contentSelector: ".tab-area", initial: "character"}
+        { navSelector: 'nav', contentSelector: '.tab-area', initial: 'character' },
       ],
-    }, {insertValues: true});
+    }, { insertValues: true });
   }
-  
+
   /** @inheritDoc */
   async getData(options) {
     const context = super.getData(options);
 
     const characterFlags = this.object.flags['sta-enhanced']?.character;
     context['sta-enhanced'] = {
-      'character': {
+      character: {
         gender: characterFlags?.gender,
         personality: characterFlags?.personality,
-        enrichedBackstory: await TextEditor.enrichHTML(characterFlags?.backstory, {async: true}),
+        enrichedBackstory: await TextEditor.enrichHTML(characterFlags?.backstory, { async: true }),
       },
     };
-    
+
     return context;
   }
-  
+
   /** @inheritDoc */
   get template() {
-    if ( !game.user.isGM && this.actor.limited ) return "systems/sta/templates/actors/limited-sheet.html";
-    return "modules/sta-enhanced/templates/actors/character-sheet.hbs";
+    if (!game.user.isGM && this.actor.limited) return 'systems/sta/templates/actors/limited-sheet.html';
+    return 'modules/sta-enhanced/templates/actors/character-sheet.hbs';
   }
 
   /** @inheritDoc */
@@ -156,11 +155,11 @@ class STACharacterEnhancedSheet extends STACharacterSheet {
  */
 async function preloadHandlebarsTemplates() {
   const paths = {
-    [`sta-enhanced.tabs.details`]: "modules/sta-enhanced/templates/actors/tabs/details.hbs",
-    [`sta-enhanced.tabs.belongings`]: "modules/sta-enhanced/templates/actors/tabs/belongings.hbs",
-    [`sta-enhanced.tabs.reputation`]: "modules/sta-enhanced/templates/actors/tabs/reputation.hbs",
-    [`sta-enhanced.tabs.biography`]: "modules/sta-enhanced/templates/actors/tabs/biography.hbs",
+    [`sta-enhanced.tabs.details`]: 'modules/sta-enhanced/templates/actors/tabs/details.hbs',
+    [`sta-enhanced.tabs.belongings`]: 'modules/sta-enhanced/templates/actors/tabs/belongings.hbs',
+    [`sta-enhanced.tabs.reputation`]: 'modules/sta-enhanced/templates/actors/tabs/reputation.hbs',
+    [`sta-enhanced.tabs.biography`]: 'modules/sta-enhanced/templates/actors/tabs/biography.hbs',
   };
-  
+
   return loadTemplates(paths);
 }

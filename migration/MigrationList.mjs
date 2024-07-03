@@ -1,8 +1,7 @@
-import * as Migrations from "./Migrations.mjs"
-import {MigrationRunner} from "./MigrationRunner.mjs";
+import * as Migrations from './Migrations.mjs';
+import { MigrationRunner } from './MigrationRunner.mjs';
 
 export class MigrationList {
-
   /** @type {MigrationBase[]} */
   static #list = Object.values(Migrations);
 
