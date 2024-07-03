@@ -35,6 +35,11 @@ export default [
     },
     rules: {
       'eqeqeq': ['error', 'smart'],
+      // no-undefined-types makes overriding Foundry class methods very annoying, and doesn't recognize our own Migration classes like MigrationBase.  Go away.
+      'jsdoc/no-undefined-types': 'off',
+      'jsdoc/require-param-description': 'off',
+      'jsdoc/require-property-description': 'off',
+      'jsdoc/require-returns-description': 'off',
       'jsdoc/tag-lines': ['warn', 'any', { startLines: 1 }],
       '@stylistic/arrow-parens': ['error', 'always'],
     },

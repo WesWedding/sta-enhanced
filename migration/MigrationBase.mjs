@@ -16,17 +16,18 @@ export class MigrationBase {
    *
    * @param {Actor} source
    *
+   * @returns {Promise<void>}
    * @abstract
-   * @returns Promise<void>
    */
   updateActor(source) {}
 
   /**
-   *
    * @param {TokenDocument} tokenData
    * @param {Actor} actor
    * @param {Scene} scene
-   * @return Promse<void>
+   *
+   * @returns {Promise<void>}
+   * @abstract
    */
   updateToken(tokenData, actor, scene) {}
 }

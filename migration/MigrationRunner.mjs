@@ -1,9 +1,10 @@
 /**
  * @typedef {object} NewDocumentMigrationRecord
- * @property version
- * @property previous
+ * @property {number} version
+ * @property {number} previous
  */
 
+// eslint-disable-next-line jsdoc/require-property
 /**
  * @typedef {object} MigratedDocumentMigrationRecord
  * @param {number | null} version
@@ -98,7 +99,7 @@ export class MigrationRunner {
 
     const migrationsToRun = this.migrations.filter((x) => schemaVersion.current < x.version);
 
-    /** @type MigrationBase[][] */
+    /** @type {MigrationBase[][]} */
     const migrationPhases = [[]];
     for (const migration of migrationsToRun) {
       migrationPhases[migrationPhases.length - 1].push(migration);
@@ -120,9 +121,9 @@ export class MigrationRunner {
    *
    * @param {Actors} collection
    * @param {MigrationBase[]}migrations
-   * @param {Object|Undefined} progress
-   * @param {Number } progress.current
-   * @param {Number} progress.max
+   * @param {object|undefined} progress
+   * @param {number} progress.current
+   * @param {number} progress.max
    * @returns {Promise<void>}
    */
   async #migrateDocuments(collection, migrations, progress) {
@@ -189,7 +190,7 @@ export class MigrationRunner {
   /**
    * @param {TokenDocument} token
    * @param {MigrationBase[]} migrations
-   * @return Promise<foundry.documents.TokenSource | null>
+   * @returns {Promise<foundry.documents.TokenSource | null>}
    */
   async #migrateSceneToken(token, migrations) {
     if (!migrations.some((migration) => !!migration.updateToken)) return token.toObject();
@@ -216,10 +217,9 @@ export class MigrationRunner {
   }
 
   /**
-   *
-   * @param actor
+   * @param {Actor} actor
    * @param {MigrationBase[]} migrations
-   * @return {Promise<Actor>}
+   * @returns {Promise<Actor>}
    */
   async getUpdatedActor(actor, migrations) {
     const currentActor = foundry.utils.deepClone(actor);
@@ -252,7 +252,7 @@ export class MigrationRunner {
    *
    * @param {TokenDocument} token
    * @param {MigrationBase[]} migrations
-   * @return {Promise<TokenDocument>}
+   * @returns {Promise<TokenDocument>}
    */
   async getUpdatedToken(token, migrations) {
     const current = token.toObject();
