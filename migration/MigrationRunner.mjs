@@ -230,7 +230,7 @@ export class MigrationRunner {
     }
 
     // Keep schema records from being added to compendium JSON documents.
-    if (!"game" in globalThis) {
+    if (!('game' in globalThis)) {
       return currentActor;
     }
 
