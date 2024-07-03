@@ -56,20 +56,6 @@ Hooks.once('ready', () => {
   });
 });
 
-Hooks.on('createActor', (actor, options, userId) => {
-  if (actor.type !== 'character') return;
-  console.warn('STA Character created!', actor, options, userId);
-});
-
-Hooks.on('preUpdateActor', (actor, changed, options, userId) => {
-  if (actor.type !== 'character') return;
-  console.log('changed', changed);
-});
-Hooks.on('updateActor', (actor, change, options, userId) => {
-  if (actor.type !== 'character') return;
-  console.warn('STA character updated!', actor, change, options, userId);
-});
-
 /**
  * Store the world system and schema versions for the first time.
  *
