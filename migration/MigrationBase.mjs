@@ -3,10 +3,9 @@
  */
 /* eslint no-unused-vars: off */
 export class MigrationBase {
-
-  /** @type {Number} */
+  /** @type {number} */
   static version;
-  get version()  {
+  get version() {
     return (this.constructor).version;
   }
 
@@ -18,7 +17,7 @@ export class MigrationBase {
    * @param {Actor} source
    *
    * @abstract
-   * @return Promise<void>
+   * @returns Promise<void>
    */
   updateActor(source) {}
 

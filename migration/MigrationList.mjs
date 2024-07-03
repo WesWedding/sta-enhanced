@@ -7,7 +7,7 @@ export class MigrationList {
 
   /**
    * @param {Number|null} version
-   * @return MigrationBase[]
+   * @returns MigrationBase[]
    */
   static constructFromVersion(version) {
     const minVersion = Number(version) || MigrationRunner.RECOMMENDED_SAFE_VERSION;

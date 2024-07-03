@@ -59,8 +59,9 @@ Hooks.once('ready', () => {
 /**
  * Store the world system and schema versions for the first time.
  *
- * If they're not already present, that is.  Heavily references the PF2E System.
- * @link https://github.com/foundryvtt/pf2e/blob/1da6f466291767c1e72ef26d34052c2c64943872/src/scripts/store-versions.ts#L3
+ * If they're not already present, that is.  This approach is cribbed
+ * mostly from the {@link https://github.com/foundryvtt/pf2e/blob/1da6f466291767c1e72ef26d34052c2c64943872/src/scripts/store-versions.ts#L3|PF2E System}'s
+ * implementation.
  */
 async function storeInitialWorldVersions() {
   if (!game.user.hasRole(CONST.USER_ROLES.GAMEMASTER)) return;
@@ -88,6 +89,9 @@ async function storeInitialWorldVersions() {
   }
 }
 
+/**
+ * Registers the new sheets we need.
+ */
 function registerSheets() {
   // Register sheets.
   Actors.registerSheet('sta-enhanced', STACharacterEnhancedSheet, {
@@ -138,6 +142,8 @@ class STACharacterEnhancedSheet extends STACharacterSheet {
 
 /**
  * Loads specific template for the different chunks of our handlebars templates.
+ *
+ * @returns {Promise<Function[]>}
  */
 async function preloadHandlebarsTemplates() {
   const paths = {

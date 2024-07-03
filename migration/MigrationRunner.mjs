@@ -1,11 +1,11 @@
 /**
- * @typedef {Object} NewDocumentMigrationRecord
+ * @typedef {object} NewDocumentMigrationRecord
  * @property version
  * @property previous
  */
 
 /**
- * @typedef {Object} MigratedDocumentMigrationRecord
+ * @typedef {object} MigratedDocumentMigrationRecord
  * @param {number | null} version
  * @param {{
  *   schema: number | null,
@@ -42,7 +42,7 @@ export class MigrationRunner {
 
   /**
    * @param {MigrationBase[]}migrations
-   * @return {Promise<void>}
+   * @returns {Promise<void>}
    */
   async runMigrations(migrations) {
     if (migrations.length === 0) return;
@@ -123,7 +123,7 @@ export class MigrationRunner {
    * @param {Object|Undefined} progress
    * @param {Number } progress.current
    * @param {Number} progress.max
-   * @return {Promise<void>}
+   * @returns {Promise<void>}
    */
   async #migrateDocuments(collection, migrations, progress) {
     const documentClass = collection.documentClass;
@@ -164,7 +164,7 @@ export class MigrationRunner {
   /**
    * @param {MigrationBase[]} migrations
    * @param {Actor} actor
-   * @return {Promise<void>}
+   * @returns {Promise<void>}
    */
   async #migrateActor(migrations, actor) {
     const baseActor = actor.toObject();
