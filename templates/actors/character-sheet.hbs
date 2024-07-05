@@ -47,11 +47,21 @@
         <div class="column center-column">
           <div class="section stress">
             <div class="title">
+              <div class="spacer"></div>
               {{localize 'sta.actor.character.stress'}}
+              <div id="strmod-changer">
+              {{#if (systemEqOrNewer 1.2)}}
+                <div class="up">&#9650;</div>
+                <div class="down">&#9660;</div>
+              {{/if}}
+              </div>
             </div>
             <div class="track">
               <input type="hidden" id="total-stress" name="system.stress.value" value="{{system.stress.value}}" data-dtype="Number" />
               <input type="hidden" id="max-stress" name="system.stress.max" value="{{system.stress.max}}" data-dtype="Number" />
+              {{#if (systemEqOrNewer 1.2)}}
+              <input type="hidden" class="text-entry" name="system.strmod" id="strmod" value="{{system.strmod}}" />
+              {{/if}}
               <div id="bar-stress-renderer" class=" bar"></div>
             </div>
           </div>

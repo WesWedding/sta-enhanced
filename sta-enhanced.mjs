@@ -1,4 +1,5 @@
 import { STACharacterSheet } from '../../systems/sta/module/actors/sheets/character-sheet.js';
+import { HandleBarsHelpers } from './helpers/HandlebarsHelpers.mjs';
 import { MigrationRunner } from './migration/MigrationRunner.mjs';
 import { MigrationList } from './migration/MigrationList.mjs';
 import { MigrationSummary } from './migration/MigrationSummary.mjs';
@@ -23,6 +24,7 @@ Hooks.once('init', () => {
   });
 
   registerSheets();
+  HandleBarsHelpers.RegisterHelpers();
   preloadHandlebarsTemplates();
 });
 
@@ -136,7 +138,30 @@ class STACharacterEnhancedSheet extends STACharacterSheet {
 
   /** @inheritDoc */
   activateListeners($html) {
+    this._handleStressMod($html);
     super.activateListeners($html);
+  }
+
+  _handleStressMod($html) {
+    const $changer = $html.find('#strmod-changer');
+    const $modInput = $html.find('#strmod');
+
+    // This probably indicates this verion of the STA system doesn't have the strmod added yet.
+    if (!$changer || !$modInput) {
+      return;
+    }
+
+    const currentMod = parseInt($modInput.val());
+    $changer.on('click', (event) => {
+      if (event.target.classList.contains('up')) {
+        $modInput.val(currentMod + 1);
+        this.submit();
+      }
+      else if (event.target.classList.contains('down')) {
+        $modInput.val(currentMod - 1);
+        this.submit();
+      }
+    });
   }
 }
 

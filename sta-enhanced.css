@@ -199,6 +199,18 @@
   margin: 0 5px;
 }
 
+.sta-enhanced.sheet.actor .stress .title {
+  align-items: center;
+  display: flex;
+  flex-wrap:nowrap;
+  justify-content: space-between;
+}
+.sta-enhanced.sheet.actor #strmod-changer {
+  color:var(--sta-light-blue);
+  font-size: 10px;
+  line-height: 1;
+}
+
 .sta-enhanced.sheet.actor .row.labels {
   margin-top: 10px;
 }
