@@ -5,7 +5,12 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "lint": "eslint ./"
+    "lint": "eslint ./",
+    "preversion": "npm run lint",
+    "postversion": "npm run release",
+    "release": "npm run release:sync-version-strings && npm run release:zip",
+    "release:sync-version-strings": "node sync-versions.mjs",
+    "release:zip": "node zipup-module.mjs"
   },
   "devDependencies": {
     "@eslint/js": "^9.6.0",
