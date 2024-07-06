@@ -5,7 +5,10 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "lint": "eslint ./"
+    "lint": "eslint ./",
+    "release": "npm version patch",
+    "release:sync-version-strings": "node sync-versions.mjs",
+    "release:zip": "node zipup-module.mjs"
   },
   "devDependencies": {
     "@eslint/js": "^9.6.0",
