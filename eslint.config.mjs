@@ -16,6 +16,7 @@ export default [
       globals: {
         ...globals.browser,
         game: false,
+        Handlebars: true,
         Hooks: false,
         foundry: false,
         ui: false,

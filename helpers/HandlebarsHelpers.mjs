@@ -8,7 +8,6 @@ export class HandleBarsHelpers {
     });
   }
 
-
   /**
    * Checks if a given version is greater or equal to the STA System version.
    *
