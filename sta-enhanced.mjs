@@ -143,21 +143,21 @@ class STACharacterEnhancedSheet extends STACharacterSheet {
   }
 
   _handleStressMod($html) {
-    const $changer = $html.find('#strmod-changer');
+    const $changers = $html.find('#strmod-changer button');
     const $modInput = $html.find('#strmod');
 
     // This probably indicates this verion of the STA system doesn't have the strmod added yet.
-    if (!$changer || !$modInput) {
+    if (!$changers || !$modInput) {
       return;
     }
 
     const currentMod = parseInt($modInput.val());
-    $changer.on('click', (event) => {
-      if (event.target.classList.contains('up')) {
+    $changers.on('click', (event) => {
+      if (event.currentTarget.classList.contains('up')) {
         $modInput.val(currentMod + 1);
         this.submit();
       }
-      else if (event.target.classList.contains('down')) {
+      else if (event.currentTarget.classList.contains('down')) {
         $modInput.val(currentMod - 1);
         this.submit();
       }
