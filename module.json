@@ -2,7 +2,7 @@
   "id": "sta-enhanced",
   "title": "Star Trek Adventures System Enhancements",
   "description": "Improved character sheet behaviors, layout, and organization.",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "compatibility": {
     "verified": "12",
     "minimum": "10"
@@ -42,5 +42,5 @@
   ],
   "url": "https://github.com/WesWedding/sta-enhanced",
   "manifest": "https://raw.githubusercontent.com/WesWedding/sta-enhanced/main/module.json",
-  "download": "https://github.com/WesWedding/sta-enhanced/releases/download/v0.1.4/sta-enhanced-v0.1.4.zip"
+  "download": "https://github.com/WesWedding/sta-enhanced/releases/download/v0.1.5/sta-enhanced-v0.1.5.zip"
 }
