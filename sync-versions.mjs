@@ -17,13 +17,14 @@ const moduleJson = 'module.json';
 const moduleData = JSON.parse(fs.readFileSync(moduleJson).toString());
 
 const downloadStr = moduleData.download;
-const verson = process.env.npm_package_version;
+const version = process.env.npm_package_version;
 
-const newDownload = downloadStr.replace(/(v)[0-9].[0-9].[0-9]/g, `$1${verson}`);
+const newDownload = downloadStr.replace(/(v)[0-9].[0-9].[0-9]/g, `$1${version}`);
 if (newDownload === downloadStr) {
   throw Error('Sync versions: Download string has not changed; expected a new version string.');
 }
 
+moduleData.version = version;
 moduleData.download = newDownload;
 
 fs.writeFileSync(moduleJson, JSON.stringify(moduleData, null, 2) + '\n');
