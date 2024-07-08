@@ -138,8 +138,10 @@ class STACharacterEnhancedSheet extends STACharacterSheet {
 
   /** @inheritDoc */
   activateListeners($html) {
-    this._handleStressMod($html);
     super.activateListeners($html);
+
+    if (!game.user.isGM && this.actor.limited) return;
+    this._handleStressMod($html);
   }
 
   _handleStressMod($html) {
