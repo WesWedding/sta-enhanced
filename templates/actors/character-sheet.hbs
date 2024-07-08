@@ -51,8 +51,8 @@
               {{localize 'sta.actor.character.stress'}}
               <div id="strmod-changer">
               {{#if (systemEqOrNewer 1.2)}}
-                <div class="up">&#9650;</div>
-                <div class="down">&#9660;</div>
+                <button type="button" class="up"><span aria-hidden="true">&#9650;</span><span class="screen-reader-text">Increase Max Stress</span></button>
+                <button type="button" class="down"><span aria-hidden="true">&#9660;</span><span class="screen-reader-text">Reduce Max Stress</span></button>
               {{/if}}
               </div>
             </div>

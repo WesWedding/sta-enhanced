@@ -17,6 +17,20 @@
   color: var(--sta-black);
 }
 
+/* Text meant only for screen readers, cribbed from Wordpress */
+.screen-reader-text {
+  border: 0;
+  clip: rect(1px, 1px, 1px, 1px);
+  clip-path: inset(50%);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  width: 1px;
+  word-wrap: normal !important;
+}
+
 .sta-enhanced button:hover, .sta-enhanced button:focus {
   box-shadow: 0 0 5px var(--sta-light-blue);
 }
@@ -209,6 +223,16 @@
   color:var(--sta-light-blue);
   font-size: 10px;
   line-height: 1;
+}
+
+.sta-enhanced.sheet.actor #strmod-changer button {
+  background: none;
+  border: none;
+  border-radius: 0;
+  color:var(--sta-light-blue);
+  margin: 0;
+  padding: 0;
+  width: auto;
 }
 
 .sta-enhanced.sheet.actor .row.labels {
