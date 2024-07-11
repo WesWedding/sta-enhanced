@@ -31,6 +31,10 @@
   word-wrap: normal !important;
 }
 
+.sta-enhanced button {
+  border: none;
+}
+
 .sta-enhanced button:hover, .sta-enhanced button:focus {
   box-shadow: 0 0 5px var(--sta-light-blue);
 }
@@ -195,6 +199,9 @@
 .sta-enhanced .tabs > [data-tab].active {
   background-color: var(--sta-yellow);
   color: var(--sta-black);
+}
+.sta-enhanced .tabs > [data-tab].active:focus {
+  box-shadow: none;
 }
 
 .sta-enhanced.sheet.actor .lcars-column .lcars-item3-general-block {
