@@ -45,7 +45,9 @@ archive.on('error', (err) => {
 archive.pipe(output);
 
 archive.directory('docs');
+archive.directory('documents');
 archive.directory('helpers');
+archive.directory('hooks');
 archive.directory('lang');
 archive.directory('migration');
 archive.directory('templates');
