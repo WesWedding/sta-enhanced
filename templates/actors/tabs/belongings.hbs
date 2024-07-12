@@ -20,19 +20,7 @@
               <a class="control create" title="Create item" data-type="characterweapon"><i class="fas fa-plus"></i></a>
             </div>
             {{#each items as |item type id|}}
-              {{#if (eq item.type "characterweapon")}}
-                <li class="row entry" id="character-weapon-{{@index}}" data-item-id="{{item.id}}"
-                  data-item-type="{{item.type}}" data-item-value="{{item.name}}"
-                  data-item-damage="{{item.system.damage}}">
-                  <div class="image"><img class="rollable challenge" src="{{item.img}}" title="{{item.name}}" data-item-name="{{item.name}}"/></div>
-                  <h4 class="two-column-with-roll-primary list-entry">{{item.name}}</h4>
-                  <h4 class="two-column-with-roll-secondary list-entry damage">{{item.system.damage}}</h4>
-                  <div class="control">
-                    <a class="edit" title="Edit Item"><i class="fas fa-edit"></i></a>
-                    <a class="delete" title="Delete Item"><i class="fas fa-trash"></i></a>
-                  </div>
-                </li>
-              {{/if}}
+              {{> "sta-enhanced.parts.character-items-weapon" idx=@index item=item type=type id=id}}
             {{/each}}
           </div>
           <div class="column wide right">

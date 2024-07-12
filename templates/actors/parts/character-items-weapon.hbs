@@ -1,0 +1,16 @@
+{{#if (eq item.type "characterweapon")}}
+  <li class="row entry weapon" id="character-weapon-{{idx}}" data-item-id="{{item.id}}" data-item-type="{{item.type}}" data-item-value="{{item.name}}" data-item-damage="{{item.system.damage}}">
+    <div class="image"><img class="rollable challenge" src="{{item.img}}" title="{{item.name}}" data-item-name="{{item.name}}"/></div>
+    <h4 class="two-column-with-roll-primary list-entry weapon-tooltip-clickable" id="weapon-tooltip-clickable-{{item.id}}" data-talent-name="{{item.name}}">{{#if item.system.escalation}}<span class="escalation">Escalation&nbsp;</span>{{/if}}{{bookWeaponString item}}</h4>
+    <h4 class="two-column-with-roll-secondary list-entry damage weapon-tooltip-clickable">{{item.system.damage}}</h4>
+    <div class="control">
+      <a class="edit" title="Edit Item"><i class="fas fa-edit"></i></a>
+      <a class="delete" title="Delete Item"><i class="fas fa-trash"></i></a>
+    </div>
+  </li>
+  <li class="row entry weapon-tooltip-container hide" id="weapon-tooltip-container-{{item.id}}">
+    <div class="list-entry weapon-tooltip-text" id="weapon-tooltip-text-{{item.id}}">
+      {{{item.system.description}}}
+    </div>
+  </li>
+{{/if}}

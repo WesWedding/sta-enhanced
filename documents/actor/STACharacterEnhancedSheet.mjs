@@ -39,6 +39,7 @@ export class STACharacterEnhancedSheet extends STACharacterSheet {
 
     if (!game.user.isGM && this.actor.limited) return;
     this._handleStressMod($html);
+    this._handleTooltipClicks($html);
   }
 
   _handleStressMod($html) {
@@ -59,6 +60,29 @@ export class STACharacterEnhancedSheet extends STACharacterSheet {
       else if (event.currentTarget.classList.contains('down')) {
         $modInput.val(currentMod - 1);
         this.submit();
+      }
+    });
+  }
+
+  /**
+   * This plugin adds more "tooltips" to character certain items.
+   *
+   * @param {jQuery} $html
+   * @private
+   */
+  _handleTooltipClicks($html) {
+    $html.find('.weapon-tooltip-clickable').click((ev) => {
+      console.log('clicked', ev);
+      const weaponId = $(ev.currentTarget)[0].id.substring('weapon-tooltip-clickable-'.length);
+      const tooltopSelector = '.weapon-tooltip-container:not(.hide)';
+      const currentShowingWeaponId = $(tooltopSelector)[0] ? $(tooltopSelector)[0].id.substring('weapon-tooltip-container-'.length) : null;
+
+      if (weaponId === currentShowingWeaponId) {
+        $('#weapon-tooltip-container-' + weaponId).addClass('hide').removeAttr('style');
+      }
+      else {
+        $('.weapon-tooltip-container').addClass('hide').removeAttr('style');
+        $('#weapon-tooltip-container-' + weaponId).removeClass('hide').height($('#weapon-tooltip-text-' + weaponId)[0].scrollHeight + 5);
       }
     });
   }

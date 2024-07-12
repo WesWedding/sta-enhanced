@@ -122,7 +122,6 @@
   min-height: 500px;
 }
 
-
 .sta-enhanced .lcars-header {
   /** Copied from STA system's CSS: .sta.sheet.actor .main .row .column .section .header.row
    Subbed in var() colors. */
@@ -257,4 +256,32 @@
 .sta-enhanced.sheet.actor .main .row .section .column.wide.left .entry.row,
 .sta-enhanced.sheet.actor .main .row .column.left-column .section .entry.row {
   margin-left: 5px;
+}
+
+.sta-enhanced.sheet.actor .row.entry .escalation {
+  color: var(--sta-orange);
+}
+
+.sta-enhanced.sheet.actor .main .row.weapon .two-column-with-roll-primary {
+  text-align: left;
+}
+.sta-enhanced.sheet.actor .main .row .column .entry.row.weapon-tooltip-container {
+  overflow-y: hidden;
+  border: 0.5px dashed #FF7700;
+  height: 200px;
+  -webkit-transition: height 0.5s linear, border-width 0.5s linear;
+  -moz-transition: height 0.5s linear, border-width 0.5s linear;
+  -ms-transition: height 0.5s linear, border-width 0.5s linear;
+  -o-transition: height 0.5s linear, border-width 0.5s linear;
+  transition: height 0.5s linear, border-width 0.5s linear;
+}
+
+.sta-enhanced.sheet.actor .main .row .column .entry.row.weapon-tooltip-container.hide {
+  border: 0px dashed #FF7700;
+  height: 0px;
+  -webkit-transition: height 0.5s linear, border-width 0.5s linear;
+  -moz-transition: height 0.5s linear, border-width 0.5s linear;
+  -ms-transition: height 0.5s linear, border-width 0.5s linear;
+  -o-transition: height 0.5s linear, border-width 0.5s linear;
+  transition: height 0.5s linear, border-width 0.5s linear;
 }
