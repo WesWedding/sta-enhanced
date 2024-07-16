@@ -20,9 +20,12 @@ export class STACharacterEnhancedSheet extends STACharacterSheet {
       character: {
         gender: characterFlags?.gender,
         personality: characterFlags?.personality,
-        enrichedBackstory: await TextEditor.enrichHTML(characterFlags?.backstory, { async: true }),
+        enrichedBackstory: await TextEditor.enrichHTML(characterFlags?.backstory, { async: true }), // Async copied from PF2E but maybe not actually used?
       },
     };
+
+    // We're using the prosemirror editor on Notes, so we should be enriching accordingly.
+    context.system.notes = await TextEditor.enrichHTML(context.system.notes);
 
     return context;
   }
