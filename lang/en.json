@@ -9,6 +9,13 @@
   "sta-enhanced.actor.gender": "Gender/Pronouns",
   "sta-enhanced.actor.personality": "Personality",
 
+  "sta-enhanced.item.type.item": "Item",
+  "sta-enhanced.item.type.talent": "Talent",
+  "sta-enhanced.item.type.value": "Value",
+  "sta-enhanced.item.type.focus": "Focus",
+  "sta-enhanced.item.type.armor": "Armor",
+  "sta-enhanced.item.type.characterweapon": "Character Weapon",
+
   "sta-enhanced.Migrations": {
     "Starting": "Applying STA-Enhanced Migration to version {version}.  Please do not close your game or shut down your server.",
     "Summary": "Migration finished.  Migrated: {migrated}/{total}"

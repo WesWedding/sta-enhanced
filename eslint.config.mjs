@@ -27,6 +27,7 @@ export default [
         TextEditor: false,
         Actors: false,
         loadTemplates: false,
+        renderTemplate: false,
       },
     },
     plugins: {

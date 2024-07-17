@@ -1,4 +1,5 @@
 import { STACharacterSheet } from '../../../../systems/sta/module/actors/sheets/character-sheet.js';
+import { chatCardForItem } from '../../helpers/ActorHelpers.mjs';
 
 export class STACharacterEnhancedSheet extends STACharacterSheet {
   /** @inheritDoc */
@@ -43,6 +44,7 @@ export class STACharacterEnhancedSheet extends STACharacterSheet {
     if (!game.user.isGM && this.actor.limited) return;
     this._handleStressMod($html);
     this._handleTooltipClicks($html);
+    this._replaceSystemItemRolls($html);
   }
 
   _handleStressMod($html) {
@@ -88,5 +90,37 @@ export class STACharacterEnhancedSheet extends STACharacterSheet {
         $('#weapon-tooltip-container-' + weaponId).removeClass('hide').height($('#weapon-tooltip-text-' + weaponId)[0].scrollHeight + 5);
       }
     });
+  }
+
+  /**
+   * Swap in new chat card icons.
+   *
+   * Hide the existing images that the system provides with new ones that have
+   * their own handlers attached.  The existing system ones are not extensible
+   * so they are being replaced entirely.
+   *
+   * @param {jQuery} $html
+   * @private
+   */
+  _replaceSystemItemRolls($html) {
+    const rollIcons = $html.find('.chat, .rollable');
+    const clones = rollIcons.clone();
+    rollIcons.each((idx, element) => {
+      $(element).after(clones[idx]);
+    });
+    rollIcons.hide();
+
+    clones.on('click', async (event) => {
+      const itemType = $(event.currentTarget).parents('.entry')[0].getAttribute('data-item-type');
+      const itemId = $(event.currentTarget).parents('.entry')[0].getAttribute('data-item-id');
+      await chatCardForItem(event, itemType, itemId, this.actor);
+    });
+
+    // click((ev) => {
+    //   console.log('item icon to replace', );
+    //   // const itemType = $(ev.currentTarget).parents('.entry')[0].getAttribute('data-item-type');
+      // const itemId = $(ev.currentTarget).parents('.entry')[0].getAttribute('data-item-id');
+      // staActor.rollGenericItem(ev, itemType, itemId, this.actor);
+    //});
   }
 }

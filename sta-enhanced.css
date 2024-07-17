@@ -285,3 +285,29 @@
   -o-transition: height 0.5s linear, border-width 0.5s linear;
   transition: height 0.5s linear, border-width 0.5s linear;
 }
+
+.sta-enhanced.chat.card header {
+  display: flex;
+  gap: 10px;
+}
+
+.sta-enhanced.chat.card header img {
+  height: 45px;
+}
+
+.sta-enhanced.chat.card header .title {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  text-align: start;
+  white-space: nowrap;
+}
+
+.sta-enhanced.chat.card header .name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.sta-enhanced.chat.card header .type {
+  font-size: 0.6em;
+}
