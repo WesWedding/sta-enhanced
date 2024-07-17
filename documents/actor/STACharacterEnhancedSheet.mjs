@@ -51,7 +51,7 @@ export class STACharacterEnhancedSheet extends STACharacterSheet {
     const $changers = $html.find('#strmod-changer button');
     const $modInput = $html.find('#strmod');
 
-    // This probably indicates this verion of the STA system doesn't have the strmod added yet.
+    // This probably indicates this version of the STA system doesn't have the strmod added yet.
     if (!$changers || !$modInput) {
       return;
     }
