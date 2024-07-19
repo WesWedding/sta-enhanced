@@ -289,6 +289,7 @@
 .sta-enhanced.chat.card header {
   display: flex;
   gap: 10px;
+  margin-bottom: 5px;
 }
 
 .sta-enhanced.chat.card header img {
