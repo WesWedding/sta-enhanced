@@ -1,0 +1,19 @@
+<div class="sta roll attribute">
+  <div class="dice-roll">
+    <div class="dice-result">
+      <div class="dice-tooltip">
+        <section class="tooltip-part">
+          <div class="dice">
+            <ol class="dice-rolls">{{item.diceString}}</ol>
+          </div>
+        </section>
+      </div>
+      {{{item.effectText}}}
+      <h4 class="dice-total">{{{item.successText}}}</h4>
+    </div>
+  </div>
+  <div class="reroll-result challenge">
+    <span>{{ localize 'sta.roll.rerollresults' }}</span>
+    <input id="speakerId" type="hidden" value="{{item.speaker.id}}">
+  </div>
+</div>

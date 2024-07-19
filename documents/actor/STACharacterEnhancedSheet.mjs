@@ -1,5 +1,6 @@
 import { STACharacterSheet } from '../../../../systems/sta/module/actors/sheets/character-sheet.js';
 import {
+  getActorDamageForItem,
   prepareItemDataForChatCard,
   sendChatCardForItem,
 } from '../../helpers/ActorHelpers.mjs';
@@ -117,7 +118,15 @@ export class STACharacterEnhancedSheet extends STACharacterSheet {
     clones.on('click', async (event) => {
       const itemType = $(event.currentTarget).parents('.entry')[0].getAttribute('data-item-type');
       const itemId = $(event.currentTarget).parents('.entry')[0].getAttribute('data-item-id');
-      const data = await prepareItemDataForChatCard(event, itemType, itemId, this.actor);
+
+      const numDice = getActorDamageForItem(this.actor, itemId);
+      let damageRoll = null;
+      if (itemType === 'characterweapon' || itemType === 'starshipweapon') {
+        damageRoll = await performDamageRoll(numDice);
+      }
+
+      const data = await prepareItemDataForChatCard(event, itemType, itemId, this.actor, damageRoll);
+      console.log('prepared Data', data);
 
       // Temporarily fall back to the system rolling.
       if (itemType === 'characterweapon' || itemType === 'starshipweapon') {
@@ -128,4 +137,13 @@ export class STACharacterEnhancedSheet extends STACharacterSheet {
       await sendChatCardForItem(this.actor, data);
     });
   }
+}
+
+async function performDamageRoll(numDice) {
+  const damageRoll = await new Roll(`${numDice}d6`).evaluate( {});
+
+  if (game.dice3d) {
+    await game.dice3d.showForRoll(damageRoll, game.user, true);
+  }
+  return damageRoll;
 }

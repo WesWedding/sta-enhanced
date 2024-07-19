@@ -66,4 +66,23 @@ export class HandleBarsHelpers {
     // Reference: "Unarmed Strike (Melee, 3CD Knockdown, Size 1H, Non-Lethal)"
     return `${weapon.name} (${Strings.joinPotentialEmpties([range, weaponStats], ', ')})`;
   }
+
+  /**
+   * Render a challenge Roll.
+   *
+   * @param {Roll} roll
+   */
+  static challengeRoll(roll) {
+    let diceString = '';
+    const diceFaceTable = [
+      '<li class="roll die d6"><img src="systems/sta/assets/icons/ChallengeDie_Success1_small.png" /></li>',
+      '<li class="roll die d6"><img src="systems/sta/assets/icons/ChallengeDie_Success2_small.png" /></li>',
+      '<li class="roll die d6"><img src="systems/sta/assets/icons/ChallengeDie_Success0_small.png" /></li>',
+      '<li class="roll die d6"><img src="systems/sta/assets/icons/ChallengeDie_Success0_small.png" /></li>',
+      '<li class="roll die d6"><img src="systems/sta/assets/icons/ChallengeDie_Effect_small.png" /></li>',
+      '<li class="roll die d6"><img src="systems/sta/assets/icons/ChallengeDie_Effect_small.png" /></li>',
+    ];
+    diceString = roll.terms[0].results.map((die) => die.result).map((result) => diceFaceTable[result - 1]).join(' ');
+    return diceString;
+  }
 }
