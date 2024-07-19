@@ -7,8 +7,13 @@
     </div>
   </header>
   <div class="content">
-    <div class="description">{{{item.system.description}}}</div>
-    <div class="vars">{{item.varField}}</div>
-    <div class="tags">{{item.tagField}}</div>
+    <div class="description">{{{item.descriptionHtml}}}</div>
+    {{#if item.varField}}
+    <div class="vars"><div class="dice-formula">{{{item.varField}}}</div></div>
+    {{/if}}
+    {{#if item.tags.length}}
+    <div class="tags">
+      {{#each item.tags}}<div class="tag">{{this}}</div>{{/each}}
+    {{/if}}
   </div>
 </div>
