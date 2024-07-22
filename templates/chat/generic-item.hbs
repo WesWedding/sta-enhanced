@@ -15,5 +15,9 @@
     <div class="tags">
       {{#each item.tags}}<div class="tag">{{this}}</div>{{/each}}
     {{/if}}
+    </div>
+    {{#if item.rolls.challenge}}
+      {{> 'sta-enhanced.chat.parts.weapon-roll' }}
+    {{/if}}
   </div>
 </div>

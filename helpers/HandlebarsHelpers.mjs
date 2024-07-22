@@ -12,6 +12,9 @@ export class HandleBarsHelpers {
     Handlebars.registerHelper({
       bookWeaponString: HandleBarsHelpers.bookWeaponString,
     });
+    Handlebars.registerHelper({
+      challengeRollList: HandleBarsHelpers.challengeRollList,
+    });
   }
 
   /**
@@ -72,7 +75,7 @@ export class HandleBarsHelpers {
    *
    * @param {Roll} roll
    */
-  static challengeRoll(roll) {
+  static challengeRollList(roll) {
     let diceString = '';
     const diceFaceTable = [
       '<li class="roll die d6"><img src="systems/sta/assets/icons/ChallengeDie_Success1_small.png" /></li>',
@@ -83,6 +86,6 @@ export class HandleBarsHelpers {
       '<li class="roll die d6"><img src="systems/sta/assets/icons/ChallengeDie_Effect_small.png" /></li>',
     ];
     diceString = roll.terms[0].results.map((die) => die.result).map((result) => diceFaceTable[result - 1]).join(' ');
-    return diceString;
+    return new Handlebars.SafeString(diceString);
   }
 }

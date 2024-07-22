@@ -130,7 +130,8 @@ export class STACharacterEnhancedSheet extends STACharacterSheet {
 
       // Temporarily fall back to the system rolling.
       if (itemType === 'characterweapon' || itemType === 'starshipweapon') {
-        await new STASharedActorFunctions().rollGenericItem(event, itemType, itemId, this.actor);
+        await sendChatCardForItem(this.actor, data);
+        // await new STASharedActorFunctions().rollGenericItem(event, itemType, itemId, this.actor);
         return;
       }
 

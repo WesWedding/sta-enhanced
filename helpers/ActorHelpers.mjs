@@ -3,6 +3,7 @@ import { STARoll } from '../../../systems/sta/module/roll.js';
 /** @typedef {Object} StaChallengeResults
  * @property {string} success
  * @property {string} effects
+ * @property {Roll} roll
  */
 
 /** @typedef {Object} StaTaskResults
@@ -24,14 +25,6 @@ import { STARoll } from '../../../systems/sta/module/roll.js';
  * @property {CardRolls} rolls
  */
 
-/**
- *
- * @param event
- * @param type
- * @param id
- * @param speaker
- * @return {{img: *, tagField: null, name: string, varField: null, descriptionHtml, type: string}}
- */
 
 export function getActorDamageForItem(actor, itemId) {
   const item = actor.items.get(itemId);
@@ -158,11 +151,11 @@ function prepareChallengeRoll(item, speaker, damageRoll) {
   const results = {
     success: '',
     effects: '',
+    roll: damageRoll,
   };
 
   const successes = countSuccesses(damageRoll);
   const effects = countEffects(damageRoll);
-  // const diceString = getDiceImageListFromChallengeRoll(damageRoll);
 
   // pluralize success string
   results.success = successes + ' ' + i18nPluralize(successes, 'sta.roll.success');
@@ -171,6 +164,8 @@ function prepareChallengeRoll(item, speaker, damageRoll) {
   if (effects >= 1) {
     results.effects = '<h4 class="dice-total effect"> ' + i18nPluralize(effects, 'sta.roll.effect') + '</h4>';
   }
+
+  results.roll = damageRoll;
 
   return results;
 }
@@ -204,6 +199,7 @@ export async function sendChatCardForItem(speaker, data) {
       challenge: {
         success: '',
         effects: '',
+        roll: null,
       },
       task: {},
     },
@@ -237,18 +233,4 @@ function countSuccesses(roll) {
     return 0;
   });
   return dice.reduce((a, b) => a + b, 0);
-}
-
-function getDiceImageListFromChallengeRoll(roll) {
-  let diceString = '';
-  const diceFaceTable = [
-    '<li class="roll die d6"><img src="systems/sta/assets/icons/ChallengeDie_Success1_small.png" /></li>',
-    '<li class="roll die d6"><img src="systems/sta/assets/icons/ChallengeDie_Success2_small.png" /></li>',
-    '<li class="roll die d6"><img src="systems/sta/assets/icons/ChallengeDie_Success0_small.png" /></li>',
-    '<li class="roll die d6"><img src="systems/sta/assets/icons/ChallengeDie_Success0_small.png" /></li>',
-    '<li class="roll die d6"><img src="systems/sta/assets/icons/ChallengeDie_Effect_small.png" /></li>',
-    '<li class="roll die d6"><img src="systems/sta/assets/icons/ChallengeDie_Effect_small.png" /></li>',
-  ];
-  diceString = roll.terms[0].results.map((die) => die.result).map((result) => diceFaceTable[result - 1]).join(' ');
-  return diceString;
 }
