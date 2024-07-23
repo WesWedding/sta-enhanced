@@ -1,10 +1,6 @@
 import { STACharacterSheet } from '../../../../systems/sta/module/actors/sheets/character-sheet.js';
-import {
-  getActorDamageForItem,
-  prepareItemDataForChatCard,
-  sendChatCardForItem,
-} from '../../helpers/ActorHelpers.mjs';
-import { STASharedActorFunctions } from '../../../../systems/sta/module/actors/actor.js';
+import { ItemChatCard } from '../../chat/ItemChatCard.mjs';
+import { getNumDamageDiceFor } from '../../helpers/ItemHelpers.mjs';
 
 export class STACharacterEnhancedSheet extends STACharacterSheet {
   /** @inheritDoc */
@@ -118,24 +114,16 @@ export class STACharacterEnhancedSheet extends STACharacterSheet {
     clones.on('click', async (event) => {
       const itemType = $(event.currentTarget).parents('.entry')[0].getAttribute('data-item-type');
       const itemId = $(event.currentTarget).parents('.entry')[0].getAttribute('data-item-id');
+      const item = this.actor.items.get(itemId);
 
-      const numDice = getActorDamageForItem(this.actor, itemId);
+      const numDice = getNumDamageDiceFor(item);
       let damageRoll = null;
       if (itemType === 'characterweapon' || itemType === 'starshipweapon') {
         damageRoll = await performDamageRoll(numDice);
       }
 
-      const data = await prepareItemDataForChatCard(event, itemType, itemId, this.actor, damageRoll);
-      console.log('prepared Data', data);
-
-      // Temporarily fall back to the system rolling.
-      if (itemType === 'characterweapon' || itemType === 'starshipweapon') {
-        await sendChatCardForItem(this.actor, data);
-        // await new STASharedActorFunctions().rollGenericItem(event, itemType, itemId, this.actor);
-        return;
-      }
-
-      await sendChatCardForItem(this.actor, data);
+      const card = new ItemChatCard(item, damageRoll);
+      await card.sendToChat(this.actor);
     });
   }
 }
