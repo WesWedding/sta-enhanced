@@ -28,6 +28,7 @@ export default [
         Actors: false,
         loadTemplates: false,
         renderTemplate: false,
+        Roll: false,
       },
     },
     plugins: {

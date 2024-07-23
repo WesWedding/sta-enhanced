@@ -1,3 +1,10 @@
+/**
+ * @file
+ * Defines and provides a register helper for Handlebars helpers.
+ *
+ * Are likely registered in the Init hook.
+ */
+
 import { CharacterWeaponHelpers } from './CharacterWeaponHelpers.mjs';
 import { Strings } from './Strings.mjs';
 
@@ -67,6 +74,7 @@ export class HandleBarsHelpers {
    * Render a challenge Roll.
    *
    * @param {Roll} roll
+   * @returns {string} Safe String.
    */
   static challengeRollList(roll) {
     let diceString = '';

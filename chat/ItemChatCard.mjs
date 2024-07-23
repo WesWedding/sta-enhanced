@@ -1,4 +1,4 @@
-import {STARoll} from '../../../systems/sta/module/roll.js';
+import { STARoll } from '../../../systems/sta/module/roll.js';
 
 /**
  * Structured data for the challenge dice section of the template.
@@ -114,7 +114,7 @@ export class ItemChatCard {
    *
    * @param {Item} item
    *
-   * @return {string}
+   * @returns {string}
    * @private
    */
   _prepareWeaponVars(item) {
@@ -173,6 +173,14 @@ function prepareCardTags(item) {
   return tags;
 }
 
+/**
+ * Prepare the challenge roll data for a Chat Card.
+ *
+ * @param {Item} item
+ * @param {Roll} damageRoll
+ *
+ * @returns {StaChallengeResults}
+ */
 function prepareChallengeRoll(item, damageRoll) {
   /** @type {StaChallengeResults} */
   const results = {
@@ -197,6 +205,12 @@ function prepareChallengeRoll(item, damageRoll) {
   return results;
 }
 
+/**
+ * Count up the effects on a Xd6 roll.
+ *
+ * @param {Roll} roll
+ * @returns {number}
+ */
 function countEffects(roll) {
   let dice = roll.terms[0].results.map((die) => die.result);
   dice = dice.map((die) => {
@@ -208,6 +222,12 @@ function countEffects(roll) {
   return dice.reduce((a, b) => a + b, 0);
 }
 
+/**
+ * Count up the successes on a Xd6 roll.
+ *
+ * @param {Roll} roll
+ * @returns {number}
+ */
 function countSuccesses(roll) {
   let dice = roll.terms[0].results.map((die) => die.result);
   dice = dice.map((die) => {
@@ -222,6 +242,15 @@ function countSuccesses(roll) {
   return dice.reduce((a, b) => a + b, 0);
 }
 
+/**
+ * Pluralized an STA system string.
+ *
+ * Limited to certain strings.  Cribbed from the STA System (it isn't exported).
+ *
+ * @param {number} count
+ * @param {string} localizationReference
+ * @returns {string}
+ */
 function i18nPluralize(count, localizationReference) {
   if (count > 1) {
     return game.i18n.format(localizationReference + 'Plural').replace('|#|', count);

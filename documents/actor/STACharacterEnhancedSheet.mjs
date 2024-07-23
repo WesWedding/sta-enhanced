@@ -119,7 +119,7 @@ export class STACharacterEnhancedSheet extends STACharacterSheet {
       const numDice = getNumDamageDiceFor(item);
       let damageRoll = null;
       if (itemType === 'characterweapon' || itemType === 'starshipweapon') {
-        damageRoll = await performDamageRoll(numDice);
+        damageRoll = await performChallengeRoll(numDice);
       }
 
       const card = new ItemChatCard(item, damageRoll);
@@ -128,8 +128,16 @@ export class STACharacterEnhancedSheet extends STACharacterSheet {
   }
 }
 
-async function performDamageRoll(numDice) {
-  const damageRoll = await new Roll(`${numDice}d6`).evaluate( {});
+/**
+ * Roll challenge dice.
+ *
+ * Optionally wait for Dice So Nice to animate the roll outcome.
+ *
+ * @param {number} numDice
+ * @returns {Roll}
+ */
+async function performChallengeRoll(numDice) {
+  const damageRoll = await new Roll(`${numDice}d6`).evaluate({});
 
   if (game.dice3d) {
     await game.dice3d.showForRoll(damageRoll, game.user, true);

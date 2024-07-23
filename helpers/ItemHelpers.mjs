@@ -1,8 +1,13 @@
 /**
+ * @file
+ * Helper functions that can help with Item documents.
+ */
+
+/**
  * Get the number of damage dice appropriate for the item.
  *
  * @param {Item} item
- * @return {number} The number of challene dice.
+ * @returns {number} The number of challenge dice.
  */
 export function getNumDamageDiceFor(item) {
   const DAMAGE_ITEMS = Object.freeze(['characterweapon', 'shipweapon']);
