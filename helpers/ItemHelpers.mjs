@@ -3,6 +3,15 @@
  * Helper functions that can help with Item documents.
  */
 
+export class ItemHelpers {
+  static qualityLocalizationLabels() {
+    return Object.freeze({
+      escalation: 'sta.item.genericitem.escalation',
+      opportunity: 'sta.item.genericitem.opportunity',
+    });
+  }
+}
+
 /**
  * Get the number of damage dice appropriate for the item.
  *

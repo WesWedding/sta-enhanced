@@ -1,4 +1,8 @@
 import { STARoll } from '../../../systems/sta/module/roll.js';
+import { countChallengeResults } from '../helpers/RollHelpers.mjs';
+import { ItemHelpers } from '../helpers/ItemHelpers.mjs';
+import { CharacterWeaponHelpers } from '../helpers/CharacterWeaponHelpers.mjs';
+import { i18nHelper } from '../helpers/i18n.mjs';
 
 /**
  * Structured data for the challenge dice section of the template.
@@ -46,33 +50,33 @@ export class ItemChatCard {
    * Constructor.
    *
    * @param {Item} item
-   * @param {Roll} damageRoll
+   * @param {Roll} [damageRoll]
    */
   constructor(item, damageRoll) {
     this._item = item;
-    this._data = this._prepareDataFor(this._item, damageRoll);
+    this._damageRoll = damageRoll;
+    this._data = this._prepareDataFor(this._item);
   }
 
   /**
    * Prepare data for the chat card that will be sent for a given item.
    *
    * @param {Item} item
-   * @param {Roll|undefined} damageRoll
    * @returns {StaChatCardData}
    * @private
    */
-  _prepareDataFor(item, damageRoll) {
+  _prepareDataFor(item) {
     // Modifying the item directly causes a client-side corruption of the item's data, until it refreshes from the server.
     // Use a new object instead.
     return {
       type: game.i18n.localize(`sta-enhanced.item.type.${item.type}`),
-      name: item.name,
-      img: item.img,
-      descriptionHtml: item.system.description,
+      name: this._item.name,
+      img: this._item.img,
+      descriptionHtml: this._item.system.description,
       varField: this._prepareCardVarsHtml(item),
-      tags: prepareCardTags(item),
+      tags: this._prepareCardTags(item),
       rolls: {
-        challenge: damageRoll ? prepareChallengeRoll(item, damageRoll) : null,
+        challenge: this._damageRoll ? this._prepareChallengeRoll(item, this._damageRoll) : null,
         task: {},
       },
     };
@@ -138,6 +142,88 @@ export class ItemChatCard {
   }
 
   /**
+   * Prepare the tag list  data some items might display.
+   *
+   * @returns {Array<string>}
+   * @private
+   */
+  _prepareCardTags() {
+    const tags = [];
+    tags.push(...this._prepareGenericTags());
+
+    switch (this._item.type) {
+      case 'characterweapon':
+      case 'shipweapon':
+        tags.push(...this._prepareWeaponTags());
+        break;
+      default:
+        // Do nothing.
+        break;
+    }
+    return tags;
+  }
+
+  _prepareGenericTags() {
+    const tags = [];
+    const labels = ItemHelpers.qualityLocalizationLabels();
+    for (const property in this._item.system) {
+      if (!Object.hasOwn(labels, property) || !this._item.system[property]) continue;
+
+      const label = game.i18n.localize(labels[property]);
+      const tag = Number.isInteger(this._item.system[property]) ? `${label} ${this._item.system[property]}` : label;
+      tags.push(tag);
+    }
+    return tags;
+  }
+
+  _prepareWeaponTags() {
+    const tags = [];
+    const labels = CharacterWeaponHelpers.qualityLocalizationLabels();
+    const qualities = this._item.system.qualities;
+
+    for (const property in qualities) {
+      if (!Object.hasOwn(labels, property) || !qualities[property]) continue;
+
+      const label = game.i18n.localize(labels[property]);
+      const tag = Number.isInteger(qualities[property]) ? `${label} ${qualities[property]}` : label;
+      tags.push(tag);
+    }
+
+    return tags;
+  }
+
+  /**
+   * Prepare the challenge roll data for a Chat Card.
+   *
+   * @returns {StaChallengeResults}
+   * @private
+   */
+  _prepareChallengeRoll() {
+    {
+      /** @type {StaChallengeResults} */
+      const results = {
+        success: '',
+        effects: '',
+        roll: this._damageRoll,
+      };
+
+      const counts = countChallengeResults(this._damageRoll);
+
+      // pluralize success string
+      results.success = counts.successes + ' ' + i18nHelper.i18nPluralize(counts.successes, 'sta.roll.success');
+
+      // pluralize effect string
+      if (counts.effects >= 1) {
+        results.effects = '<h4 class="dice-total effect"> ' + i18nHelper.i18nPluralize(counts.effects, 'sta.roll.effect') + '</h4>';
+      }
+
+      results.roll = this._damageRoll;
+
+      return results;
+    }
+  }
+
+  /**
    * Sends the chat card to the chat.
    *
    * @param {Actor|undefined} speaker
@@ -150,110 +236,4 @@ export class ItemChatCard {
     const sendAs = speaker ? speaker : this._item.actor;
     await new STARoll().sendToChat(sendAs, html);
   }
-}
-
-/**
- * Prepare the tag list  data some items might display.
- *
- * @param {Item} item
- * @returns {Array<string>}
- */
-function prepareCardTags(item) {
-  const KNOWN_TAGS = Object.freeze(['escalation', 'opportunity']);
-
-  const tags = [];
-  for (const property in item.system) {
-    if (!KNOWN_TAGS.includes(property) || !item.system[property]) continue;
-
-    // This won't work for characterweapon or shipweapon...
-    const label = game.i18n.localize(`sta.item.genericitem.${property}`);
-    const tag = Number.isInteger(item.system[property]) ? `${label} ${item.system[property]}` : label;
-    tags.push(tag);
-  }
-  return tags;
-}
-
-/**
- * Prepare the challenge roll data for a Chat Card.
- *
- * @param {Item} item
- * @param {Roll} damageRoll
- *
- * @returns {StaChallengeResults}
- */
-function prepareChallengeRoll(item, damageRoll) {
-  /** @type {StaChallengeResults} */
-  const results = {
-    success: '',
-    effects: '',
-    roll: damageRoll,
-  };
-
-  const successes = countSuccesses(damageRoll);
-  const effects = countEffects(damageRoll);
-
-  // pluralize success string
-  results.success = successes + ' ' + i18nPluralize(successes, 'sta.roll.success');
-
-  // pluralize effect string
-  if (effects >= 1) {
-    results.effects = '<h4 class="dice-total effect"> ' + i18nPluralize(effects, 'sta.roll.effect') + '</h4>';
-  }
-
-  results.roll = damageRoll;
-
-  return results;
-}
-
-/**
- * Count up the effects on a Xd6 roll.
- *
- * @param {Roll} roll
- * @returns {number}
- */
-function countEffects(roll) {
-  let dice = roll.terms[0].results.map((die) => die.result);
-  dice = dice.map((die) => {
-    if (die >= 5) {
-      return 1;
-    }
-    return 0;
-  });
-  return dice.reduce((a, b) => a + b, 0);
-}
-
-/**
- * Count up the successes on a Xd6 roll.
- *
- * @param {Roll} roll
- * @returns {number}
- */
-function countSuccesses(roll) {
-  let dice = roll.terms[0].results.map((die) => die.result);
-  dice = dice.map((die) => {
-    if (die === 2) {
-      return 2;
-    }
-    else if (die === 1 || die === 5 || die === 6) {
-      return 1;
-    }
-    return 0;
-  });
-  return dice.reduce((a, b) => a + b, 0);
-}
-
-/**
- * Pluralized an STA system string.
- *
- * Limited to certain strings.  Cribbed from the STA System (it isn't exported).
- *
- * @param {number} count
- * @param {string} localizationReference
- * @returns {string}
- */
-function i18nPluralize(count, localizationReference) {
-  if (count > 1) {
-    return game.i18n.format(localizationReference + 'Plural').replace('|#|', count);
-  }
-  return game.i18n.format(localizationReference).replace('|#|', count);
 }
