@@ -1,7 +1,4 @@
 export class CharacterWeaponHelpers {
-  static KNOWN_BOOK_QUALITIES = Object.freeze(['area', 'intense', 'knockdown', 'piercingx', 'viciousx']);
-  static KNOWN_BOOK_EFFECTS = Object.freeze([]);
-
   /**
    * Get the appropriate label for a "quality" on an item.
    *

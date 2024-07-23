@@ -35,6 +35,8 @@ export class HandleBarsHelpers {
    * This string should match the style and order of information given for NPC
    * attacks found in the Tricorder Digest book (the most recent 1E core book).
    *
+   * Since Damage gets its own column, this part is left out.
+   *
    * E.g. "Unarmed Strike (Melee, 3CD Knockdown, Size 1H, Non-Lethal)"
    *
    * @param {Item} weapon
@@ -43,31 +45,22 @@ export class HandleBarsHelpers {
   static bookWeaponString(weapon) {
     if (weapon.type !== 'characterweapon') return '';
 
-    const currentEffects = [];
-    const currentQualities = [];
-    // The system doesn't differentiate between effects and qualities, but we're going to.
+    const qualities = [];
     for (const key in weapon.system.qualities) {
       const value = weapon.system.qualities[key];
       if (value === false || value === 0 || value === '') continue;
-      const targetPool = CharacterWeaponHelpers.KNOWN_BOOK_QUALITIES.includes(key) ? currentQualities : currentEffects;
       const label = CharacterWeaponHelpers.getLocalizedQualityEffectsLabel(key);
 
       // If this is a numeric/stackable quality or effect, include the number in the output.
       const string = typeof value === 'number' ? `${label} ${value}` : `${label}`;
-      targetPool.push(string);
+      qualities.push(string);
     }
 
-    // Assemble all of our lists and sub-lists, some of which could be empty.
-    const qualitiesStr = Strings.joinPotentialEmpties(currentQualities, ', ');
-    const effectsStr = Strings.joinPotentialEmpties(currentEffects, ', ');
-    const weaponStats = Strings.joinPotentialEmpties([`${effectsStr}`, qualitiesStr], ', ');
-
-    const range = weapon.system.range
-      ? game.i18n.localize('sta.actor.belonging.weapon.ranged')
-      : game.i18n.localize('sta.actor.belonging.weapon.melee');
+    const qualitiesStr = qualities.join(', ');
+    const range = game.i18n.localize(`sta.actor.belonging.weapon.${weapon.system.range}`);
 
     // Reference: "Unarmed Strike (Melee, 3CD Knockdown, Size 1H, Non-Lethal)"
-    return `${weapon.name} (${Strings.joinPotentialEmpties([range, weaponStats], ', ')})`;
+    return `${weapon.name} (${Strings.joinPotentialEmpties([range, qualitiesStr], ', ')})`;
   }
 
   /**
