@@ -272,7 +272,18 @@ export class ItemChatCard {
         itemData: this._item.toObject(),
       },
     };
-    const html = await renderTemplate('sta-enhanced.chat.items-generic', cardData);
+
+    let html = '';
+    // Pre-v12 requires explicit file paths here.
+    // TODO: Remove when pre-v12 support dropped.
+    try {
+      html = await renderTemplate('sta-enhanced.chat.item-card', cardData);
+    }
+    catch (e) {
+      if (!e.message.startsWith('You are only allowed')) throw e;
+      html = await renderTemplate('modules/sta-enhanced/templates/chat/item-card.hbs', cardData);
+    }
+
     return await RollHelpers.sendToChat(sendAs, html, flags);
   }
 

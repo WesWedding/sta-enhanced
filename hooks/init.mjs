@@ -58,7 +58,7 @@ async function preloadHandlebarsTemplates() {
     [`sta-enhanced.tabs.biography`]: 'modules/sta-enhanced/templates/actors/tabs/biography.hbs',
 
     [`sta-enhanced.parts.character-items-weapon`]: 'modules/sta-enhanced/templates/actors/parts/character-items-weapon.hbs',
-    [`sta-enhanced.chat.items-generic`]: 'modules/sta-enhanced/templates/chat/item-card.hbs',
+    [`sta-enhanced.chat.item-card`]: 'modules/sta-enhanced/templates/chat/item-card.hbs',
     [`sta-enhanced.chat.parts.weapon-roll`]: 'modules/sta-enhanced/templates/chat/parts/weapon-roll.hbs',
   };
 
