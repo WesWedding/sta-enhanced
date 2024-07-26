@@ -1,4 +1,4 @@
-<div class='sta sta-enhanced chat card' data-item-id="{{item.id}}">
+<div class='sta sta-enhanced chat card' data-actor-id="{{speaker.id}}" data-item-id="{{item.id}}" {{#if speaker.tokenId}}data-token-id="{{speaker.tokenId}}" {{/if}}>
   <header>
     <img class="img" src={{item.img}} />
     <div class="title">

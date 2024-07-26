@@ -1,6 +1,7 @@
 import { STACharacterSheet } from '../../../../systems/sta/module/actors/sheets/character-sheet.js';
 import { ItemChatCard } from '../../chat/ItemChatCard.mjs';
 import { getNumDamageDiceFor } from '../../helpers/ItemHelpers.mjs';
+import { RollHelpers } from '../../helpers/RollHelpers.mjs';
 
 export class STACharacterEnhancedSheet extends STACharacterSheet {
   /** @inheritDoc */
@@ -78,7 +79,6 @@ export class STACharacterEnhancedSheet extends STACharacterSheet {
    */
   _handleTooltipClicks($html) {
     $html.find('.weapon-tooltip-clickable').click((ev) => {
-      console.log('clicked', ev);
       const weaponId = $(ev.currentTarget)[0].id.substring('weapon-tooltip-clickable-'.length);
       const tooltopSelector = '.weapon-tooltip-container:not(.hide)';
       const currentShowingWeaponId = $(tooltopSelector)[0] ? $(tooltopSelector)[0].id.substring('weapon-tooltip-container-'.length) : null;
@@ -119,28 +119,11 @@ export class STACharacterEnhancedSheet extends STACharacterSheet {
       const numDice = getNumDamageDiceFor(item);
       let damageRoll = null;
       if (itemType === 'characterweapon' || itemType === 'starshipweapon') {
-        damageRoll = await performChallengeRoll(numDice);
+        damageRoll = await RollHelpers.performChallengeRoll(numDice);
       }
 
       const card = new ItemChatCard(item, damageRoll);
       await card.sendToChat(this.actor);
     });
   }
-}
-
-/**
- * Roll challenge dice.
- *
- * Optionally wait for Dice So Nice to animate the roll outcome.
- *
- * @param {number} numDice
- * @returns {Roll}
- */
-async function performChallengeRoll(numDice) {
-  const damageRoll = await new Roll(`${numDice}d6`).evaluate({});
-
-  if (game.dice3d) {
-    await game.dice3d.showForRoll(damageRoll, game.user, true);
-  }
-  return damageRoll;
 }

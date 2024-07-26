@@ -2,6 +2,54 @@
  * @file
  * Helpers related to interpreting dice results.
  */
+import { STARollDialog } from '../../../systems/sta/module/apps/roll-dialog.js';
+import { ItemChatCard } from '../chat/ItemChatCard.mjs';
+
+export class RollHelpers {
+  /**
+   * Roll challenge dice.
+   *
+   * Optionally wait for Dice So Nice to animate the roll outcome.
+   *
+   * @param {number} numDice
+   * @returns {Roll}
+   */
+  static async performChallengeRoll(numDice) {
+    const damageRoll = await new Roll(`${numDice}d6`).evaluate({});
+
+    if (game.dice3d) {
+      await game.dice3d.showForRoll(damageRoll, game.user, true);
+    }
+    return damageRoll;
+  }
+
+  static async promptChallengeRoll(item, defaultValue, speaker) {
+    // This creates a dialog to gather details regarding the roll and waits for a response
+    const rolldialog = await STARollDialog.create(false, defaultValue);
+    if (rolldialog) {
+      const numDice = rolldialog.get('dicePoolValue');
+      const result = await RollHelpers.performChallengeRoll(numDice);
+      const card = new ItemChatCard(item, result);
+      await card.sendToChat(speaker);
+    }
+  }
+
+  static async sendToChat(speaker, content, flags, roll, flavor, sound) {
+    let messageProps = {
+      user: game.user.id,
+      speaker: ChatMessage.getSpeaker({ actor: speaker }),
+      content: content,
+      sound: sound,
+      flags: flags,
+    };
+    if (typeof roll != 'undefined')
+      messageProps.roll = roll;
+    if (typeof flavor != 'undefined')
+      messageProps.flavor = flavor;
+    // Send's Chat Message to foundry, if items are missing they will appear as false or undefined and this not be rendered.
+    return ChatMessage.create(messageProps);
+  }
+}
 
 /**
  * @typedef {object} StaChallengeResults

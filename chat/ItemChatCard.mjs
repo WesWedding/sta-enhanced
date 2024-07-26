@@ -1,5 +1,5 @@
 import { STARoll } from '../../../systems/sta/module/roll.js';
-import { countChallengeResults } from '../helpers/RollHelpers.mjs';
+import { countChallengeResults, RollHelpers } from '../helpers/RollHelpers.mjs';
 import { ItemHelpers } from '../helpers/ItemHelpers.mjs';
 import { CharacterWeaponHelpers } from '../helpers/CharacterWeaponHelpers.mjs';
 import { i18nHelper } from '../helpers/i18n.mjs';
@@ -28,11 +28,12 @@ import { i18nHelper } from '../helpers/i18n.mjs';
  */
 
 /**
- * Structured data for a STA Enhanced item chat card.
+ * Structured item data for an STA Enhanced item chat card.
  *
- * @typedef {object} StaChatCardData
+ * @typedef {object} StaChatCardItemData
  * @property {string} type
  * @property {string} name
+ * @property {string} id
  * @property {string} img
  * @property {string} descriptionHtml
  * @property {string} varField
@@ -40,11 +41,69 @@ import { i18nHelper } from '../helpers/i18n.mjs';
  * @property {CardRolls} rolls
  */
 
+/**
+ * Structured speaker data for an STA enhanced item chat card.
+ *
+ * @typedef {object} StaChatCardSpeakerData
+ * @property {string} id
+ * @property {string=} tokenId
+ */
+
+/**
+ * Structured data for an STA Enhanced item chat card.
+ *
+ * @typedef {object} StaChatCardData
+ *
+ * @property {StaChatCardItemData} item
+ * @property {StaChatCardSpeakerData} speaker
+ */
+
 export class ItemChatCard {
+  static chatListeners(html) {
+    html.on('click', '.chat.card button[data-action]', this._onChatCardAction.bind(this));
+  }
+
+  static async _onChatCardAction(event) {
+    event.preventDefault();
+
+    // Extract card data
+    const button = event.currentTarget;
+
+    button.disabled = true;
+    const card = button.closest('.chat.card');
+    const messageId = card.closest('.message').dataset.messageId;
+    const message = game.messages.get(messageId);
+    const action = button.dataset.action;
+
+    const actor = await this._getChatCardActor(card);
+
+    // Restrict rerolls to users with permission.
+    if (!(game.user.isGM || actor.isOwner)) return;
+
+    const storedData = message.getFlag('sta-enhanced', 'itemData');
+    let item = storedData ? new Item(storedData, { parent: actor }) : actor.items.get(card.dataset.itemId);
+    if (!item) {
+      ui.notifications.error('sta-enhanced.cardWarningItem', { item: card.dataset.itemId, name: actor.name });
+    }
+
+    // Do the action.
+    // Currently, we only recognize challenge rerolls, maybe there will be more someday.
+    switch (action) {
+      default:
+        await RollHelpers.promptChallengeRoll(item, 0, actor);
+        break;
+    }
+
+    // Re-enable the button when we're done.
+    button.disabled = false;
+  }
+
+
+
   /** @type {Item} */
   _item;
-  /** @type {StaChatCardData} */
-  _data;
+  /** @type {StaChatCardItemData} */
+  _itemData;
 
   /**
    * Constructor.
@@ -55,31 +114,36 @@ export class ItemChatCard {
   constructor(item, damageRoll) {
     this._item = item;
     this._damageRoll = damageRoll;
-    this._data = this._prepareDataFor(this._item);
+    this._itemData = this._prepareDataFor();
   }
 
   /**
    * Prepare data for the chat card that will be sent for a given item.
    *
-   * @param {Item} item
-   * @returns {StaChatCardData}
+   * @returns {StaChatCardItemData}
    * @private
    */
-  _prepareDataFor(item) {
+  _prepareDataFor() {
     // Modifying the item directly causes a client-side corruption of the item's data, until it refreshes from the server.
     // Use a new object instead.
-    return {
-      type: game.i18n.localize(`sta-enhanced.item.type.${item.type}`),
+
+    /** @type {StaChatCardItemData} */
+    const itemData = {
+      type: game.i18n.localize(`sta-enhanced.item.type.${this._item.type}`),
       name: this._item.name,
       img: this._item.img,
+      id: this._item.id,
       descriptionHtml: this._item.system.description,
-      varField: this._prepareCardVarsHtml(item),
-      tags: this._prepareCardTags(item),
+      varField: this._prepareCardVarsHtml(this._item),
+      tags: this._prepareCardTags(this._item),
       rolls: {
-        challenge: this._damageRoll ? this._prepareChallengeRoll(item, this._damageRoll) : null,
+        challenge: this._damageRoll ? this._prepareChallengeRoll() : null,
         task: {},
       },
     };
+
+
+    return itemData;
   }
 
   /**
@@ -121,24 +185,16 @@ export class ItemChatCard {
    * @returns {string}
    * @private
    */
-  _prepareWeaponVars(item) {
-    const owner = item.actor;
+  _prepareWeaponVars() {
+    const terms = this._damageRoll.terms[0];
+    const numDice = terms.results.length;
 
-    let actorSecurity = 0;
-    if (owner.system.disciplines) {
-      actorSecurity = parseInt(owner.system.disciplines.security.value);
-    }
-    else if (owner.system.departments) {
-      actorSecurity = parseInt(owner.system.departments.security.value);
-    }
-    let scaleDamage = 0;
-    const calculatedDamage = item.system.damage + actorSecurity + scaleDamage;
     // Create variable div and populate it with localisation to use in the HTML.
     let variablePrompt = game.i18n.format('sta.roll.weapon.damagePlural');
-    if (calculatedDamage === 1) {
+    if (numDice === 1) {
       variablePrompt = game.i18n.format('sta.roll.weapon.damage');
     }
-    return `${variablePrompt.replace('|#|', calculatedDamage)}`;
+    return `${variablePrompt.replace('|#|', numDice)}`;
   }
 
   /**
@@ -232,8 +288,40 @@ export class ItemChatCard {
    * @returns {Promise<void>}
    */
   async sendToChat(speaker) {
-    const html = await renderTemplate('sta-enhanced.chat.items-generic', { item: this._data });
+    // Update data with speaker.
     const sendAs = speaker ? speaker : this._item.actor;
-    await new STARoll().sendToChat(sendAs, html);
+    const speakerId = sendAs ? sendAs.id : '';
+    const token = sendAs.token;
+
+    /** @type {StaChatCardSpeakerData} */
+    const speakerData = {
+      id: speakerId,
+      tokenId: token?.uuid || null,
+    };
+    /** @type {StaChatCardData} */
+    const cardData = {
+      item: this._itemData,
+      speaker: speakerData,
+    };
+    const flags = {
+      'sta-enhanced': {
+        itemData: this._item.toObject(),
+      },
+    };
+    const html = await renderTemplate('sta-enhanced.chat.items-generic', cardData);
+    return await RollHelpers.sendToChat(sendAs, html, flags);
+  }
+
+  static async _getChatCardActor(card) {
+    // Could be a token, a "synthetic" actor
+    if (card.dataset.tokenId) {
+      const token = await fromUuid(card.dataset.tokenId);
+      if (!token) return null;
+      return token.actor;
+    }
+
+    // Could be an actual World actor.
+    const actorId = card.dataset.actorId;
+    return game.actors.get(actorId) || null;
   }
 }
