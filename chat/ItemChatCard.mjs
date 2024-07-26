@@ -38,9 +38,6 @@ import { i18nHelper } from '../helpers/i18n.mjs';
  * @property {string} id
  * @property {string} img
  * @property {string} descriptionHtml
- * @property {string} varField
- * @property {Array<string>} tags
- * @property {CardRolls} rolls
  */
 
 /**
@@ -57,14 +54,15 @@ import { i18nHelper } from '../helpers/i18n.mjs';
  * @typedef {object} StaChatCardData
  *
  * @property {StaChatCardItemData} item
+ * @property {CardRolls} rolls
+ * @property {Array<string>} tags
+ * @property {string} varsHtml
  * @property {StaChatCardSpeakerData} speaker
  */
 
 export class ItemChatCard {
   /** @type {Item} */
   _item;
-  /** @type {StaChatCardItemData} */
-  _itemData;
 
   /**
    * Constructor.
@@ -75,7 +73,6 @@ export class ItemChatCard {
   constructor(item, damageRoll) {
     this._item = item;
     this._damageRoll = damageRoll;
-    this._itemData = this._prepareDataFor();
   }
 
   /**
@@ -84,7 +81,7 @@ export class ItemChatCard {
    * @returns {StaChatCardItemData}
    * @private
    */
-  _prepareDataFor() {
+  _prepareItemData() {
     // Modifying the item directly causes a client-side corruption of the item's data, until it refreshes from the server.
     // Use a new object instead.
     return {
@@ -95,24 +92,21 @@ export class ItemChatCard {
       descriptionHtml: this._item.system.description,
       varField: this._prepareCardVarsHtml(this._item),
       tags: this._prepareCardTags(this._item),
-      rolls: {
-        challenge: this._damageRoll ? this._prepareChallengeRoll() : null,
-        task: {},
-      },
     };
   }
 
   /**
    * Generates the HTML for the "variables" section of the card.
    *
-   * @param {Item} item
+   * This nomenclature is inherited from the STA System.
    *
    * @returns {string}
    * @private
    */
-  _prepareCardVarsHtml(item) {
+  _prepareCardVarsHtml() {
     let variablePrompt = '';
     let html = '';
+    const item = this._item;
 
     switch (item.type) {
       case 'armor':
@@ -251,7 +245,7 @@ export class ItemChatCard {
    * @param {Actor|undefined} speaker
    *   Override the speaker of the card; defaults to the item owner.
    *
-   * @returns {Promise<void>}
+   * @returns {Promise<ChatMessage>}
    */
   async sendToChat(speaker) {
     // Update data with speaker.
@@ -259,15 +253,19 @@ export class ItemChatCard {
     const speakerId = sendAs ? sendAs.id : '';
     const token = sendAs.token;
 
-    /** @type {StaChatCardSpeakerData} */
-    const speakerData = {
-      id: speakerId,
-      tokenId: token?.uuid || null,
-    };
     /** @type {StaChatCardData} */
     const cardData = {
-      item: this._itemData,
-      speaker: speakerData,
+      item: this._prepareItemData(),
+      rolls: {
+        challenge: this._damageRoll ? this._prepareChallengeRoll() : null,
+        task: {},
+      },
+      tags: this._prepareCardTags(),
+      varsHtml: this._prepareCardVarsHtml(),
+      speaker: {
+        id: speakerId,
+        tokenId: token?.uuid || null,
+      },
     };
     const flags = {
       'sta-enhanced': {

@@ -9,14 +9,14 @@
   <div class="content">
     <div class="description">{{{item.descriptionHtml}}}</div>
     {{#if item.varField}}
-    <div class="vars"><div class="dice-formula">{{{item.varField}}}</div></div>
+    <div class="vars"><div class="dice-formula">{{{varsHtml}}}</div></div>
     {{/if}}
-    {{#if item.tags.length}}
+    {{#if tags.length}}
     <div class="tags">
-      {{#each item.tags}}<div class="tag">{{this}}</div>{{/each}}
+      {{#each tags}}<div class="tag">{{this}}</div>{{/each}}
     {{/if}}
     </div>
-    {{#if item.rolls.challenge}}
+    {{#if rolls.challenge}}
       {{> 'sta-enhanced.chat.parts.weapon-roll' }}
     {{/if}}
   </div>
