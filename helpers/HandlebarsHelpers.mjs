@@ -51,6 +51,11 @@ export class HandleBarsHelpers {
    */
   static bookWeaponString(weapon) {
     if (weapon.type !== 'characterweapon') return '';
+    // A newly created weapon doesn't even have a range.  Just skip this completely until it gets saved.
+    // console.log('weapon.system.range', weapon.system.range);
+    if (weapon.system.range === '') {
+      return weapon.name;
+    }
 
     const qualities = [];
     for (const key in weapon.system.qualities) {
