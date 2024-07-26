@@ -69,7 +69,9 @@ export class HandleBarsHelpers {
     }
 
     const qualitiesStr = qualities.join(', ');
-    const range = game.i18n.localize(`sta.actor.belonging.weapon.${weapon.system.range}`);
+    // The system has, in the past, used Upper-case range values.
+    const weaponRange = weapon.system.range.toLowerCase();
+    const range = game.i18n.localize(`sta.actor.belonging.weapon.${weaponRange}`);
 
     // Reference: "Unarmed Strike (Melee, 3CD Knockdown, Size 1H, Non-Lethal)"
     return `${weapon.name} (${Strings.joinPotentialEmpties([range, qualitiesStr], ', ')})`;
