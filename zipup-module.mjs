@@ -44,16 +44,10 @@ archive.on('error', (err) => {
 
 archive.pipe(output);
 
-archive.directory('docs');
-archive.directory('documents');
-archive.directory('helpers');
-archive.directory('hooks');
-archive.directory('lang');
-archive.directory('migration');
-archive.directory('templates');
-archive.file('module.json');
-archive.file('README.md');
-archive.file('sta-enhanced.css');
-archive.file('sta-enhanced.mjs');
+archive.glob(
+  '**', {
+    ignore: ['*.zip', '.editorconfig', 'eslint*', 'package*.json', 'zipup-module.mjs', 'sync-versions.mjs', 'node_modules/**', '.github/**'],
+  },
+);
 
 archive.finalize();
