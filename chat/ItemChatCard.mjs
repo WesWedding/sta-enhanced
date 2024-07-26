@@ -1,5 +1,4 @@
-import { STARoll } from '../../../systems/sta/module/roll.js';
-import { countChallengeResults, RollHelpers } from '../helpers/RollHelpers.mjs';
+import { RollHelpers } from '../helpers/RollHelpers.mjs';
 import { ItemHelpers } from '../helpers/ItemHelpers.mjs';
 import { CharacterWeaponHelpers } from '../helpers/CharacterWeaponHelpers.mjs';
 import { i18nHelper } from '../helpers/i18n.mjs';
@@ -16,7 +15,10 @@ import { i18nHelper } from '../helpers/i18n.mjs';
 /**
  * Structured data for the Task dice section of the template.
  *
+ * Structure TBD.
+ *
  * @typedef {object} StaTaskResults
+ * @property {undefined} TBD
  */
 
 /**
@@ -59,47 +61,6 @@ import { i18nHelper } from '../helpers/i18n.mjs';
  */
 
 export class ItemChatCard {
-  static chatListeners(html) {
-    html.on('click', '.chat.card button[data-action]', this._onChatCardAction.bind(this));
-  }
-
-  static async _onChatCardAction(event) {
-    event.preventDefault();
-
-    // Extract card data
-    const button = event.currentTarget;
-
-    button.disabled = true;
-    const card = button.closest('.chat.card');
-    const messageId = card.closest('.message').dataset.messageId;
-    const message = game.messages.get(messageId);
-    const action = button.dataset.action;
-
-    const actor = await this._getChatCardActor(card);
-
-    // Restrict rerolls to users with permission.
-    if (!(game.user.isGM || actor.isOwner)) return;
-
-    const storedData = message.getFlag('sta-enhanced', 'itemData');
-    let item = storedData ? new Item(storedData, { parent: actor }) : actor.items.get(card.dataset.itemId);
-    if (!item) {
-      ui.notifications.error('sta-enhanced.cardWarningItem', { item: card.dataset.itemId, name: actor.name });
-    }
-
-    // Do the action.
-    // Currently, we only recognize challenge rerolls, maybe there will be more someday.
-    switch (action) {
-      default:
-        await RollHelpers.promptChallengeRoll(item, 0, actor);
-        break;
-    }
-
-    // Re-enable the button when we're done.
-    button.disabled = false;
-  }
-
-
-
   /** @type {Item} */
   _item;
   /** @type {StaChatCardItemData} */
@@ -126,9 +87,7 @@ export class ItemChatCard {
   _prepareDataFor() {
     // Modifying the item directly causes a client-side corruption of the item's data, until it refreshes from the server.
     // Use a new object instead.
-
-    /** @type {StaChatCardItemData} */
-    const itemData = {
+    return {
       type: game.i18n.localize(`sta-enhanced.item.type.${this._item.type}`),
       name: this._item.name,
       img: this._item.img,
@@ -141,9 +100,6 @@ export class ItemChatCard {
         task: {},
       },
     };
-
-
-    return itemData;
   }
 
   /**
@@ -180,8 +136,6 @@ export class ItemChatCard {
   /**
    * Generates the "variables" section of a card with particulars specific to weapons.
    *
-   * @param {Item} item
-   *
    * @returns {string}
    * @private
    */
@@ -198,7 +152,7 @@ export class ItemChatCard {
   }
 
   /**
-   * Prepare the tag list  data some items might display.
+   * Prepare the tag list data some items might display.
    *
    * @returns {Array<string>}
    * @private
@@ -219,9 +173,15 @@ export class ItemChatCard {
     return tags;
   }
 
+  /**
+   * Return tag strings general to all items.
+   *
+   * @returns {Array<string>}
+   * @private
+   */
   _prepareGenericTags() {
     const tags = [];
-    const labels = ItemHelpers.qualityLocalizationLabels();
+    const labels = ItemHelpers.genericQualityLocalizationLabels();
     for (const property in this._item.system) {
       if (!Object.hasOwn(labels, property) || !this._item.system[property]) continue;
 
@@ -232,6 +192,12 @@ export class ItemChatCard {
     return tags;
   }
 
+  /**
+   * Return tag strings specific to weapons.
+   *
+   * @returns {Array<string>}
+   * @private
+   */
   _prepareWeaponTags() {
     const tags = [];
     const labels = CharacterWeaponHelpers.qualityLocalizationLabels();
@@ -263,7 +229,7 @@ export class ItemChatCard {
         roll: this._damageRoll,
       };
 
-      const counts = countChallengeResults(this._damageRoll);
+      const counts = RollHelpers.countChallengeResults(this._damageRoll);
 
       // pluralize success string
       results.success = counts.successes + ' ' + i18nHelper.i18nPluralize(counts.successes, 'sta.roll.success');
@@ -312,6 +278,64 @@ export class ItemChatCard {
     return await RollHelpers.sendToChat(sendAs, html, flags);
   }
 
+  /**
+   * Attach chat card listeners to chat in a Hook somewhere.
+   *
+   * @param {jQuery} html
+   */
+  static chatListeners(html) {
+    html.on('click', '.chat.card button[data-action]', this._onChatCardAction.bind(this));
+  }
+
+  /**
+   * Handler for card action button clicks.
+   *
+   * @param {Event} event
+   * @returns {Promise<void>}
+   * @private
+   */
+  static async _onChatCardAction(event) {
+    event.preventDefault();
+
+    // Extract card data
+    const button = event.currentTarget;
+
+    button.disabled = true;
+    const card = button.closest('.chat.card');
+    const messageId = card.closest('.message').dataset.messageId;
+    const message = game.messages.get(messageId);
+    const action = button.dataset.action;
+
+    const actor = await this._getChatCardActor(card);
+
+    // Restrict rerolls to users with permission.
+    if (!(game.user.isGM || actor.isOwner)) return;
+
+    const storedData = message.getFlag('sta-enhanced', 'itemData');
+    let item = storedData ? new Item(storedData, { parent: actor }) : actor.items.get(card.dataset.itemId);
+    if (!item) {
+      ui.notifications.error('sta-enhanced.cardWarningItem', { item: card.dataset.itemId, name: actor.name });
+    }
+
+    // Do the action.
+    // Currently, we only recognize challenge rerolls, maybe there will be more someday.
+    switch (action) {
+      default:
+        await RollHelpers.promptChallengeRoll(item, 0, actor);
+        break;
+    }
+
+    // Re-enable the button when we're done.
+    button.disabled = false;
+  }
+
+  /**
+   * Get the author of a chat card.
+   *
+   * @param {HTMLElement} card
+   * @returns {Actor|null}
+   * @private
+   */
   static async _getChatCardActor(card) {
     // Could be a token, a "synthetic" actor
     if (card.dataset.tokenId) {

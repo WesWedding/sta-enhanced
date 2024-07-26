@@ -1,6 +1,6 @@
 import { STACharacterSheet } from '../../../../systems/sta/module/actors/sheets/character-sheet.js';
 import { ItemChatCard } from '../../chat/ItemChatCard.mjs';
-import { getNumDamageDiceFor } from '../../helpers/ItemHelpers.mjs';
+import { ItemHelpers } from '../../helpers/ItemHelpers.mjs';
 import { RollHelpers } from '../../helpers/RollHelpers.mjs';
 
 export class STACharacterEnhancedSheet extends STACharacterSheet {
@@ -72,7 +72,9 @@ export class STACharacterEnhancedSheet extends STACharacterSheet {
   }
 
   /**
-   * This plugin adds more "tooltips" to character certain items.
+   * This plugin adds more "tooltips" to character sheets.
+   *
+   * Many items have descriptions that can't be seen anywhere on the sheet.
    *
    * @param {jQuery} $html
    * @private
@@ -116,7 +118,7 @@ export class STACharacterEnhancedSheet extends STACharacterSheet {
       const itemId = $(event.currentTarget).parents('.entry')[0].getAttribute('data-item-id');
       const item = this.actor.items.get(itemId);
 
-      const numDice = getNumDamageDiceFor(item);
+      const numDice = ItemHelpers.getNumDamageDiceFor(item);
       let damageRoll = null;
       if (itemType === 'characterweapon' || itemType === 'starshipweapon') {
         damageRoll = await RollHelpers.performChallengeRoll(numDice);

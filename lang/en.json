@@ -16,6 +16,8 @@
   "sta-enhanced.item.type.armor": "Armor",
   "sta-enhanced.item.type.characterweapon": "Character Weapon",
 
+  "sta-enhanced.cardWarningItem": "The requested item {item} no longer exists on Actor {name}.",
+
   "sta-enhanced.Migrations": {
     "Starting": "Applying STA-Enhanced Migration to version {version}.  Please do not close your game or shut down your server.",
     "Summary": "Migration finished.  Migrated: {migrated}/{total}"

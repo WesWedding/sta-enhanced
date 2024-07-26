@@ -23,6 +23,14 @@ export class RollHelpers {
     return damageRoll;
   }
 
+  /**
+   * Create a dialog to prompt a challenge roll.
+   *
+   * @param {Item} item
+   * @param {number} defaultValue
+   * @param {Actor} speaker
+   * @returns {Promise<void>}
+   */
   static async promptChallengeRoll(item, defaultValue, speaker) {
     // This creates a dialog to gather details regarding the roll and waits for a response
     const rolldialog = await STARollDialog.create(false, defaultValue);
@@ -34,6 +42,17 @@ export class RollHelpers {
     }
   }
 
+  /**
+   * Send a Roll to chat.
+   *
+   * @param {Actor} speaker
+   * @param {string} content
+   * @param {object} flags
+   * @param {Roll} roll
+   * @param {string | null} flavor
+   * @param {string} sound
+   * @returns {Promise<ChatMessage>}
+   */
   static async sendToChat(speaker, content, flags, roll, flavor, sound) {
     let messageProps = {
       user: game.user.id,
@@ -49,42 +68,42 @@ export class RollHelpers {
     // Send's Chat Message to foundry, if items are missing they will appear as false or undefined and this not be rendered.
     return ChatMessage.create(messageProps);
   }
-}
 
-/**
- * @typedef {object} StaChallengeResults
- * @property {number} blanks
- * @property {number} effects
- * @property {number} successes
- */
+  /**
+   * @typedef {object} StaChallengeResults
+   * @property {number} blanks
+   * @property {number} effects
+   * @property {number} successes
+   */
 
-/**
- * Parse a Foundry Roll result for Challenge Dice outcomes.
- *
- * @param {Roll} roll
- * @returns {StaChallengeResults}
- */
-export function countChallengeResults(roll) {
-  /** @type {StaChallengeResults} */
-  const results = {
-    blanks: 0,
-    effects: 0,
-    successes: 0,
-  };
+  /**
+   * Parse a Foundry Roll result for Challenge Dice outcomes.
+   *
+   * @param {Roll} roll
+   * @returns {StaChallengeResults}
+   */
+  static countChallengeResults(roll) {
+    /** @type {StaChallengeResults} */
+    const results = {
+      blanks: 0,
+      effects: 0,
+      successes: 0,
+    };
 
-  let dice = roll.terms[0].results.map((die) => die.result);
-  dice.forEach((dieFace) => {
-    if ([1, 2].includes(dieFace)) {
-      results.successes += dieFace;
-    }
-    else if ([5, 6].includes(dieFace)) {
-      results.successes += 1;
-      results.effects += 1;
-    }
-    else {
-      results.blanks += 1;
-    }
-  });
+    let dice = roll.terms[0].results.map((die) => die.result);
+    dice.forEach((dieFace) => {
+      if ([1, 2].includes(dieFace)) {
+        results.successes += dieFace;
+      }
+      else if ([5, 6].includes(dieFace)) {
+        results.successes += 1;
+        results.effects += 1;
+      }
+      else {
+        results.blanks += 1;
+      }
+    });
 
-  return results;
+    return results;
+  }
 }
