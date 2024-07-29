@@ -7,8 +7,11 @@
   "scripts": {
     "lint": "eslint ./",
     "release": "npm version patch",
-    "release:sync-version-strings": "node sync-versions.mjs",
-    "release:zip": "node zipup-module.mjs"
+    "preversion": "npm run lint",
+    "version": "npm run release:sync-version-strings && git add -A module.json",
+    "postversion": "npm run release:zip",
+    "release:sync-version-strings": "node deploy/sync-versions.mjs",
+    "release:zip": "node deploy/zipup-module.mjs"
   },
   "devDependencies": {
     "@eslint/js": "^9.6.0",

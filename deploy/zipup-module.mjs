@@ -17,7 +17,7 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 const version = process.env.npm_package_version;
 
-const output = fs.createWriteStream(__dirname + `/sta-enhanced-v${version}.zip`);
+const output = fs.createWriteStream(__dirname + `/../dist/sta-enhanced-v${version}.zip`);
 const archive = archiver('zip', {}); // TODO: Options?
 
 output.on('close', () => {
@@ -46,7 +46,7 @@ archive.pipe(output);
 
 archive.glob(
   '**', {
-    ignore: ['*.zip', '.editorconfig', 'eslint*', 'package*.json', 'zipup-module.mjs', 'sync-versions.mjs', 'node_modules/**', '.github/**'],
+    ignore: ['deploy/**', 'dist/**', 'eslint*', 'package*.json', 'node_modules/**', '.*/**'],
   },
 );
 
