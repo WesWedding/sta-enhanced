@@ -4,11 +4,8 @@ import { ItemHelpers } from '../../helpers/ItemHelpers.mjs';
 import { RollHelpers } from '../../helpers/RollHelpers.mjs';
 
 // After changes in the System, this global is required to keep sheets working.  Not ideal!
-if (global) {
-  global.localizedValues = { resolute: '{{localize \'sta.actor.character.talents.resolute\'}}' };
-}
-else if (window) {
-  window.localizedValues = { resolute: '{{localize \'sta.actor.character.talents.resolute\'}}' };
+if (typeof globalThis.localizedValues === "undefined") {
+  globalThis.localizedValues = { resolute: '{{localize \'sta.actor.character.talents.resolute\'}}' };
 }
 
 export class STACharacterEnhancedSheet extends STACharacterSheet {
