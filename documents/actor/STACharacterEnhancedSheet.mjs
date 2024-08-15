@@ -3,6 +3,12 @@ import { ItemChatCard } from '../../chat/ItemChatCard.mjs';
 import { ItemHelpers } from '../../helpers/ItemHelpers.mjs';
 import { RollHelpers } from '../../helpers/RollHelpers.mjs';
 
+// After changes in the System, this global is required to keep sheets working.  Not ideal!
+// eslint-disable-next-line no-unused-vars
+const localizedValues = {
+  resolute: '{{localize \'sta.actor.character.talents.resolute\'}}',
+};
+
 export class STACharacterEnhancedSheet extends STACharacterSheet {
   /** @inheritDoc */
   static get defaultOptions() {
