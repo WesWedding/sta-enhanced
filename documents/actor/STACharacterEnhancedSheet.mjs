@@ -4,7 +4,7 @@ import { ItemHelpers } from '../../helpers/ItemHelpers.mjs';
 import { RollHelpers } from '../../helpers/RollHelpers.mjs';
 
 // After changes in the System, this global is required to keep sheets working.  Not ideal!
-if (typeof globalThis.localizedValues === "undefined") {
+if (typeof globalThis.localizedValues === 'undefined') {
   globalThis.localizedValues = { resolute: '{{localize \'sta.actor.character.talents.resolute\'}}' };
 }
 

@@ -1,5 +1,8 @@
 # Changes
 
+## v0.1.8
+Bugfix: System updates broke the Enhanced sheets.
+
 ## v0.1.7
 ### New Item Chat Cards
 The STA System item chat cards have been completely replaced with a cleaner
