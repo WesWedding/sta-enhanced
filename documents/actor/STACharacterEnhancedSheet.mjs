@@ -2,6 +2,7 @@ import { STACharacterSheet } from '../../../../systems/sta/module/actors/sheets/
 import { ItemChatCard } from '../../chat/ItemChatCard.mjs';
 import { ItemHelpers } from '../../helpers/ItemHelpers.mjs';
 import { RollHelpers } from '../../helpers/RollHelpers.mjs';
+import { CONSTS as SETTINGS_CONSTS } from '../../settings.mjs';
 
 // After changes in the System, this global is required to keep sheets working.  Not ideal!
 if (typeof globalThis.localizedValues === 'undefined') {
@@ -31,6 +32,12 @@ export class STACharacterEnhancedSheet extends STACharacterSheet {
         enrichedBackstory: await TextEditor.enrichHTML(characterFlags?.backstory, { async: true }), // Async copied from PF2E but maybe not actually used?
       },
     };
+
+    // New fields to show when the 'Klingon' reputation variant is used.
+    const repVariant = await game.settings.get('sta-enhanced', 'reputationVariant');
+    if (repVariant === SETTINGS_CONSTS.reputationVariant['1stEdNew']) {
+      context['sta-enhanced'].new1ERep = true;
+    }
 
     // We're using the prosemirror editor on Notes, so we should be enriching accordingly.
     context.system.notes = await TextEditor.enrichHTML(context.system.notes);

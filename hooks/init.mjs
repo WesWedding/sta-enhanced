@@ -4,28 +4,12 @@
  */
 import { HandleBarsHelpers } from '../helpers/HandlebarsHelpers.mjs';
 import { STACharacterEnhancedSheet } from '../documents/actor/STACharacterEnhancedSheet.mjs';
+import { registerModuleSettings } from '../settings.mjs';
 
 export const Init = {
   listen() {
     Hooks.once('init', () => {
-      // Register settings
-      game.settings.register('sta-enhanced', 'worldSchemaVersion', {
-        name: 'sta-enhanced.settings.worldSchemaVersion.Name',
-        hint: 'sta-enhanced.settings.worldSchemaVersion.Hint',
-        scope: 'world',
-        config: true,
-        type: Number,
-        requiresReload: true,
-      });
-
-      game.settings.register('sta-enhanced', 'worldModuleVersion', {
-        name: 'World Module Version',
-        scope: 'world',
-        config: false,
-        default: game.modules.get('sta-enhanced').version,
-        type: String,
-      });
-
+      registerModuleSettings();
       registerSheets();
       HandleBarsHelpers.RegisterHelpers();
       preloadHandlebarsTemplates();
