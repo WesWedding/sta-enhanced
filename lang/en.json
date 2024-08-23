@@ -9,6 +9,17 @@
   "sta-enhanced.actor.gender": "Gender/Pronouns",
   "sta-enhanced.actor.personality": "Personality",
 
+  "sta-enhanced.reputation.variant": {
+    "generic":{
+      "positive.label": "Acclaim",
+      "negative.label": "Reprimand"
+    },
+    "klingon": {
+      "positive.label": "Honor",
+      "negative.label": "Dishonor"
+    }
+  },
+
   "sta-enhanced.item.type.item": "Item",
   "sta-enhanced.item.type.talent": "Talent",
   "sta-enhanced.item.type.value": "Value",
