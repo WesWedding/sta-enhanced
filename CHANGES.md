@@ -1,5 +1,11 @@
 # Changes
 
+## v0.1.9
+### Reputation System Update
+Fields for Acclaim/Reprimand added to the sheet.
+
+Support for the newer Klingon/Digest reputation system has been added.
+
 ## v0.1.8
 Bugfix: System updates broke the Enhanced sheets.
 
