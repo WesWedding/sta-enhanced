@@ -1,4 +1,22 @@
 {
+
+  "sta-enhanced.settings": {
+    "reputation": {
+      "variant": {
+        "Name": "Reputation System",
+        "Hint": "Which version of Reputation should be used?",
+        "original": "Core Rule Book (CRB)",
+        "1stEdNew": "Klingon / TOS Digest"
+      },
+      "labels": {
+        "Name": "Reputation Theme",
+        "Hint": "The kinds of labels used (e.g. \"Dishonor\" vs \"Reprimand\")",
+        "generic": "Generic",
+        "klingon": "Klingon"
+      }
+    }
+  },
+
   "sta-enhanced.SheetClassCharacter": "Enhanced STA (1st Ed) Character Sheet",
 
   "sta-enhanced.CharacterDetails": "Details",

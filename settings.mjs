@@ -49,8 +49,8 @@ export function registerModuleSettings() {
   });
 
   game.settings.register('sta-enhanced', 'reputationLabels', {
-    name: 'sta-enhanced.settings.reputation.reputationLabels.Name',
-    hint: 'sta-enhanced.settings.reputation.reputationLabels.Hint',
+    name: 'sta-enhanced.settings.reputation.labels.Name',
+    hint: 'sta-enhanced.settings.reputation.labels.Hint',
     score: 'world',
     config: true,
     default: CONSTS.reputation.resultLabels.generic,
