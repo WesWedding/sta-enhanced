@@ -110,6 +110,11 @@
   color: var(--sta-purple-pink);
 }
 
+.sta-enhanced.sheet.actor .reputation .fields .column.fields {
+  max-width: 50%;
+  margin: 0 auto;
+}
+
 .sta-enhanced .biography .section .editor {
   min-height: 13.5rem;
 }
@@ -201,6 +206,14 @@
 }
 .sta-enhanced .tabs > [data-tab].active:focus {
   box-shadow: none;
+}
+
+.sta-enhanced .tab h2 {
+  border: 0;
+  color: var(--sta-orange-yellow);
+  /* Inheriting the usage of "pt" from original system font declarations. :( */
+  font-size: 18pt;
+  margin: 5px 0;
 }
 
 .sta-enhanced.sheet.actor .lcars-column .lcars-item3-general-block {

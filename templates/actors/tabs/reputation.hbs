@@ -5,16 +5,15 @@
       <div class="lcars-item-general-block"></div>
       <div class="lcars-item1-general-block"></div>
     </div>
-    <div class="column">
+    <div class="column reputation">
       <div class="row">
-        <div class="column title">
+        <h2 class="column">
           {{localize 'sta.actor.character.discipline.reputation'}}
-        </div>
+        </h2>
       </div>
-      <div class="section reputation">
-        <div class="title">
-          {{localize 'sta.actor.character.reputation'}}
-        </div>
+      <div class="lcars-header row item"></div>
+      <div class="column fields reputation">
+          <div class="title">{{localize 'sta.actor.character.reputation'}}</div>
         <div class="track">
           <input type="hidden" id="total-rep" name="system.reputation" value="{{system.reputation}}" data-dtype="Number" />
           <div id="bar-rep-renderer" class=" bar"></div>
@@ -26,16 +25,16 @@
                 <div class="column title">{{sta-enhanced.new1ERep.labels.positive}}</div>
                 <div class="column title">{{sta-enhanced.new1ERep.labels.negative}}</div>
               </div>
+              <div class="row">
+                <div class="column">
+                  <input name="system.acclaim" class="text-entry" type="text" value="{{system.acclaim}}" placeholder="{{localize 'sta-enhanced.reputation.positive.title.generic'}}" />
+                </div>
+                <div class="column">
+                  <input name="system.reprimand" class="text-entry" type="text" value="{{system.reprimand}}" placeholder="{{localize 'sta-enhanced.reputation.negative.title.generic'}}" />
+                </div>
+              </div>
             </div>
           </div>
-        <div class="row">
-          <div class="column">
-            <input name="system.acclaim" class="text-entry" type="text" value="{{system.acclaim}}" placeholder="{{localize 'sta-enhanced.reputation.positive.title.generic'}}" />
-          </div>
-          <div class="column">
-            <input name="system.reprimand" class="text-entry" type="text" value="{{system.reprimand}}" placeholder="{{localize 'sta-enhanced.reputation.negative.title.generic'}}" />
-          </div>
-        </div>
         {{/if}}
       </div>
     </div>
