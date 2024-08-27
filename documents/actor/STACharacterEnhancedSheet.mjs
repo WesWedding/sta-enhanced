@@ -72,9 +72,40 @@ export class STACharacterEnhancedSheet extends STACharacterSheet {
     super.activateListeners($html);
 
     if (!game.user.isGM && this.actor.limited) return;
+
+    $html.find('[data-action]').on('click', this._onAction.bind(this));
+
     this._handleStressMod($html);
     this._handleTooltipClicks($html);
     this._replaceSystemItemRolls($html);
+  }
+
+  /**
+   * Handle user performing a sheet action.
+   *
+   * @param {PointerEvent} event
+   * @private
+   */
+  _onAction(event) {
+    const target = event.currentTarget;
+    switch (target.dataset.action) {
+      case 'rollReputation':
+        this._onReputationRoll();
+        break;
+    }
+  }
+
+  /**
+   * Show a dialog to trigger a reputation roll.
+   *
+   * @returns {Promise<void>}
+   * @private
+   */
+  async _onReputationRoll() {
+    event.stopPropagation();
+
+    const result = await RollHelpers.reputationRollDialog(this.actor.system.reputation);
+    console.log('dialog done', result);
   }
 
   _handleStressMod($html) {
