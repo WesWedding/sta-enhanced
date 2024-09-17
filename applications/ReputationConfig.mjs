@@ -1,4 +1,4 @@
-import { ReputationRoll } from '../rolls/ReputationRoll.mjs';
+import { ReputationRoll } from '../dice/ReputationRoll.mjs';
 
 const { ApplicationV2, HandlebarsApplicationMixin } = foundry.applications.api;
 

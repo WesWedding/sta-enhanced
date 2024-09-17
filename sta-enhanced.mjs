@@ -1,5 +1,5 @@
 import { STAEnhancedHooks } from './hooks/index.mjs';
-import { ReputationRoll } from './rolls/ReputationRoll.mjs';
+import { ReputationRoll } from './dice/ReputationRoll.mjs';
 
 STAEnhancedHooks.listen();
 
