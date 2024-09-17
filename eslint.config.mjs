@@ -56,6 +56,9 @@ export default [
     },
     settings: {
       jsdoc: {
+        tagNamePreference: {
+          augments: 'extends',
+        },
         preferredTypes: {
           '.<>': '<>',
           'Object': 'object',

@@ -106,38 +106,4 @@ export class RollHelpers {
 
     return results;
   }
-
-  /**
-   * Create a Dialog prompt used to configure and initiate a Reputation roll.
-   *
-   * @param reputation
-   * @returns {Promise<void>}
-   */
-  static async reputationRollDialog(reputation) {
-    const template = 'modules/sta-enhanced/templates/chat/reputation-roll-dialogue.hbs';
-
-    const title = game.i18n.localize('sta-enhanced.reputationDialog.title');
-
-    const content = renderTemplate(template, {});
-
-    const options = {};
-
-    const handleSubmit = (html) => {
-      console.log('submit button!!', html);
-      return [];
-    };
-
-    return new Promise((resolve) => {
-      new Dialog({
-        title,
-        content,
-        buttons: {
-          roll: {
-            label: game.i18n.localize('sta-enhanced.reputationDialog.rollButton'),
-            callback: (html) => resolve(handleSubmit(html)),
-          },
-        },
-      }, options).render(true);
-    });
-  }
 }

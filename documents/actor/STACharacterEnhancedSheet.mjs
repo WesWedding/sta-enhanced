@@ -3,6 +3,7 @@ import { ItemChatCard } from '../../chat/ItemChatCard.mjs';
 import { ItemHelpers } from '../../helpers/ItemHelpers.mjs';
 import { RollHelpers } from '../../helpers/RollHelpers.mjs';
 import { CONSTS as SETTINGS_CONSTS } from '../../settings.mjs';
+import ReputationConfig from '../../applications/ReputationConfig.mjs';
 
 // After changes in the System, this global is required to keep sheets working.  Not ideal!
 if (typeof globalThis.localizedValues === 'undefined') {
@@ -96,16 +97,19 @@ export class STACharacterEnhancedSheet extends STACharacterSheet {
   }
 
   /**
-   * Show a dialog to trigger a reputation roll.
+   * Show a apps to trigger a reputation roll.
    *
    * @returns {Promise<void>}
    * @private
    */
   async _onReputationRoll() {
-    event.stopPropagation();
+    const rollApp = new ReputationConfig();
 
-    const result = await RollHelpers.reputationRollDialog(this.actor.system.reputation);
-    console.log('dialog done', result);
+    const context = {
+      character: this.actor,
+    };
+
+    rollApp.render(true);
   }
 
   _handleStressMod($html) {
