@@ -6,6 +6,7 @@ export class ReputationRoll extends Roll {
    * @param {string} formula    The string formula to parse
    * @param {object} data       The data object against which to parse attributes within the formula
    * @param {object} [options]  Options which modify or describe the Roll
+   * @param {object} [options.reputation]
    * @param {number} [options.positiveInfluence]
    * @param {number} [options.negativeInfluence]
    */
@@ -28,19 +29,21 @@ export class ReputationRoll extends Roll {
     const d20 = this.terms[0];
     d20.modifiers = [];
 
-    console.log('configuring mods', this.data, this.options);
-
     if (this.options.positiveInfluence) {
       d20.number = this.options.positiveInfluence;
     }
-    if (this.data.reputation) {
-      const target = this.data.reputation + 7;
-      d20.modifiers.push(`cs<=${target}`);
+
+    if (this.options.reputation) {
+      const target = this.options.reputation + 7;
+      d20.modifiers.push(`d${target}`);
+      d20.modifiers.push(`f=${this.options.reputation}`);
     }
-    if (this.data.reprimand) {
-      const complicationMin = 20 - this.data.reprimand;
-      d20.modifiers.push(`cf>=${complicationMin}`);
+    if (this.options.reprimand) {
+      d20.modifiers.push(`c=${this.options.reprimand}`);
     }
+
+    // Re-compile the underlying formula
+    this._formula = this.constructor.getFormula(this.terms);
 
     this.configured = true;
   }

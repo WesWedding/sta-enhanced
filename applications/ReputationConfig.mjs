@@ -39,10 +39,8 @@ export default class ReputationConfig extends HandlebarsApplicationMixin(Applica
   }
 
   static async #onSubmitForm(event, form, formData) {
-    const { positive, negative } = foundry.utils.expandObject(formData.object);
+    const { positive = 0, negative = 0 } = foundry.utils.expandObject(formData.object);
     if (positive + negative <= 0) throw new ReputationFormError('At least some influences are required to roll Reputation.');
-
-    console.log('TODO: trigger roll with ', positive, negative);
 
     const chatData = {
       user: game.user.id,
@@ -50,17 +48,16 @@ export default class ReputationConfig extends HandlebarsApplicationMixin(Applica
     };
 
     const actor = ChatMessage.getSpeakerActor(chatData.speaker) || game.user.character;
-
     const rollData = actor ? actor.getRollData() : {};
 
-    console.log('chatData', chatData);
-
     const rollOptions = {
-      positiveInfluence: 2,
-      negativeInfluence: 1,
+      reputation: rollData.reputation,
+      reprimand: parseInt(rollData.reprimand),
+      positiveInfluence: positive,
+      negativeInfluence: negative,
     };
 
-    const roll = new ReputationRoll(`${rollOptions.positiveInfluence}d20`, rollData, rollOptions);
+    const roll = new ReputationRoll(`${rollOptions.positiveInfluence}dt`, rollData, rollOptions);
     await roll.evaluate();
     await roll.toMessage(chatData);
     await this.close();
