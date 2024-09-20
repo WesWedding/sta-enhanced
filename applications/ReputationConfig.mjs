@@ -57,7 +57,7 @@ export default class ReputationConfig extends HandlebarsApplicationMixin(Applica
       negativeInfluence: negative,
     };
 
-    const roll = new ReputationRoll(`${rollOptions.positiveInfluence}dt`, rollData, rollOptions);
+    const roll = new ReputationRoll(`${rollOptions.positiveInfluence}d20`, rollData, rollOptions);
     await roll.evaluate();
     await roll.toMessage(chatData);
     await this.close();
