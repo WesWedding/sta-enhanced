@@ -1,0 +1,21 @@
+<div class="sta sta-enhanced roll dice-roll">
+  {{#if flavor}}
+    <div class="dice-flavor">{{flavor}}</div>
+  {{/if}}
+  <div class="dice-result">
+    <div class="dice-formula">
+      <table class="aim">
+        <tr>
+          <td>{{formula}}</td>
+          <td>{{localize "sta.roll.target"}}: {{checkTarget}}</td>
+          <td>{{localize "sta.roll.complicationrange"}}{{complicationRange}}</td>
+        </tr>
+      </table>
+    </div>
+    {{{tooltip}}}
+    {{#if complications}}
+      <h4 class="dice-total failure">{{complications}}</h4>
+    {{/if}}
+    <h4 class="dice-total">{{total}}</h4>
+  </div>
+</div>
