@@ -103,11 +103,14 @@ export class STACharacterEnhancedSheet extends STACharacterSheet {
    * @private
    */
   async _onReputationRoll() {
-    const rollApp = new ReputationConfig();
+    const rollApp = new ReputationConfig({ actor: this.actor });
+
+    console.log('actor.uuid?', this.actor.uuid);
 
     const context = {
       character: this.actor,
     };
+    console.log('context', context);
 
     rollApp.render(true);
   }

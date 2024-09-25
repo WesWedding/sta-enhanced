@@ -45,6 +45,13 @@
   "sta-enhanced.item.type.armor": "Armor",
   "sta-enhanced.item.type.characterweapon": "Character Weapon",
 
+  "sta-enhanced.roll.reputation": {
+    "flavor": "Reputation Roll",
+    "action.save": "Save to Character",
+    "result.text": "{amount} {typeName} earned!",
+    "error.loadActor": "Could not load character for {id}!"
+  },
+
   "sta-enhanced.cardWarningItem": "The requested item {item} no longer exists on Actor {name}.",
 
   "sta-enhanced.Migrations": {
