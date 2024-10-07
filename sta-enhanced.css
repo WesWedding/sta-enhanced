@@ -340,28 +340,24 @@
 }
 
 /* Copied from sta.css for our replacement reroll buttons. */
-.reroll {
-  flex: 0 0 100%;
-  position: relative;
-  margin: 0;
-  line-height: 24px;
-  text-align: center;
-  background: #0F0F0F;
-  border: 1px solid #666688;
-  border-radius: 3px;
-  word-break: break-all;
-  margin-top: 5px;
-}
-.reroll:hover {
-  background-color: #FFEEAA;
-}
-
-.chat-message.message .reroll {
+.chat-message.message .reroll,
+.chat-message.message button[data-action] {
   background-color: #FFCC33;
   color: #000000;
   border: none;
   border-radius: 20px;
   cursor: pointer;
+  flex: 0 0 100%;
+  line-height: 24px;
+  margin: 5px 0 0;
+  order: 4;
+  position: relative;
+  text-align: center;
+  word-break: break-all;
+}
+.chat-message.message .reroll:hover,
+.chat-message.message button[data-action]:hover {
+  background-color: #FFEEAA;
 }
 
 .sta-enhanced .tags {
