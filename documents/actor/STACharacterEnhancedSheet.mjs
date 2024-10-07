@@ -1,7 +1,4 @@
 import { STACharacterSheet } from '../../../../systems/sta/module/actors/sheets/character-sheet.js';
-import { ItemChatCard } from '../../chat/ItemChatCard.mjs';
-import { ItemHelpers } from '../../helpers/ItemHelpers.mjs';
-import { RollHelpers } from '../../helpers/RollHelpers.mjs';
 import { CONSTS as SETTINGS_CONSTS } from '../../settings.mjs';
 import ReputationConfig from '../../applications/ReputationConfig.mjs';
 
@@ -78,7 +75,6 @@ export class STACharacterEnhancedSheet extends STACharacterSheet {
 
     this._handleStressMod($html);
     this._handleTooltipClicks($html);
-    this._replaceSystemItemRolls($html);
   }
 
   /**
@@ -158,40 +154,6 @@ export class STACharacterEnhancedSheet extends STACharacterSheet {
         $('.weapon-tooltip-container').addClass('hide').removeAttr('style');
         $('#weapon-tooltip-container-' + weaponId).removeClass('hide').height($('#weapon-tooltip-text-' + weaponId)[0].scrollHeight + 5);
       }
-    });
-  }
-
-  /**
-   * Swap in new chat card icons.
-   *
-   * Hide the existing images that the system provides with new ones that have
-   * their own handlers attached.  The existing system ones are not extensible
-   * so they are being replaced entirely.
-   *
-   * @param {jQuery} $html
-   * @private
-   */
-  _replaceSystemItemRolls($html) {
-    const rollIcons = $html.find('.chat, .rollable');
-    const clones = rollIcons.clone();
-    rollIcons.each((idx, element) => {
-      $(element).after(clones[idx]);
-    });
-    rollIcons.hide();
-
-    clones.on('click', async (event) => {
-      const itemType = $(event.currentTarget).parents('.entry')[0].getAttribute('data-item-type');
-      const itemId = $(event.currentTarget).parents('.entry')[0].getAttribute('data-item-id');
-      const item = this.actor.items.get(itemId);
-
-      const numDice = ItemHelpers.getNumDamageDiceFor(item);
-      let damageRoll = null;
-      if (itemType === 'characterweapon' || itemType === 'starshipweapon') {
-        damageRoll = await RollHelpers.performChallengeRoll(numDice);
-      }
-
-      const card = new ItemChatCard(item, damageRoll);
-      await card.sendToChat(this.actor);
     });
   }
 }

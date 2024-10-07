@@ -130,11 +130,14 @@
           {{#if (eq item.type "focus")}}
             <li class="row entry" data-item-id="{{item.id}}" data-item-type="{{item.type}}" data-item-value="{{item.name}}">
               <div class="image"><img class="chat" src="{{item.img}}" title="{{item.name}}"/></div>
-              <h4 class="one-column-with-roll list-entry">{{item.name}}</h4>
+              <h4 class="one-column-with-roll list-entry focus-tooltip-clickable" id="focus-tooltip-clickable-{{item.id}}">{{item.name}}</h4>
               <div class="control">
                 <a class="edit" title="Edit Item"><i class="fas fa-edit"></i></a>
                 <a class="delete" title="Delete Item"><i class="fas fa-trash"></i></a>
               </div>
+            </li>
+            <li class="row entry focus-tooltip-container hide" id="focus-tooltip-container-{{item.id}}">
+              <div class="list-entry focus-tooltip-text" id="focus-tooltip-text-{{item.id}}">{{item.system.description}}</div>
             </li>
           {{/if}}
         {{/each}}
@@ -168,11 +171,14 @@
         {{#each items as |item id|}}
           {{#if (eq item.type "injury")}}
             <li class="row entry" data-item-id="{{item.id}}" data-item-type="{{item.type}}" data-item-value="{{item.name}}">
-              <h4 class="one-column-no-roll list-entry">{{item.name}}</h4>
+              <h4 class="one-column-no-roll list-entry injury-tooltip-clickable" id="injury-tooltip-clickable-{{item.id}}">{{item.name}}</h4>
               <div class="control">
                 <a class="edit" title="Edit Item"><i class="fas fa-edit"></i></a>
                 <a class="delete" title="Delete Item"><i class="fas fa-trash"></i></a>
               </div>
+            </li>
+            <li class="row entry injury-tooltip-container hide" id="injury-tooltip-container-{{item.id}}">
+              <div class="list-entry injury-tooltip-text" id="injury-tooltip-text-{{item.id}}">{{item.system.description}}</div>
             </li>
           {{/if}}
         {{/each}}

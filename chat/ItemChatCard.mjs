@@ -1,292 +1,13 @@
-import { RollHelpers } from '../helpers/RollHelpers.mjs';
-import { ItemHelpers } from '../helpers/ItemHelpers.mjs';
-import { CharacterWeaponHelpers } from '../helpers/CharacterWeaponHelpers.mjs';
-import { i18nHelper } from '../helpers/i18n.mjs';
+import { STASharedActorFunctions } from '../../../systems/sta/module/actors/actor.js';
 
 /**
- * Structured data for the challenge dice section of the template.
+ * A placeholder for old functionality that was successfully ported to the
+ * STA System directly.  Here to support old chat cards that might still be in
+ * the chat log.
  *
- * @typedef {object} StaChallengeResults
- * @property {string} success
- * @property {string} effects
- * @property {Roll} roll
+ * @deprecated since version 0.1.10, to be removed in version 0.2.0+.
  */
-
-/**
- * Structured data for the Task dice section of the template.
- *
- * Structure TBD.
- *
- * @typedef {object} StaTaskResults
- * @property {undefined} TBD
- */
-
-/**
- * Structured data for the rolls section of an item card.
- *
- * @typedef {object} CardRolls
- * @property {StaChallengeResults} challenge
- * @property {StaTaskResults} task
- */
-
-/**
- * Structured item data for an STA Enhanced item chat card.
- *
- * @typedef {object} StaChatCardItemData
- * @property {string} type
- * @property {string} name
- * @property {string} id
- * @property {string} img
- * @property {string} descriptionHtml
- */
-
-/**
- * Structured speaker data for an STA enhanced item chat card.
- *
- * @typedef {object} StaChatCardSpeakerData
- * @property {string} id
- * @property {string=} tokenId
- */
-
-/**
- * Structured data for an STA Enhanced item chat card.
- *
- * @typedef {object} StaChatCardData
- *
- * @property {StaChatCardItemData} item
- * @property {CardRolls} rolls
- * @property {Array<string>} tags
- * @property {string} varsHtml
- * @property {StaChatCardSpeakerData} speaker
- */
-
 export class ItemChatCard {
-  /** @type {Item} */
-  _item;
-
-  /**
-   * Constructor.
-   *
-   * @param {Item} item
-   * @param {Roll} [damageRoll]
-   */
-  constructor(item, damageRoll) {
-    this._item = item;
-    this._damageRoll = damageRoll;
-  }
-
-  /**
-   * Prepare data for the chat card that will be sent for a given item.
-   *
-   * @returns {StaChatCardItemData}
-   * @private
-   */
-  _prepareItemData() {
-    // Modifying the item directly causes a client-side corruption of the item's data, until it refreshes from the server.
-    // Use a new object instead.
-    return {
-      type: game.i18n.localize(`sta-enhanced.item.type.${this._item.type}`),
-      name: this._item.name,
-      img: this._item.img,
-      id: this._item.id,
-      descriptionHtml: this._item.system.description,
-      varField: this._prepareCardVarsHtml(this._item),
-      tags: this._prepareCardTags(this._item),
-    };
-  }
-
-  /**
-   * Generates the HTML for the "variables" section of the card.
-   *
-   * This nomenclature is inherited from the STA System.
-   *
-   * @returns {string}
-   * @private
-   */
-  _prepareCardVarsHtml() {
-    let variablePrompt = '';
-    let html = '';
-    const item = this._item;
-
-    switch (item.type) {
-      case 'armor':
-        variablePrompt = game.i18n.format('sta.roll.armor.protect');
-        html = `${variablePrompt.replace('|#|', item.system.protection)}`;
-        break;
-      case 'characterweapon':
-      case 'shipweapon':
-        html = this._prepareWeaponVars(item);
-        break;
-      default:
-        if (item.system.quantity) {
-          variablePrompt = game.i18n.format('sta.roll.item.quantity');
-          html = `${variablePrompt.replace('|#|', item.system.quantity)}`;
-        }
-        break;
-    }
-    return html;
-  }
-
-  /**
-   * Generates the "variables" section of a card with particulars specific to weapons.
-   *
-   * @returns {string}
-   * @private
-   */
-  _prepareWeaponVars() {
-    const terms = this._damageRoll.terms[0];
-    const numDice = terms.results.length;
-
-    // Create variable div and populate it with localisation to use in the HTML.
-    let variablePrompt = game.i18n.format('sta.roll.weapon.damagePlural');
-    if (numDice === 1) {
-      variablePrompt = game.i18n.format('sta.roll.weapon.damage');
-    }
-    return `${variablePrompt.replace('|#|', numDice)}`;
-  }
-
-  /**
-   * Prepare the tag list data some items might display.
-   *
-   * @returns {Array<string>}
-   * @private
-   */
-  _prepareCardTags() {
-    const tags = [];
-    tags.push(...this._prepareGenericTags());
-
-    switch (this._item.type) {
-      case 'characterweapon':
-      case 'shipweapon':
-        tags.push(...this._prepareWeaponTags());
-        break;
-      default:
-        // Do nothing.
-        break;
-    }
-    return tags;
-  }
-
-  /**
-   * Return tag strings general to all items.
-   *
-   * @returns {Array<string>}
-   * @private
-   */
-  _prepareGenericTags() {
-    const tags = [];
-    const labels = ItemHelpers.genericQualityLocalizationLabels();
-    for (const property in this._item.system) {
-      if (!Object.hasOwn(labels, property) || !this._item.system[property]) continue;
-
-      const label = game.i18n.localize(labels[property]);
-      const tag = Number.isInteger(this._item.system[property]) ? `${label} ${this._item.system[property]}` : label;
-      tags.push(tag);
-    }
-    return tags;
-  }
-
-  /**
-   * Return tag strings specific to weapons.
-   *
-   * @returns {Array<string>}
-   * @private
-   */
-  _prepareWeaponTags() {
-    const tags = [];
-    const labels = CharacterWeaponHelpers.qualityLocalizationLabels();
-    const qualities = this._item.system.qualities;
-
-    for (const property in qualities) {
-      if (!Object.hasOwn(labels, property) || !qualities[property]) continue;
-
-      const label = game.i18n.localize(labels[property]);
-      const tag = Number.isInteger(qualities[property]) ? `${label} ${qualities[property]}` : label;
-      tags.push(tag);
-    }
-
-    return tags;
-  }
-
-  /**
-   * Prepare the challenge roll data for a Chat Card.
-   *
-   * @returns {StaChallengeResults}
-   * @private
-   */
-  _prepareChallengeRoll() {
-    {
-      /** @type {StaChallengeResults} */
-      const results = {
-        success: '',
-        effects: '',
-        roll: this._damageRoll,
-      };
-
-      const counts = RollHelpers.countChallengeResults(this._damageRoll);
-
-      // pluralize success string
-      results.success = counts.successes + ' ' + i18nHelper.i18nPluralize(counts.successes, 'sta.roll.success');
-
-      // pluralize effect string
-      if (counts.effects >= 1) {
-        results.effects = '<h4 class="dice-total effect"> ' + i18nHelper.i18nPluralize(counts.effects, 'sta.roll.effect') + '</h4>';
-      }
-
-      results.roll = this._damageRoll;
-
-      return results;
-    }
-  }
-
-  /**
-   * Sends the chat card to the chat.
-   *
-   * @param {Actor|undefined} speaker
-   *   Override the speaker of the card; defaults to the item owner.
-   *
-   * @returns {Promise<ChatMessage>}
-   */
-  async sendToChat(speaker) {
-    // Update data with speaker.
-    const sendAs = speaker ? speaker : this._item.actor;
-    const speakerId = sendAs ? sendAs.id : '';
-    const token = sendAs.token;
-
-    /** @type {StaChatCardData} */
-    const cardData = {
-      item: this._prepareItemData(),
-      rolls: {
-        challenge: this._damageRoll ? this._prepareChallengeRoll() : null,
-        task: {},
-      },
-      tags: this._prepareCardTags(),
-      varsHtml: this._prepareCardVarsHtml(),
-      speaker: {
-        id: speakerId,
-        tokenId: token?.uuid || null,
-      },
-    };
-    const flags = {
-      'sta-enhanced': {
-        itemData: this._item.toObject(),
-      },
-    };
-
-    let html = '';
-    // Pre-v12 requires explicit file paths here.
-    // TODO: Remove when pre-v12 support dropped.
-    try {
-      html = await renderTemplate('sta-enhanced.chat.item-card', cardData);
-    }
-    catch (e) {
-      if (!e.message.startsWith('You are only allowed')) throw e;
-      html = await renderTemplate('modules/sta-enhanced/templates/chat/item-card.hbs', cardData);
-    }
-
-    return await RollHelpers.sendToChat(sendAs, html, flags);
-  }
-
   /**
    * Attach chat card listeners to chat in a Hook somewhere.
    *
@@ -301,6 +22,8 @@ export class ItemChatCard {
    *
    * @param {Event} event
    * @returns {Promise<void>}
+   *
+   * @deprecated since version 0.1.10, to be removed in version 0.2.0+.
    * @private
    */
   static async _onChatCardAction(event) {
@@ -326,11 +49,14 @@ export class ItemChatCard {
       ui.notifications.error('sta-enhanced.notifications.warning.cardItem', { item: card.dataset.itemId, name: actor.name });
     }
 
+    const STAActor = new STASharedActorFunctions();
+
     // Do the action.
     // Currently, we only recognize challenge rerolls, maybe there will be more someday.
     switch (action) {
       default:
-        await RollHelpers.promptChallengeRoll(item, 0, actor);
+        /** @deprecated */
+        await STAActor.rollChallengeRoll(event, item.name, 0, actor);
         break;
     }
 
