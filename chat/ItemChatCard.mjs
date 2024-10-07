@@ -323,7 +323,7 @@ export class ItemChatCard {
     const storedData = message.getFlag('sta-enhanced', 'itemData');
     let item = storedData ? new Item(storedData, { parent: actor }) : actor.items.get(card.dataset.itemId);
     if (!item) {
-      ui.notifications.error('sta-enhanced.cardWarningItem', { item: card.dataset.itemId, name: actor.name });
+      ui.notifications.error('sta-enhanced.notifications.warning.cardItem', { item: card.dataset.itemId, name: actor.name });
     }
 
     // Do the action.

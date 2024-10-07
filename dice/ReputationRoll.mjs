@@ -3,6 +3,9 @@ import { TaskRoll } from './TaskRoll.mjs';
 /** This gets added to the rep for the roll's Target Number. From Klingon/Digest/2E. */
 const REP_TARGET_BASE = 7;
 
+/** Reputation complications are always at least 1. */
+const MIN_COMPLICATION_RANGE = 1;
+
 /** Reputation complications max out at 5 reprimands. Which is added to the baseline 1. */
 const MAX_COMPLICATION_RANGE = 5;
 
@@ -22,7 +25,7 @@ export class ReputationRoll extends TaskRoll {
       options.critical = options.reputation;
     }
     if (options.reprimand) {
-      options.complication = Math.max(options.reprimand, MAX_COMPLICATION_RANGE);
+      options.complication = Math.clamp(options.reprimand, MIN_COMPLICATION_RANGE, MAX_COMPLICATION_RANGE);
     }
     super(formula, data, options);
 
@@ -200,13 +203,14 @@ export class ReputationRoll extends TaskRoll {
     // Extract card data
     const card = button.closest('.roll');
     const messageId = card.closest('.message').dataset.messageId;
-    const message = game.messages.get(messageId);
     const targetId = card.dataset.actorId;
     const actor = fromUuidSync(targetId);
-
     try {
-      if (!(actor instanceof Actor)) {
-        ui.notifications.error(game.i18n.format('sta-enhanced.roll.reputation.error.loadActor', { id: targetId }));
+    /** @type {ChatMessage} */
+      const message = game.messages.get(messageId, { strict: true });
+
+      if (!(actor instanceof Actor) || actor.type !== 'character') {
+        ui.notifications.error(game.i18n.format('sta-enhanced.notifications.error.loadRepActor', { id: targetId }));
         button.disabled = false;
         return;
       }
@@ -214,13 +218,55 @@ export class ReputationRoll extends TaskRoll {
       if (!(game.user.isGM || actor.isOwner)) return;
 
       console.log(message);
+      const roll = message.rolls[0];
+      if (!(roll instanceof ReputationRoll)) {
+        ui.notifications.error(game.i18n.format('sta-enhanced.notifications.error.loadRepRoll', { id: targetId }));
+        button.disabled = false;
+        return;
+      }
+
+      await this._updateCharacterRep(actor, roll);
+      ui.notifications.info(game.i18n.format('sta-enhanced.notifications.info.repSaved', { name: actor.name }));
     }
     catch (e) {
-      ui.notifications.error('sta-enhanced.roll.reputation.saveError', { name: actor.name });
+      ui.notifications.error(game.i18n.format('sta-enhanced.notifications.error.repSaveAction', { name: actor.name, error: e.message }));
     }
 
     // Re-enable the button when we're done.
     button.disabled = false;
+  }
+
+  /**
+   * Save the Rep Roll results to a character.
+   *
+   * @param {Actor} actor
+   * @param {ReputationRoll} roll
+   * @private
+   */
+  static async _updateCharacterRep(actor, roll) {
+    const rolledAcclaim = roll.rolledAcclaim;
+    const rolledReprimand = roll.rolledReprimand;
+
+    // If no change was rolled, then there's nothing to do!
+    if (rolledAcclaim + rolledReprimand === 0) {
+      return;
+    }
+
+    const currentAcclaim = parseInt(actor.system.acclaim, 10);
+    const updated = {
+      system: {},
+    };
+
+    // A Rep roll should only have either an Acclaim or Reprimand result, not both.
+    if (rolledAcclaim > 0) {
+      updated.system.acclaim = currentAcclaim + rolledAcclaim;
+    }
+    else if (rolledReprimand > 0) {
+      // Unlike Acclaim, Reprimand is not accumulated.
+      updated.system.reprimand = rolledReprimand;
+    }
+
+    await actor.update(updated);
   }
 
   /**

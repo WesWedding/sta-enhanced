@@ -48,11 +48,17 @@
   "sta-enhanced.roll.reputation": {
     "flavor": "Reputation Roll",
     "action.save": "Save to Character",
-    "result.text": "{amount} {typeName} earned!",
-    "error.loadActor": "Could not load character for {id}!"
+    "result.text": "{amount} {typeName} earned!"
   },
 
   "sta-enhanced.cardWarningItem": "The requested item {item} no longer exists on Actor {name}.",
+  "sta-enhanced.notifications": {
+    "info.repSaved": "Reputation result saved to {name}",
+    "warning.cardItem": "The requested item {item} no longer exists on Actor {name}.",
+    "error.repSaveAction": "Could not update reputation for `{name}: {error}",
+    "error.loadRepActor": "Unable to save; could not load character for '{id}'!",
+    "error.loadRepRoll": "Unable to save; could not load roll result."
+  },
 
   "sta-enhanced.Migrations": {
     "Starting": "Applying STA-Enhanced Migration to version {version}.  Please do not close your game or shut down your server.",
