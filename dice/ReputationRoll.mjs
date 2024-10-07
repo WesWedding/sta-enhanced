@@ -195,6 +195,9 @@ export class ReputationRoll extends TaskRoll {
   static async _onChatCardAction(event) {
     event.preventDefault();
 
+    // Don't want the message to collapse in response to this click.
+    event.stopPropagation();
+
     const button = event.currentTarget;
     const action = button.dataset.action;
     if (action !== 'save-reputation') return;
