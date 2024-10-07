@@ -151,7 +151,7 @@ export class ReputationRoll extends TaskRoll {
       tooltip: isPrivate ? '' : await this.getTooltip(),
       acclaim: this.rolledAcclaim,
       reprimand: this.rolledReprimand,
-      result: isPrivate ? '?' : this._resultText(),
+      result: isPrivate ? '?' : await this._resultText(),
       checkTarget: isPrivate ? '?' : this._targetNum,
       complicationRange: isPrivate ? '?' : this._complicationRange,
       // Store actor data into message structure;
@@ -165,18 +165,29 @@ export class ReputationRoll extends TaskRoll {
   /**
    * Text that announces the result of this reputation roll.
    *
-   * @returns {string}
+   * @returns {Promise<string>}
    * @private
    */
-  _resultText() {
-    if (this.rolledReprimand > 0) {
-      return 'OH NO ROLLED REPRIMAND';
-    }
-    else if (this.rolledAcclaim > 0) {
-      return 'YAY ROLLED ACCLAIM.';
+  async _resultText() {
+    if (this.rolledAcclaim + this.rolledReprimand === 0) {
+      return game.i18n.localize('sta-enhanced.roll.reputation.result.none');
     }
 
-    return 'NO CHANGE';
+    let resultType = '';
+    let type = '';
+    let amount = 0;
+    if (this.rolledReprimand > 0) {
+      type = 'negative';
+      amount = this.rolledReprimand;
+    }
+    else if (this.rolledAcclaim > 0) {
+      type = 'positive';
+      amount = this.rolledAcclaim;
+    }
+    const variant = await game.settings.get('sta-enhanced', 'reputationLabels');
+    resultType = game.i18n.localize(`sta-enhanced.reputation.variant.${variant}.${type}.label`);
+
+    return game.i18n.format('sta-enhanced.roll.reputation.result.text', { amount: amount, type: resultType });
   }
 
   /** @override */

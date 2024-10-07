@@ -19,6 +19,7 @@ export default [
         ...globals.jquery,
 
         // Foundry VTT Globals.
+        Actor: 'readonly',
         Actors: 'readonly',
         ChatMessage: 'readonly',
         CONFIG: 'readonly',
@@ -26,6 +27,7 @@ export default [
         Dialog: 'readonly',
         foundry: 'readonly',
         fromUuid: 'readonly',
+        fromUuidSync: 'readonly',
         game: 'readonly',
         Handlebars: 'writable',
         Hooks: 'readonly',

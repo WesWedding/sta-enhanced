@@ -48,7 +48,8 @@
   "sta-enhanced.roll.reputation": {
     "flavor": "Reputation Roll",
     "action.save": "Save to Character",
-    "result.text": "{amount} {typeName} earned!"
+    "result.none": "No reputation change.",
+    "result.text": "{amount} {type} earned!"
   },
 
   "sta-enhanced.cardWarningItem": "The requested item {item} no longer exists on Actor {name}.",
