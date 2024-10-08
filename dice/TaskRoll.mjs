@@ -1,12 +1,13 @@
+const { Die } = foundry.dice.terms;
+const DEFAULT_LOWEST_TARGET = 1;
+const DEFAULT_LOWEST_COMPRANGE = 1;
+
 /**
  * @typedef {object} TaskRollOptions
  * @property {number} [target]    The target number for successful rolls.
  * @property {number} [critical]  The target number for a critical result.
  * @property {number} [complication] The complication range for a roll. (E.g 1 or 2).
  */
-
-const DEFAULT_LOWEST_TARGET = 1;
-const DEFAULT_LOWEST_COMPRANGE = 0;
 
 /**
  * A type of Roll specific to a d20-based task check in the STA system.
@@ -76,7 +77,7 @@ export class TaskRoll extends Roll {
    * Add modifiers to the roll according to the Roll's options.
    */
   configureModifiers() {
-    console.log('TODO: verify validity of terms');
+    if (!this.validD20Roll) return;
 
     const d20 = this.terms[0];
     d20.modifiers = [];
@@ -98,6 +99,7 @@ export class TaskRoll extends Roll {
    * @type {number}
    */
   get complications() {
+    if (!this.validD20Roll || !this._evaluated) return undefined;
     return Number(this._totalComplications) || 0;
   }
 
@@ -107,8 +109,16 @@ export class TaskRoll extends Roll {
    * @returns {string}
    */
   get formulaDiceOnly() {
-    console.log('TODO: validate');
     return this.formula.match(/^[0-9]+d[0-9]+/i)[0];
+  }
+
+  /**
+   * Does this roll start with a d20?
+   *
+   * @type {boolean}
+   */
+  get validD20Roll() {
+    return (this.terms[0] instanceof Die) && (this.terms[0].faces === 20);
   }
 
   /** @override */
@@ -127,7 +137,7 @@ export class TaskRoll extends Roll {
    * @internal
    */
   _processEvaluatedRoll() {
-    if (!this._evaluated) return this;
+    if (!this.validD20Roll || !this._evaluated) return this;
 
     const terms = this.terms;
     let finalTotal = this._total;

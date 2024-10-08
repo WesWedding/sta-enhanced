@@ -52,10 +52,10 @@ export class ReputationRoll extends TaskRoll {
 
   /**
    * Return the actor UUID this roll is for.
+   *
    * @returns {string}
    */
   get actorId() {
-    console.log('actorId', this._actorId);
     return String(this._actorId) || '';
   }
 
@@ -70,6 +70,7 @@ export class ReputationRoll extends TaskRoll {
 
   /**
    * Return the number of negative influences impacting this roll.
+   *
    * @returns {number}
    */
   get negativeInfluences() {
@@ -140,9 +141,13 @@ export class ReputationRoll extends TaskRoll {
 
   /** @override */
   async render({ flavor, template = this.constructor.CHAT_TEMPLATE, isPrivate = false } = {}) {
-    // We need to provide complications, not just total.
-    // Much of this is repeated from FoundryVTT V12's implementation in roll.mjs.
+    // We need to provide results (acclaim, reprimand), not a sum.
+    // Much of this is repeated from FoundryVTT V12's implementation higher in the hierarchy, in roll.mjs.
     if (!this._evaluated) await this.evaluate({ allowInteractive: !isPrivate });
+
+    // Store actor data into message structure;
+    // We cannot rely on ChatMessage.speaker because some cases (e.g. rolled from sidebar actor list, not a scene token)
+    // the speaker of the ChatMessage is the User, not an actor.  Can't store the results in a User.
     const chatData = {
       actorId: this.actorId,
       formula: isPrivate ? '???' : this.formulaDiceOnly,
@@ -154,10 +159,6 @@ export class ReputationRoll extends TaskRoll {
       result: isPrivate ? '?' : await this._resultText(),
       checkTarget: isPrivate ? '?' : this._targetNum,
       complicationRange: isPrivate ? '?' : this._complicationRange,
-      // Store actor data into message structure;
-      // We cannot rely on ChatMessage.speaker because some cases (e.g. rolled from sidebar actor list, not a scene token)
-      // the speaker of the ChatMessage is the User, not an actor.
-
     };
     return renderTemplate(template, chatData);
   }
@@ -195,7 +196,6 @@ export class ReputationRoll extends TaskRoll {
     messageData = foundry.utils.mergeObject({
       flavor: game.i18n.localize('sta-enhanced.roll.reputation.flavor'),
     }, messageData);
-    console.log('messageData actor', messageData.actorId);
     return super.toMessage(messageData, { rollMode, create });
   }
 
@@ -231,7 +231,6 @@ export class ReputationRoll extends TaskRoll {
       // Restrict rerolls to users with permission.
       if (!(game.user.isGM || actor.isOwner)) return;
 
-      console.log(message);
       const roll = message.rolls[0];
       if (!(roll instanceof ReputationRoll)) {
         ui.notifications.error(game.i18n.format('sta-enhanced.notifications.error.loadRepRoll', { id: targetId }));
@@ -281,28 +280,6 @@ export class ReputationRoll extends TaskRoll {
     }
 
     await actor.update(updated);
-  }
-
-  /**
-   *
-   * @param {ChatMessage} message
-   * @returns {Promise<void>}
-   * @private
-   */
-  static async _getMessageActor(message) {
-    // Could be a token, a "synthetic" actor
-    if (message.speaker.token && message.speaker.scene) {
-      const scene = game.scenes.get(message.speaker.scene);
-      const token = scene.tokens.get(message.speaker.token);
-      if (!token) return null;
-      return token.actor;
-    }
-
-    // Could be an actual World actor.
-    const actorId = message.speaker.actor;
-    const actor = game.actors.get(actorId);
-    console.log('actor from actor id', actor, message);
-    return game.actors.get(actorId) || null;
   }
 
   /** @override */
