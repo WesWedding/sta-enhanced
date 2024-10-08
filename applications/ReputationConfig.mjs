@@ -24,6 +24,9 @@ export default class ReputationConfig extends HandlebarsApplicationMixin(Applica
       contentClasses: ['standard-form'],
       title: 'sta-enhanced.reputation.config.title',
     },
+    position: {
+      width: 400,
+    },
     form: {
       closeOnSubmit: true,
       handler: ReputationConfig.#onSubmitForm,
@@ -52,6 +55,7 @@ export default class ReputationConfig extends HandlebarsApplicationMixin(Applica
     }
   }
 
+  /** @override */
   async _prepareContext(options) {
     return super._prepareContext(options).then((context) => {
       context.actorId = this._actor.uuid;
@@ -59,14 +63,24 @@ export default class ReputationConfig extends HandlebarsApplicationMixin(Applica
     });
   }
 
+  /**
+   * Handler to be used for form submission.
+   *
+   * @param {SubmitEvent|Event} event
+   * @param  {HTMLFormElement} form
+   * @param {FormDataExtended} formData
+   * @returns {Promise<void>}
+   */
   static async #onSubmitForm(event, form, formData) {
-    const { positive = 0, negative = 0, actorId } = foundry.utils.expandObject(formData.object);
-    if (positive + negative <= 0) throw new ReputationFormError('At least some influences are required to roll Reputation.');
+    const {
+      /** @type {number | null} */ positive = 0,
+      /** @type {number | null} */ negative = 0,
+      actorId,
+    } = foundry.utils.expandObject(formData.object);
 
-    // Reputation must be related explicitly to the actor data in the form, not extrapolated from the rolling
-    // user's default character or the actively selected token via ChatMessage.getSpeaker() or similar approaches.
+    const valid = ReputationConfig._validate(positive, negative);
 
-
+    if (!valid) throw new ReputationFormError(game.i18n.localize('sta-enhanced.notifications.error.repFormInvalid'));
 
     const chatData = {
       user: game.user.id,
@@ -74,21 +88,18 @@ export default class ReputationConfig extends HandlebarsApplicationMixin(Applica
       actorId: actorId,
     };
 
-    const actor = fromUuidSync(actorId);
-    console.log('actor', actor);
-
-    chatData.speaker.alias = actor.name;
-
     // The actor must come from the form and not from more handy ChatMessage helper functions like getSpeakerActor().
     // ChatMessage functions rely on token and scene actors, but ReputationRolls can be initiated from sidebars.
+    const actor = fromUuidSync(actorId);
+    chatData.speaker.alias = actor.name;
 
     const rollData = actor instanceof Actor ? actor.getRollData() : {};
 
     const rollOptions = {
-      reputation: rollData.reputation,
-      reprimand: parseInt(rollData.reprimand),
-      positiveInfluence: positive,
-      negativeInfluence: negative,
+      reputation: Number(rollData.reputation),
+      reprimand: Number(rollData.reprimand),
+      positiveInfluence: Number(positive),
+      negativeInfluence: Number(negative),
       actor: actor,
     };
 
@@ -96,6 +107,23 @@ export default class ReputationConfig extends HandlebarsApplicationMixin(Applica
     await roll.evaluate();
     await roll.toMessage(chatData);
     await this.close();
+  }
+
+  /**
+   * Ensure at least 1 influence is present.
+   *
+   * @param {number} positive
+   * @param {number} negative
+   * @returns {boolean}
+   * @private
+   */
+  static _validate(positive, negative) {
+    let valid = true;
+
+    if (!(positive || negative)) {
+      valid = false;
+    }
+    return valid;
   }
 }
 

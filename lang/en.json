@@ -56,6 +56,7 @@
   "sta-enhanced.notifications": {
     "info.repSaved": "Reputation result saved to {name}",
     "warning.cardItem": "The requested item {item} no longer exists on Actor {name}.",
+    "error.repFormInvalid": "Reputation rolls require at least 1 influence",
     "error.repSaveAction": "Could not update reputation for `{name}: {error}",
     "error.loadRepActor": "Unable to save; could not load character for '{id}'!",
     "error.loadRepRoll": "Unable to save; could not load roll result."
