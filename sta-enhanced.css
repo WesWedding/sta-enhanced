@@ -267,6 +267,7 @@
   box-shadow: none;
 }
 
+
 .sta-enhanced .tab h2 {
   border: 0;
   color: var(--sta-orange-yellow);
@@ -356,6 +357,11 @@
   -ms-transition: height 0.5s linear, border-width 0.5s linear;
   -o-transition: height 0.5s linear, border-width 0.5s linear;
   transition: height 0.5s linear, border-width 0.5s linear;
+}
+
+.sta-enhanced.sheet.actor .tab-area .reputation .column .check-button {
+  margin-top: 1rem;
+  max-width: 200px;
 }
 
 .sta-enhanced.chat.card header {
