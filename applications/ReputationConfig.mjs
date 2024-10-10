@@ -21,8 +21,8 @@ export default class ReputationConfig extends HandlebarsApplicationMixin(Applica
     classes: ['sta-enhanced'],
     tag: 'form',
     window: {
-      contentClasses: ['standard-form'],
-      title: 'sta-enhanced.reputation.config.title',
+      contentClasses: ['sta-form'],
+      title: 'sta-enhanced.roll.reputation.config.title',
     },
     position: {
       width: 400,

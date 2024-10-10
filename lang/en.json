@@ -37,6 +37,8 @@
       "negative.label": "Dishonor"
     }
   },
+  "sta-enhanced.reputation.influences.positive": "Positive Influences",
+  "sta-enhanced.reputation.influences.negative": "Negative Influences",
 
   "sta-enhanced.item.type.item": "Item",
   "sta-enhanced.item.type.talent": "Talent",
@@ -48,8 +50,10 @@
   "sta-enhanced.roll.reputation": {
     "flavor": "Reputation Roll",
     "action.save": "Save to Character",
+    "action.roll": "Roll Reputation",
     "result.none": "No reputation change.",
-    "result.text": "{amount} {type} earned!"
+    "result.text": "{amount} {type} earned!",
+    "config.title": "Roll Reputation"
   },
 
   "sta-enhanced.cardWarningItem": "The requested item {item} no longer exists on Actor {name}.",
