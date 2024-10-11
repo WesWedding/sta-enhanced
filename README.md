@@ -1,7 +1,7 @@
 # Star Trek Adventures: Enhanced #
 
 A plugin that enhances the [Unofficial Star Trek Adventures system](https://foundryvtt.com/packages/sta)
-with fresher tab-based navigation to improve readability, organization, and 
+with fresher tab-based navigation to improve readability, organization, and
 a few new bells and whistles.
 
 ## Requirements
@@ -12,14 +12,14 @@ a few new bells and whistles.
 
 ### Tabs! ###
 The sheet provided by the system is a single page and very cramped, requiring
-the squishing a lot of a lot of detail into the lower section of the sheet.  
-Several official Foundry Systems use tabs manage this issue, moving details 
+the squishing a lot of a lot of detail into the lower section of the sheet.
+Several official Foundry Systems use tabs manage this issue, moving details
 to additional tabs and allowing the inputs to have breathing room.
 
 Many sheet elements live in dedicated tabs now.
 
 - Details
-  - Species, assignment, rank, traits, personality (new!), 
+  - Species, assignment, rank, traits, personality (new!),
     Gender/Pronouns (new!)
 - Belongings
   - Weapons, armor, and other items can be found here.
@@ -36,7 +36,7 @@ or external notes.
 - Personality: It can be helpful to write this down, especially if you're a GM
   and have to switch between several characters or otherwise need a reminder to
   get in-character.
-- Gender/Pronouns: Sometimes it can be hard to keep pronouns straight when all 
+- Gender/Pronouns: Sometimes it can be hard to keep pronouns straight when all
   you have are alien names and portraits.  Maybe you have a species that
   doesn't use the typical Earth gender dynamics at all!  It's sci-fi, anything
   can happen!
