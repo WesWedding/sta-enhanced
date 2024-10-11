@@ -4,6 +4,10 @@ A plugin that enhances the [Unofficial Star Trek Adventures system](https://foun
 with fresher tab-based navigation to improve readability, organization, and 
 a few new bells and whistles.
 
+## Requirements
+- Foundry v12 or later
+- Foundry v12 Client or Latest Chrome, Firefox, or Safari
+
 ## New Features and Updates ##
 
 ### Tabs! ###
