@@ -1,3 +1,5 @@
+import { MigrationRunner } from './migration/MigrationRunner.mjs';
+
 export const CONSTS = Object.freeze({
   reputation: {
     variant: {
@@ -21,6 +23,7 @@ export function registerModuleSettings() {
     hint: 'sta-enhanced.settings.worldSchemaVersion.Hint',
     scope: 'world',
     config: true,
+    default: MigrationRunner.LATEST_SCHEMA_VERSION,
     type: Number,
     requiresReload: true,
   });

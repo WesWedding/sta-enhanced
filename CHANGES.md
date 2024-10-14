@@ -16,6 +16,9 @@ utilizing the most up-to-date APIs so that it remains viable for many years
 before components need to be reworked to fit the ever-changing Foundry VTT
 world.
 
+### Misc
+Bugfix: Discipline order did not match System [#29](https://github.com/WesWedding/sta-enhanced/issues/29).
+
 ## v0.1.9
 ### Reputation System Update
 Fields for Acclaim/Reprimand added to the sheet.
