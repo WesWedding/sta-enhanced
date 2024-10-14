@@ -1,0 +1,22 @@
+<div>
+  <label class="row"><span>{{ localize "sta-enhanced.reputation.influences.positive" }}</span>
+    <input name="positive" type="number" min="0" placeholder="0">
+  </label>
+  <label class="row"><span>{{ localize "sta-enhanced.reputation.influences.negative" }}</span>
+    <input name="negative" type="number" min="0" placeholder="0">
+  </label>
+  <input type="hidden" name="actorId" value="{{actorId}}">
+  <footer class="form-footer">
+    <button type="submit" class="dialog-button roll default">
+      <i class="fa-solid fa-dice-d20" inert></i>
+      <label inert>{{localize 'sta-enhanced.roll.reputation.action.roll'}}</label>
+    </button>
+    {{#each buttons as |button|}}
+      <button type="{{button.type}}" {{#if button.name}}name="{{button.name}}"{{/if}} class="{{button.cssClass}}"
+              {{#if button.action}}data-action="{{button.action}}"{{/if}} {{#if button.disabled}}disabled{{/if}}>
+        {{#if button.icon}}<i class="{{button.icon}}" inert></i>{{/if}}
+        {{#if button.label}}<label inert>{{localize button.label}}</label>{{/if}}
+      </button>
+    {{/each}}
+  </footer>
+</div>

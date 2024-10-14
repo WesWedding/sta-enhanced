@@ -1,0 +1,21 @@
+<div class="sta sta-enhanced roll dice-roll" data-actor-id={{actorId}}>
+  {{#if flavor}}
+    <div class="dice-flavor">{{flavor}}</div>
+  {{/if}}
+  <div class="dice-result">
+    <div class="dice-formula">
+      <table class="aim">
+        <tr>
+          <td>{{formula}}</td>
+          <td>{{localize "sta.roll.target"}}: {{checkTarget}}</td>
+          <td>{{localize "sta.roll.complicationrange"}}{{complicationRange}}</td>
+        </tr>
+      </table>
+    </div>
+    {{{tooltip}}}
+    <h4 class="dice-total {{#if reprimand}}failure{{/if}}">{{result}}</h4>
+  </div>
+  <button data-action="save-reputation" class="sta-enhanced action">
+    <span>{{ localize 'sta-enhanced.roll.reputation.action.save' }}</span>
+  </button>
+</div>

@@ -1,13 +1,29 @@
 # Changes
 
+## v0.2.0
+### Reputation Roller
+Make reputation more convenient by rolling from the character sheet, and
+getting a convenient report of the results.  The roll button has appeared
+near the Acclaim and Reprimand (Honor and Dishonor, for Klingons).
+![reputation-tab-roller.png](docs%2Freputation-tab-roller.png)
+![rep-roller-dialog.png](docs%2Frep-roller-dialog.png)
+![rep-roll.png](docs%2Frep-roll.png)
+
+### Dropping support for v10 and v11
+The roller is using a v12-only UI window tyoe, and those other versions are
+many years old at this point.  The goal of this module is to release a v1.0
+utilizing the most up-to-date APIs so that it remains viable for many years
+before components need to be reworked to fit the ever-changing Foundry VTT
+world.
+
+### Misc
+Bugfix: Discipline order did not match System [#29](https://github.com/WesWedding/sta-enhanced/issues/29).
+
 ## v0.1.9
 ### Reputation System Update
 Fields for Acclaim/Reprimand added to the sheet.
 
 Support for the newer Klingon/Digest reputation system has been added.
-
-### Misc
-Bugfix: Discipline order did not match System [#29](https://github.com/WesWedding/sta-enhanced/issues/29).
 
 ## v0.1.8
 Bugfix: System updates broke the Enhanced sheets.

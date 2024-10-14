@@ -1,5 +1,6 @@
 import { STACharacterSheet } from '../../../../systems/sta/module/actors/sheets/character-sheet.js';
 import { CONSTS as SETTINGS_CONSTS } from '../../settings.mjs';
+import ReputationConfig from '../../applications/ReputationConfig.mjs';
 
 // After changes in the System, this global is required to keep sheets working.  Not ideal!
 if (typeof globalThis.localizedValues === 'undefined') {
@@ -69,8 +70,45 @@ export class STACharacterEnhancedSheet extends STACharacterSheet {
     super.activateListeners($html);
 
     if (!game.user.isGM && this.actor.limited) return;
+
+    $html.find('[data-action]').on('click', this._onAction.bind(this));
+
     this._handleStressMod($html);
     this._handleTooltipClicks($html);
+  }
+
+  /**
+   * Handle user performing a sheet action.
+   *
+   * @param {PointerEvent} event
+   * @private
+   */
+  _onAction(event) {
+    const target = event.currentTarget;
+    switch (target.dataset.action) {
+      case 'rollReputation':
+        this._onReputationRoll();
+        break;
+    }
+  }
+
+  /**
+   * Show a apps to trigger a reputation roll.
+   *
+   * @returns {Promise<void>}
+   * @private
+   */
+  async _onReputationRoll() {
+    const rollApp = new ReputationConfig({ actor: this.actor });
+
+    console.log('actor.uuid?', this.actor.uuid);
+
+    const context = {
+      character: this.actor,
+    };
+    console.log('context', context);
+
+    rollApp.render(true);
   }
 
   _handleStressMod($html) {

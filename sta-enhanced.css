@@ -39,6 +39,65 @@
   box-shadow: 0 0 5px var(--sta-light-blue);
 }
 
+.sta-enhanced.application ::placeholder {
+  color: var(--sta-dark-purple);
+}
+
+.sta-enhanced.application .window-content {
+  padding: 8px;
+}
+
+.sta-enhanced.application .window-content input {
+  color: var(--sta-purple-pink);
+}
+
+.sta-enhanced.application label.row {
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+  text-wrap: nowrap;
+  width: 100%;
+}
+
+.sta-enhanced.application label input {
+  flex-basis: 40px;
+  flex-grow: 0;
+  flex-shrink: 0;
+  text-align: center;
+}
+
+.sta-enhanced.application label span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.sta-enhanced.application button {
+  background-color: #FFCC33;
+  color: #000000;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.sta-enhanced.application footer {
+  margin-top: 8px;
+}
+
+.sta-enhanced.application input[type="text"],
+.sta-enhanced.application input[type="number"],
+.sta-enhanced.application input[type="password"],
+.sta-enhanced.application input[type="date"],
+.sta-enhanced.application input[type="time"],
+.sta-enhanced.application input[type="search"],
+.sta-enhanced.application input[type="file"],
+.sta-enhanced.application select {
+  background: var(--sta-black);
+  border-color: var(--color-border-light-tertiary);
+}
+
 /** Clear some STA System styles we don't need/want */
 .sta-enhanced.sta.sheet.actor .biography.active .row .column .section .note {
   height: auto;
@@ -208,6 +267,7 @@
   box-shadow: none;
 }
 
+
 .sta-enhanced .tab h2 {
   border: 0;
   color: var(--sta-orange-yellow);
@@ -299,6 +359,11 @@
   transition: height 0.5s linear, border-width 0.5s linear;
 }
 
+.sta-enhanced.sheet.actor .tab-area .reputation .column .check-button {
+  margin-top: 1rem;
+  max-width: 200px;
+}
+
 .sta-enhanced.chat.card header {
   display: flex;
   gap: 10px;
@@ -340,28 +405,24 @@
 }
 
 /* Copied from sta.css for our replacement reroll buttons. */
-.reroll {
-  flex: 0 0 100%;
-  position: relative;
-  margin: 0;
-  line-height: 24px;
-  text-align: center;
-  background: #0F0F0F;
-  border: 1px solid #666688;
-  border-radius: 3px;
-  word-break: break-all;
-  margin-top: 5px;
-}
-.reroll:hover {
-  background-color: #FFEEAA;
-}
-
-.chat-message.message .reroll {
+.chat-message.message .reroll,
+.chat-message.message button[data-action] {
   background-color: #FFCC33;
   color: #000000;
   border: none;
   border-radius: 20px;
   cursor: pointer;
+  flex: 0 0 100%;
+  line-height: 24px;
+  margin: 5px 0 0;
+  order: 4;
+  position: relative;
+  text-align: center;
+  word-break: break-all;
+}
+.chat-message.message .reroll:hover,
+.chat-message.message button[data-action]:hover {
+  background-color: #FFEEAA;
 }
 
 .sta-enhanced .tags {
