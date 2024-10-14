@@ -9,6 +9,9 @@ near the Acclaim and Reprimand (Honor and Dishonor, for Klingons).
 ![rep-roller-dialog.png](docs%2Frep-roller-dialog.png)
 ![rep-roll.png](docs%2Frep-roll.png)
 
+After rolling, you can save the results directly to the character sheet that
+initiated the roll.
+
 ### Dropping support for v10 and v11
 The roller is using a v12-only UI window tyoe, and those other versions are
 many years old at this point.  The goal of this module is to release a v1.0
@@ -17,7 +20,10 @@ before components need to be reworked to fit the ever-changing Foundry VTT
 world.
 
 ### Misc
-Bugfix: Discipline order did not match System [#29](https://github.com/WesWedding/sta-enhanced/issues/29).
+- Bugfix: Data migration does not trigger on first run, does not report incorrect version numbers [#23](https://github.com/WesWedding/sta-enhanced/issues/23)
+- Bugfix: Discipline order did not match System [#29](https://github.com/WesWedding/sta-enhanced/issues/29).
+- Bugfix: Injuries, Focuses did not display descriptions when clicked. [#28](https://github.com/WesWedding/sta-enhanced/issues/28)
+- Dropped: Custom item chat card implementation (was ported directly into the System)
 
 ## v0.1.9
 ### Reputation System Update
