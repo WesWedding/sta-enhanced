@@ -21,7 +21,7 @@ export const Ready = {
         if (migrationRunner.needsMigration()) {
           if (currentVersion && currentVersion < MigrationRunner.MINIMUM_SAFE_VERSION) {
             ui.notifications.error(
-              `Your STA Enhanced data is from too old a Foundry version and cannot be reliably migrated to the latest version.  An attempt will be made, but errors may occur.`,
+              `Your STA Enhanced data is from too old a module version and cannot be reliably migrated to the latest version.  An attempt will be made, but errors may occur.`,
               { permanent: true },
             );
           }
@@ -64,7 +64,6 @@ async function storeInitialWorldVersions() {
       ? game.settings.get('sta-enhanced', 'worldSchemaVersion')
       : Math.max(
         Math.min(...new Set(game.actors.map((actor) => {
-          console.log('actor', actor.flags['sta-enhanced']?.schemaVersion);
           return actor.flags['sta-enhanced']?.schemaVersion ?? minVersion;
         }))),
         minVersion,

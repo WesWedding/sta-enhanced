@@ -93,9 +93,8 @@ export class MigrationRunner {
       latest: MigrationRunner.LATEST_SCHEMA_VERSION,
       current: game.settings.get('sta-enhanced', 'worldSchemaVersion'),
     };
-    const systemVersion = game.system.version;
 
-    ui.notifications.info(game.i18n.format('sta-enhanced.Migrations.Starting', { version: systemVersion }));
+    ui.notifications.info(game.i18n.format('sta-enhanced.Migrations.Starting', { version: schemaVersion.latest }));
 
     const migrationsToRun = this.migrations.filter((x) => schemaVersion.current < x.version);
 
