@@ -6,6 +6,9 @@ Fields for Acclaim/Reprimand added to the sheet.
 
 Support for the newer Klingon/Digest reputation system has been added.
 
+### Misc
+Bugfix: Discipline order did not match System [#29](https://github.com/WesWedding/sta-enhanced/issues/29).
+
 ## v0.1.8
 Bugfix: System updates broke the Enhanced sheets.
 
