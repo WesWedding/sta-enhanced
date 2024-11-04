@@ -70,7 +70,14 @@ export class STACharacterEnhancedSheet extends STACharacterSheet {
   activateListeners($html) {
     super.activateListeners($html);
 
-    if (!game.user.isGM && this.actor.limited) return;
+    // Re-enable the tab buttons, which are disabled by Core listener attachers when not editable.
+    for (let el of this.form.getElementsByTagName('BUTTON')) {
+      if (el.dataset.tab !== undefined) {
+        el.disabled = false;
+      }
+    }
+
+    if (!this.isEditable) return;
 
     $html.find('[data-action]').on('click', this._onAction.bind(this));
 
