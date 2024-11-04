@@ -12,6 +12,7 @@ export class STACharacterEnhancedSheet extends STACharacterSheet {
   static get defaultOptions() {
     return foundry.utils.mergeObject(super.defaultOptions, {
       classes: super.defaultOptions.classes.concat(['sta-enhanced']),
+      scrollY: ['.tab-area'],
       tabs: [
         { navSelector: 'nav', contentSelector: '.tab-area', initial: 'character' },
       ],

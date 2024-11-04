@@ -146,6 +146,80 @@
   </div>
   {{!-- Bottom Section --}}
   <div class="row">
+    {{!-- Belongings --}}
+    <div class="lcars-column">
+      <div class="lcars-item1-connect-block noradius"></div>
+      <div class="lcars-item-general-block"></div>
+      <div class="lcars-item1-general-block"></div>
+    </div>
+    <div class="column">
+      <div class="section belongings">
+        <h2>
+          {{localize 'sta.actor.belonging.title'}}
+        </h2>
+        <div class="row">
+          <div class="column wide left">
+            {{!-- Weapons --}}
+            <div class="lcars-header row item">
+              <div class="image"></div>
+              <div class="two-column-with-roll-primary">{{localize 'sta.actor.belonging.weapon.title'}}</div>
+              <div class="two-column-with-roll-secondary">{{localize 'sta.actor.belonging.weapon.dmg'}}</div>
+              <a class="control create" title="Create item" data-type="characterweapon"><i class="fas fa-plus"></i></a>
+            </div>
+            {{#each items as |item type id|}}
+              {{> "sta-enhanced.parts.character-items-weapon" idx=@index item=item type=type id=id}}
+            {{/each}}
+          </div>
+          <div class="column wide right">
+            <div class="header row item">
+              <div class="image"></div>
+              <div class="two-column-with-roll-primary">{{localize 'sta.actor.belonging.armor.title'}}</div>
+              <div class="two-column-with-roll-secondary">{{localize 'sta.actor.belonging.armor.protect'}}</div>
+              <a class="control create" title="Create item" data-type="armor"><i class="fas fa-plus"></i></a>
+            </div>
+            {{#each items as |item type id|}}
+              {{#if (eq item.type "armor")}}
+                <li id="armor-{{item.id}}" class="row entry" data-item-id="{{item.id}}" data-item-type="{{item.type}}" data-item-value="{{item.name}}">
+                  <div class="image"><img class="chat" src="{{item.img}}" title="{{item.name}}"/>
+                  </div>
+                  <h4 class="two-column-with-roll-primary list-entry">{{item.name}}</h4>
+                  <h4 id="protectval-armor-{{item.id}}" class="two-column-with-roll-secondary list-entry">{{item.system.protection}}</h4>
+                  <div class="control">
+                    <a class="edit" title="Edit Item"><i class="fas fa-edit"></i></a>
+                    <a class="delete" title="Delete Item"><i class="fas fa-trash"></i></a>
+                  </div>
+                </li>
+              {{/if}}
+            {{/each}}
+            {{!-- Other --}}
+            <div class="lcars-header row item">
+              <div class="image"></div>
+              <div class="two-column-with-roll-primary">{{localize 'sta.actor.belonging.other.title'}}</div>
+              <div class="two-column-with-roll-secondary">{{localize 'sta.actor.belonging.other.qty'}}</div>
+              <a class="control create" title="Create item" data-type="item"><i class="fas fa-plus"></i></a>
+            </div>
+            {{#each items as |item type id|}}
+              {{#if (eq item.type "item")}}
+                <li class="row entry" data-item-id="{{item.id}}" data-item-type="{{item.type}}" data-item-value="{{item.name}}">
+                  <div class="image"><img class="chat" src="{{item.img}}" title="{{item.name}}"/>
+                  </div>
+                  <h4 class="two-column-with-roll-primary list-entry">{{item.name}}</h4>
+                  <h4 class="two-column-with-roll-secondary list-entry">{{item.system.quantity}}</h4>
+                  <div class="control">
+                    <a class="edit" title="Edit Item"><i class="fas fa-edit"></i></a>
+                    <a class="delete" title="Delete Item"><i class="fas fa-trash"></i></a>
+                  </div>
+                </li>
+              {{/if}}
+            {{/each}}
+          </div>
+        </div>
+      </div>
+    </div>
+    {{!-- End Belongings --}}
+  </div>
+  {{!-- Injuries --}}
+  <div class="row">
     <div class="lcars-column">
       <div class="lcars-item1-connect-block noradius"></div>
       <div class="lcars-item2-general-block1"></div>
