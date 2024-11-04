@@ -20,9 +20,7 @@ Many sheet elements live in dedicated tabs now.
 
 - Details
   - Species, assignment, rank, traits, personality (new!),
-    Gender/Pronouns (new!)
-- Belongings
-  - Weapons, armor, and other items can be found here.
+    items, Gender/Pronouns (new!)
 - Reputation
   - Fields related to the reputation system goes here.
 - Biography
