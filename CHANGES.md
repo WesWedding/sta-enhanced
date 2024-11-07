@@ -1,4 +1,22 @@
 # Changes
+## v0.3.0
+### Tab Reorganization
+#### Belongings Tab Removed
+Items have been moved from the "Belongings" tab back into the main/details tab
+to ease use of items during gameplay; it was annoying and even confusing to
+have to switch tabs around to make use of them during a Task roll while also
+keeping track of Focuses, Values, etc that might also apply.
+
+#### Notes Tab Added
+Notes has its own home now, to give it maximum space for players to keep
+running notes on their characters.
+
+### Bug Fixes
+- Fixed: Tabs can't be switched on a locked Compendium character.
+
+### Known Issues
+The styles on the Notes tab are a little funkier than normal and need to
+be fixed up a bit.  Font sizes are smaller, for instance.
 
 ## v0.2.0
 ### Reputation Roller
