@@ -99,7 +99,7 @@
 }
 
 /** Clear some STA System styles we don't need/want */
-.sta-enhanced.sta.sheet.actor .biography.active .row .column .section .note {
+.sta-enhanced.sta.sheet.actor .notes.active .row .column .section .note {
   height: auto;
 }
 
@@ -174,15 +174,15 @@
   margin: 0 auto;
 }
 
-.sta-enhanced .biography .section .editor {
+.sta-enhanced .editor {
   min-height: 13.5rem;
 }
 
-.sta.sheet.actor .main .row .column .section .editor {
+.sta-enhanced.sheet.actor .main .editor {
   text-align: left;
 }
 
-.sta-enhanced .biography .biography .editor.prosemirror {
+.sta-enhanced.sheet .editor.prosemirror {
   min-height: 500px;
 }
 
