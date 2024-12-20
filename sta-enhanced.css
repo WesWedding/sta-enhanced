@@ -326,6 +326,13 @@
   margin-left: 5px;
 }
 
+/* Override some Core styling applied specifically to notes on a form. */
+.sta-enhanced.sheet.actor .column.notes {
+  font-size: var(--font-size-14);
+  line-height: normal;
+  margin: 0;
+}
+
 .sta-enhanced.sheet.actor .main .row .section .column.wide.left .entry.row,
 .sta-enhanced.sheet.actor .main .row .column.left-column .section .entry.row {
   margin-left: 5px;
