@@ -5,6 +5,7 @@
 ### Styles and Labels
 - Adjusted "Biography" field to "Backstory" to make intent clearer,
   differentiate from tab name.
+- Notes tab header has spacing consistent with other tabs.
 
 ## v0.3.0
 ### Tab Reorganization
