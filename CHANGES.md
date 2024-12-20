@@ -1,4 +1,11 @@
 # Changes
+
+## v0.3.1
+
+### Styles and Labels
+- Adjusted "Biography" field to "Backstory" to make intent clearer,
+  differentiate from tab name.
+
 ## v0.3.0
 ### Tab Reorganization
 #### Belongings Tab Removed
