@@ -40,6 +40,7 @@ async function preloadHandlebarsTemplates() {
     [`sta-enhanced.tabs.reputation`]: 'modules/sta-enhanced/templates/actors/tabs/reputation.hbs',
     [`sta-enhanced.tabs.biography`]: 'modules/sta-enhanced/templates/actors/tabs/biography.hbs',
     [`sta-enhanced.tabs.notes`]: 'modules/sta-enhanced/templates/actors/tabs/notes.hbs',
+    [`sta-enhanced.tabs.extras`]: 'modules/sta-enhanced/templates/actors/tabs/extras.hbs',
 
     [`sta-enhanced.parts.character-items-weapon`]: 'modules/sta-enhanced/templates/actors/parts/character-items-weapon.hbs',
   };

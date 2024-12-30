@@ -49,19 +49,10 @@
             <div class="title">
               <div class="spacer"></div>
               {{localize 'sta.actor.character.stress'}}
-              <div id="strmod-changer">
-              {{#if (systemEqOrNewer 1.2)}}
-                <button type="button" class="up"><span aria-hidden="true">&#9650;</span><span class="screen-reader-text">Increase Max Stress</span></button>
-                <button type="button" class="down"><span aria-hidden="true">&#9660;</span><span class="screen-reader-text">Reduce Max Stress</span></button>
-              {{/if}}
-              </div>
             </div>
             <div class="track">
               <input type="hidden" id="total-stress" name="system.stress.value" value="{{system.stress.value}}" data-dtype="Number" />
               <input type="hidden" id="max-stress" name="system.stress.max" value="{{system.stress.max}}" data-dtype="Number" />
-              {{#if (systemEqOrNewer 1.2)}}
-              <input type="hidden" class="text-entry" name="system.strmod" id="strmod" value="{{system.strmod}}" />
-              {{/if}}
               <div id="bar-stress-renderer" class=" bar"></div>
             </div>
           </div>
@@ -110,6 +101,7 @@
         <button type="button" class="item" data-tab="reputation" data-group="primary-tabs">{{ localize 'sta-enhanced.Reputation' }}</button>
         <button type="button" class="item" data-tab="biography" data-group="primary-tabs">{{ localize 'sta-enhanced.Biography' }}</button>
         <button type="button" class="item" data-tab="notes" data-group="primary-tabs">{{ localize 'sta-enhanced.Notes' }}</button>
+        <button type="button" class="item" data-tab="extras" data-group="primary-tabs"><i aria-hidden="true" class="fas fa-solid fa-gear"></i><span class="screen-reader-text">{{ localize 'sta-enhanced.Extras' }}</span></button>
     </nav>
     <div class="sheet-details main">
         <section class="tab-area">
@@ -117,6 +109,7 @@
           {{> "sta-enhanced.tabs.reputation" }}
           {{> "sta-enhanced.tabs.biography" }}
           {{> "sta-enhanced.tabs.notes" }}
+          {{> "sta-enhanced.tabs.extras" }}
         </section>
       </div>
   </div>

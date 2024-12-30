@@ -81,7 +81,6 @@ export class STACharacterEnhancedSheet extends STACharacterSheet {
 
     $html.find('[data-action]').on('click', this._onAction.bind(this));
 
-    this._handleStressMod($html);
     this._handleTooltipClicks($html);
   }
 
@@ -117,28 +116,6 @@ export class STACharacterEnhancedSheet extends STACharacterSheet {
     console.log('context', context);
 
     rollApp.render(true);
-  }
-
-  _handleStressMod($html) {
-    const $changers = $html.find('#strmod-changer button');
-    const $modInput = $html.find('#strmod');
-
-    // This probably indicates this version of the STA system doesn't have the strmod added yet.
-    if (!$changers || !$modInput) {
-      return;
-    }
-
-    const currentMod = parseInt($modInput.val());
-    $changers.on('click', (event) => {
-      if (event.currentTarget.classList.contains('up')) {
-        $modInput.val(currentMod + 1);
-        this.submit();
-      }
-      else if (event.currentTarget.classList.contains('down')) {
-        $modInput.val(currentMod - 1);
-        this.submit();
-      }
-    });
   }
 
   /**

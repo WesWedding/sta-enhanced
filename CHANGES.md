@@ -2,6 +2,11 @@
 
 ## v0.3.1
 
+### Extras Tab and Maximum Stress Field
+The up/down arrows next to the stress pips on the character sheet could be
+confused for increasing stress after taking damage, so they have been removed
+and the adjustments to maximum stress can be made in the new "Extas" tab.
+
 ### Styles and Labels
 - Adjusted "Biography" field to "Backstory" to make intent clearer,
   differentiate from tab name.
