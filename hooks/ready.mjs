@@ -63,11 +63,11 @@ async function storeInitialWorldVersions() {
     const currentVersion = game.actors.size === 0
       ? game.settings.get('sta-enhanced', 'worldSchemaVersion')
       : Math.max(
-        Math.min(...new Set(game.actors.map((actor) => {
-          return actor.flags['sta-enhanced']?.schemaVersion ?? minVersion;
-        }))),
-        minVersion,
-      );
+          Math.min(...new Set(game.actors.map((actor) => {
+            return actor.flags['sta-enhanced']?.schemaVersion ?? minVersion;
+          }))),
+          minVersion,
+        );
 
     await game.settings.set('sta-enhanced', 'worldSchemaVersion', currentVersion);
   }
