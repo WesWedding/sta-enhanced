@@ -5,7 +5,9 @@
 ### 2nd Edition Character Sheets Added!
 2nd Edition can now benefit from the tabbed character sheet design this module
 provides.  The newer 2nd Edition character sheet fields introduced into the
-System have also been included: 
+sheet, as follows:
+Biography tab now supports "Career Path," "Experience," and "Career Events"
+
 
 ### Other Changes
 - Migrating STA-Enhanced's "gender" field to the new System "pronouns" field
