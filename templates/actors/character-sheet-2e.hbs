@@ -1,0 +1,116 @@
+<form class="{{cssClass}}" autocomplete="off">
+  <div class="main-content">
+    <div class="header">
+      <div class="lcars-column">
+        <div class="lcars-header-block1"></div>
+        <div class="lcars-header-block2"></div>
+      </div>
+      <div class="header-fields">
+        <div class="row">
+          <div class="column title" style="width:30%">
+            {{localize 'sta.actor.character.name'}}
+          </div>
+          <div class="column" style="width:30%">
+            <input name="name" class="text-entry" type="text" value="{{name}}" placeholder="{{localize 'sta.actor.character.name'}}" />
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="main">
+      <div class="row">
+        <div class="lcars-column">
+          <div class="lcars-attribute-title-block"></div>
+          <div class="lcars-attribute-general-block1"></div>
+          <div class="lcars-attribute-general-block2"></div>
+          <div class="lcars-attribute-general-block3"></div>
+        </div>
+        <div class="column left-column">
+          <div class="section attribute">
+            <div class="title">
+              {{localize 'sta.actor.character.attribute.title'}}
+            </div>
+            <div class="stat header row">
+              <div class="selector-space"></div>
+              <div class="text secondary-title">{{localize 'sta.actor.character.attribute.name'}}</div>
+              <div class="field secondary-title">{{localize 'sta.actor.attdis.mod'}}</div>
+            </div>
+            {{#each system.attributes as |attribute key|}}
+              <div class="stat row">
+                <input class="selector attribute" id="{{key}}.selector" type="checkbox" name="system.attributes.{{key}}.selected" data-dtype="Boolean" {{checked attribute.selected}}>
+                <div class="text list-entry"> {{localize attribute.label}} </div>
+                <input class="field numeric-entry" id="{{key}}" name="system.attributes.{{key}}.value" type="text" value="{{attribute.value}}" />
+              </div>
+            {{/each}}
+            <div class="check-button btn2 challenge">{{localize 'sta.actor.challenge.roll'}}</div>
+          </div>
+        </div>
+        <div class="column center-column">
+          <div class="section stress">
+            <div class="title">
+              <div class="spacer"></div>
+              {{localize 'sta.actor.character.stress'}}
+            </div>
+            <div class="track">
+              <input type="hidden" id="total-stress" name="system.stress.value" value="{{system.stress.value}}" data-dtype="Number" />
+              <input type="hidden" id="max-stress" name="system.stress.max" value="{{system.stress.max}}" data-dtype="Number" />
+              <div id="bar-stress-renderer" class=" bar"></div>
+            </div>
+          </div>
+          <div class="section img">
+            <img class="profile-img" src="{{img}}" data-edit="img" title="{{name}}" />
+          </div>
+          <div class="section determination">
+            <div class="title">
+              {{localize 'sta.actor.character.determination'}}
+            </div>
+            <div class="track">
+              <input type="hidden" id="total-determination" name="system.determination.value" value="{{system.determination.value}}" data-dtype="Number" />
+              <div class="bar">
+                <div id="bar-determination-renderer" class="bar"></div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+        <div class="column right-column">
+          <div class="section discipline">
+            <div class="title">
+              {{localize 'sta.actor.character.discipline.title'}}
+            </div>
+            <div class="stat header row">
+              <div class="field secondary-title">{{localize 'sta.actor.attdis.mod'}}</div>
+              <div class="text secondary-title">{{localize 'sta.actor.character.discipline.name'}}</div>
+              <div class="selector-space"></div>
+            </div>
+            {{#each system.disciplineorder as |key|}}
+            {{#with (lookup ../system.disciplines key)}}
+              <div class="stat row">
+                <input class="field numeric-entry" id="{{key}}" name="system.disciplines.{{key}}.value" type="text" value="{{value}}" placeholder="Name" />
+                <div class="text list-entry"> {{localize label}} </div>
+                <input class="selector discipline" id="{{key}}.selector" type="checkbox" name="system.disciplines.{{key}}.selected" data-dtype="Boolean" {{checked selected}}>
+              </div>
+            {{/with}}
+            {{/each}}
+            <div class="check-button btn attribute">{{localize 'sta.actor.attdis.task'}}</div>
+          </div>
+      </div>
+    </div>
+    </div>
+    <nav class="tabs" data-group="primary-tabs">
+        <button type="button" class="item" data-tab="details" data-group="primary-tabs">{{ localize 'sta-enhanced.CharacterDetails' }}</button>
+        <button type="button" class="item" data-tab="reputation" data-group="primary-tabs">{{ localize 'sta-enhanced.Reputation' }}</button>
+        <button type="button" class="item" data-tab="biography" data-group="primary-tabs">{{ localize 'sta-enhanced.Biography' }}</button>
+        <button type="button" class="item" data-tab="notes" data-group="primary-tabs">{{ localize 'sta-enhanced.Notes' }}</button>
+        <button type="button" class="item" data-tab="extras" data-group="primary-tabs"><i aria-hidden="true" class="fas fa-solid fa-gear"></i><span class="screen-reader-text">{{ localize 'sta-enhanced.Extras' }}</span></button>
+    </nav>
+    <div class="sheet-details main">
+        <section class="tab-area">
+          {{> "sta-enhanced.tabs.details2e" }}
+          {{> "sta-enhanced.tabs.reputation2e" }}
+          {{> "sta-enhanced.tabs.biography2e" }}
+          {{> "sta-enhanced.tabs.notes2e" }}
+          {{> "sta-enhanced.tabs.extras2e" }}
+        </section>
+      </div>
+  </div>
+</form>

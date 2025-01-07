@@ -26,7 +26,6 @@ export class STACharacterEnhancedSheet extends STACharacterSheet {
     const characterFlags = this.object.flags['sta-enhanced']?.character;
     context['sta-enhanced'] = {
       character: {
-        gender: characterFlags?.gender,
         personality: characterFlags?.personality,
         enrichedBackstory: await TextEditor.enrichHTML(characterFlags?.backstory, { async: true }), // Async copied from PF2E but maybe not actually used?
       },

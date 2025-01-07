@@ -21,7 +21,6 @@ export class STACharacterEnhancedSheet2E extends STACharacterSheet {
     const characterFlags = this.object.flags['sta-enhanced']?.character;
     context['sta-enhanced'] = {
       character: {
-        gender: characterFlags?.gender,
         personality: characterFlags?.personality,
         enrichedBackstory: await TextEditor.enrichHTML(characterFlags?.backstory, { async: true }), // Async copied from PF2E but maybe not actually used?
       },
@@ -58,7 +57,7 @@ export class STACharacterEnhancedSheet2E extends STACharacterSheet {
   /** @inheritDoc */
   get template() {
     if (!game.user.isGM && this.actor.limited) return 'systems/sta/templates/actors/limited-sheet.html';
-    return 'modules/sta-enhanced/templates/actors/character-sheet.hbs';
+    return 'modules/sta-enhanced/templates/actors/character-sheet-2e.hbs';
   }
 
   /** @inheritDoc */

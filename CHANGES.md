@@ -1,5 +1,15 @@
 # Changes
 
+## v1.0.0
+
+### 2nd Edition Character Sheets Added!
+2nd Edition can now benefit from the tabbed character sheet design this module
+provides.  The newer 2nd Edition character sheet fields introduced into the
+System have also been included: 
+
+### Other Changes
+- Migrating STA-Enhanced's "gender" field to the new System "pronouns" field
+
 ## v0.3.1
 
 ### Extras Tab and Maximum Stress Field

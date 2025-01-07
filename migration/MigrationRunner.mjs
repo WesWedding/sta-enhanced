@@ -27,7 +27,7 @@
  */
 
 export class MigrationRunner {
-  static LATEST_SCHEMA_VERSION = 0.1;
+  static LATEST_SCHEMA_VERSION = 0.2;
 
   static MINIMUM_SAFE_VERSION = 0.0;
 
