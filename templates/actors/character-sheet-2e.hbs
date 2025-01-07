@@ -7,12 +7,37 @@
       </div>
       <div class="header-fields">
         <div class="row">
-          <div class="column title" style="width:30%">
-            {{localize 'sta.actor.character.name'}}
+          <div class="column">
+            <div class="row horizontal-fields">
+              <div class="title">
+                {{localize 'sta.actor.character.name'}}
+              </div>
+              <div class="input">
+                <input name="name" class="text-entry" type="text" value="{{name}}" placeholder="{{localize 'sta.actor.character.name'}}" />
+              </div>
+            </div>
           </div>
-          <div class="column" style="width:30%">
-            <input name="name" class="text-entry" type="text" value="{{name}}" placeholder="{{localize 'sta.actor.character.name'}}" />
+          <div class="column">
+            <div class="row horizontal-fields">
+              <div class="column title">
+                {{localize 'sta.actor.character.rank'}}
+              </div>
+              <div class="column">
+                <input name="system.rank" class="text-entry" type="text" value="{{system.rank}}" placeholder="{{localize 'sta.actor.character.rank'}}" />
+              </div>
+            </div>
           </div>
+          <div class="column">
+            <div class="row horizontal-fields">
+              <div class="column title">
+                {{localize 'sta.actor.character.characterrole'}}
+              </div>
+              <div class="column">
+                <input name="system.characterrole" class="text-entry" type="text" value="{{system.characterrole}}" placeholder="{{localize 'sta.actor.character.characterrole'}}" />
+              </div>
+            </div>
+          </div>
+
         </div>
       </div>
     </div>
