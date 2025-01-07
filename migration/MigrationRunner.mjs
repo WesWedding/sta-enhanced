@@ -58,7 +58,7 @@ export class MigrationRunner {
     /** A roughly estimated "progress max" to reach, for displaying progress. */
     const progress = {
       current: 0,
-      max: game.actors.size + game.items.size,
+      max: game.actors.size + game.scenes.contents.flatMap((s) => s.tokens.contents).filter((t) => !t.actorLink).length,
     };
 
     // Migrate World Actors
