@@ -6,11 +6,14 @@
 2nd Edition can now benefit from the tabbed character sheet design this module
 provides.  The newer 2nd Edition character sheet fields introduced into the
 sheet, as follows:
-Biography tab now supports "Career Path," "Experience," and "Career Events"
+- 2E Character sheet added "Role" field to top of sheet near name.
+- Biography tab now supports "Career Path," "Experience," and "Career Events."
 
 
 ### Other Changes
-- Migrating STA-Enhanced's "gender" field to the new System "pronouns" field
+- Moved Rank to top of 2E sheet, so its easier to reference on the fly when
+  addressing a character.
+- Migrating module-provided "gender" field to the new System "pronouns" field
 
 ## v0.3.1
 
