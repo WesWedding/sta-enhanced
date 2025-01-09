@@ -24,29 +24,27 @@ export class STACharacterEnhancedSheet2E extends STACharacterSheet2e {
         personality: characterFlags?.personality,
         enrichedBackstory: await TextEditor.enrichHTML(characterFlags?.backstory, { async: true }), // Async copied from PF2E but maybe not actually used?
       },
-      new1ERep: false,
+      repLabels: {
+        positive: '',
+        negative: '',
+      },
     };
 
-    // New fields to show when the 'Klingon' reputation variant is used.
-    const repVariant = await game.settings.get('sta-enhanced', 'reputationVariant');
-    if (repVariant === SETTINGS_CONSTS.reputation.variant['1stEdNew']) {
-      const new1ERep = {
-        labels: {
-          positive: '',
-          negative: '',
-        },
-      };
-      const labelSettings = await game.settings.get('sta-enhanced', 'reputationLabels');
-      if (labelSettings === SETTINGS_CONSTS.reputation.resultLabels.generic) {
-        new1ERep.labels.positive = game.i18n.localize('sta-enhanced.reputation.variant.generic.positive.label');
-        new1ERep.labels.negative = game.i18n.localize('sta-enhanced.reputation.variant.generic.negative.label');
-      }
-      else {
-        new1ERep.labels.positive = game.i18n.localize('sta-enhanced.reputation.variant.klingon.positive.label');
-        new1ERep.labels.negative = game.i18n.localize('sta-enhanced.reputation.variant.klingon.negative.label');
-      }
-      context['sta-enhanced'].new1ERep = new1ERep;
+    const repLabels = {
+      positive: '',
+      negative: '',
+    };
+
+    const labelSettings = await game.settings.get('sta-enhanced', 'reputationLabels');
+    if (labelSettings === SETTINGS_CONSTS.reputation.resultLabels.generic) {
+      repLabels.positive = game.i18n.localize('sta-enhanced.reputation.variant.generic.positive.label');
+      repLabels.negative = game.i18n.localize('sta-enhanced.reputation.variant.generic.negative.label');
     }
+    else {
+      repLabels.positive = game.i18n.localize('sta-enhanced.reputation.variant.klingon.positive.label');
+      repLabels.negative = game.i18n.localize('sta-enhanced.reputation.variant.klingon.negative.label');
+    }
+    context['sta-enhanced'].repLabels = repLabels;
 
     // We're using the prosemirror editor on Notes, so we should be enriching accordingly.
     context.system.notes = await TextEditor.enrichHTML(context.system.notes);
