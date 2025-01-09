@@ -1,8 +1,8 @@
-import { STACharacterSheet } from '../../../../systems/sta/module/actors/sheets/character-sheet.js';
+import { STACharacterSheet2e } from '../../../../systems/sta/module/actors/sheets/character-sheet2e.js';
 import { CONSTS as SETTINGS_CONSTS } from '../../settings.mjs';
 import ReputationConfig from '../../applications/ReputationConfig.mjs';
 
-export class STACharacterEnhancedSheet2E extends STACharacterSheet {
+export class STACharacterEnhancedSheet2E extends STACharacterSheet2e {
   /** @inheritDoc */
   static get defaultOptions() {
     return foundry.utils.mergeObject(super.defaultOptions, {
