@@ -169,6 +169,23 @@
   color: var(--sta-purple-pink);
 }
 
+.sta-enhanced.sheet.actor .row.horizontal-fields {
+  padding: 0 1em;
+  width: 100%;
+}
+.sta-enhanced.sheet.actor .row.horizontal-fields > .title {
+  flex-shrink: 0;
+  margin-right: 0.2em;
+  width: auto;
+}
+
+.sta-enhanced.sheet.actor .row.horizontal-fields > .input {
+  width: -webkit-fill-available;
+  width: stretch;
+  width: fill;
+}
+
+
 .sta-enhanced.sheet.actor .reputation .fields .column.fields {
   max-width: 50%;
   margin: 0 auto;

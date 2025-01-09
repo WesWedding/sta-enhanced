@@ -24,3 +24,21 @@ export class Migration0001MoveToBackstory extends MigrationBase {
     source.flags['sta-enhanced'].character['-=biography'] = null;
   }
 }
+
+export class Migration0002MoveGenderFlagToPronounsSystem extends MigrationBase {
+  static version = 0.2;
+
+  /**
+   * @override
+   */
+  async updateActor(source) {
+    if (source.type !== 'character') return;
+
+    const pronouns = source.flags['sta-enhanced']?.character.gender;
+    if (!pronouns) {
+      return;
+    }
+    source.system.pronouns = source.flags['sta-enhanced'].character.gender;
+    source.flags['sta-enhanced'].character['-=gender'] = null;
+  }
+}
