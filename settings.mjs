@@ -22,7 +22,7 @@ export function registerModuleSettings() {
     name: 'sta-enhanced.settings.worldSchemaVersion.Name',
     hint: 'sta-enhanced.settings.worldSchemaVersion.Hint',
     scope: 'world',
-    config: true,
+    config: false,
     default: MigrationRunner.LATEST_SCHEMA_VERSION,
     type: Number,
     requiresReload: true,
