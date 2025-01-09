@@ -18,29 +18,27 @@
           <input type="hidden" id="total-rep" name="system.reputation" value="{{system.reputation}}" data-dtype="Number" />
           <div id="bar-rep-renderer" class=" bar"></div>
         </div>
-        {{#if sta-enhanced.new1ERep}}
-          <div class="row">
-            <div class="column fields">
-              <div class="row labels">
-                <div class="column title">{{sta-enhanced.new1ERep.labels.positive}}</div>
-                <div class="column title">{{sta-enhanced.new1ERep.labels.negative}}</div>
+        <div class="row">
+          <div class="column fields">
+            <div class="row labels">
+              <div class="column title">{{sta-enhanced.repLabels.positive}}</div>
+              <div class="column title">{{sta-enhanced.repLabels.negative}}</div>
+            </div>
+            <div class="row">
+              <div class="column">
+                <input name="system.acclaim" class="text-entry" type="text" value="{{system.acclaim}}" placeholder="0" />
               </div>
-              <div class="row">
-                <div class="column">
-                  <input name="system.acclaim" class="text-entry" type="text" value="{{system.acclaim}}" placeholder="0" />
-                </div>
-                <div class="column">
-                  <input name="system.reprimand" class="text-entry" type="text" value="{{system.reprimand}}" placeholder="0" />
-                </div>
+              <div class="column">
+                <input name="system.reprimand" class="text-entry" type="text" value="{{system.reprimand}}" placeholder="0" />
               </div>
             </div>
           </div>
-          <div class="row">
-            <div class="column">
-            <button type="button" class="btn check-button" data-action="rollReputation">{{localize 'sta-enhanced.roll.reputation.action.roll'}}</button>
-            </div>
+        </div>
+        <div class="row">
+          <div class="column">
+          <button type="button" class="btn check-button" data-action="rollReputation">{{localize 'sta-enhanced.roll.reputation.action.roll'}}</button>
           </div>
-        {{/if}}
+        </div>
       </div>
     </div>
   </div>

@@ -5,6 +5,7 @@
 import { HandleBarsHelpers } from '../helpers/HandlebarsHelpers.mjs';
 import { STACharacterEnhancedSheet } from '../documents/actor/STACharacterEnhancedSheet.mjs';
 import { registerModuleSettings } from '../settings.mjs';
+import { STACharacterEnhancedSheet2E } from '../documents/actor/STACharacterEnhancedSheet2E.mjs';
 
 export const Init = {
   listen() {
@@ -21,11 +22,16 @@ export const Init = {
  * Registers the new sheets we need.
  */
 function registerSheets() {
-  // Register sheets.
   Actors.registerSheet('sta-enhanced', STACharacterEnhancedSheet, {
     types: ['character'],
     label: 'sta-enhanced.SheetClassCharacter',
     makeDefault: true,
+  });
+
+  Actors.registerSheet('sta-enhanced', STACharacterEnhancedSheet2E, {
+    types: ['character'],
+    label: 'sta-enhanced.SheetClassCharacter2e',
+    makeDefault: false,
   });
 }
 
@@ -41,6 +47,12 @@ async function preloadHandlebarsTemplates() {
     [`sta-enhanced.tabs.biography`]: 'modules/sta-enhanced/templates/actors/tabs/biography.hbs',
     [`sta-enhanced.tabs.notes`]: 'modules/sta-enhanced/templates/actors/tabs/notes.hbs',
     [`sta-enhanced.tabs.extras`]: 'modules/sta-enhanced/templates/actors/tabs/extras.hbs',
+
+    [`sta-enhanced.tabs.details2e`]: 'modules/sta-enhanced/templates/actors/tabs/details2e.hbs',
+    [`sta-enhanced.tabs.reputation2e`]: 'modules/sta-enhanced/templates/actors/tabs/reputation2e.hbs',
+    [`sta-enhanced.tabs.biography2e`]: 'modules/sta-enhanced/templates/actors/tabs/biography2e.hbs',
+    [`sta-enhanced.tabs.notes2e`]: 'modules/sta-enhanced/templates/actors/tabs/notes2e.hbs',
+    [`sta-enhanced.tabs.extras2e`]: 'modules/sta-enhanced/templates/actors/tabs/extras2e.hbs',
 
     [`sta-enhanced.parts.character-items-weapon`]: 'modules/sta-enhanced/templates/actors/parts/character-items-weapon.hbs',
   };

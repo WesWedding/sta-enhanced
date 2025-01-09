@@ -1,4 +1,11 @@
 /**
+ * This file copied profusely from the Foundry VTT's Official PF2E System's migration.
+ *
+ * @see {@link https://github.com/foundryvtt/pf2e/blob/master/src/module/migration/runner/base.ts}
+ * @see {@link https://github.com/foundryvtt/pf2e/blob/master/src/module/migration/runner/index.ts}
+ */
+
+/**
  * @typedef {object} NewDocumentMigrationRecord
  * @property {number} version
  * @property {number} previous
@@ -20,7 +27,7 @@
  */
 
 export class MigrationRunner {
-  static LATEST_SCHEMA_VERSION = 0.1;
+  static LATEST_SCHEMA_VERSION = 0.2;
 
   static MINIMUM_SAFE_VERSION = 0.0;
 
@@ -51,7 +58,7 @@ export class MigrationRunner {
     /** A roughly estimated "progress max" to reach, for displaying progress. */
     const progress = {
       current: 0,
-      max: game.actors.size + game.items.size,
+      max: game.actors.size + game.scenes.contents.flatMap((s) => s.tokens.contents).filter((t) => !t.actorLink).length,
     };
 
     // Migrate World Actors
@@ -98,6 +105,11 @@ export class MigrationRunner {
 
     const migrationsToRun = this.migrations.filter((x) => schemaVersion.current < x.version);
 
+    // We need to break the migration into phases sometimes.
+    // for instance, if a migration creates an item, we need to push that to
+    // the foundry backend in order to get an id for the item.
+    // This way if a later migration depends on the item actually being created,
+    // it will work.
     /** @type {MigrationBase[][]} */
     const migrationPhases = [[]];
     for (const migration of migrationsToRun) {

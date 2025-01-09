@@ -1,13 +1,8 @@
-import { STACharacterSheet } from '../../../../systems/sta/module/actors/sheets/character-sheet.js';
+import { STACharacterSheet2e } from '../../../../systems/sta/module/actors/sheets/character-sheet2e.js';
 import { CONSTS as SETTINGS_CONSTS } from '../../settings.mjs';
 import ReputationConfig from '../../applications/ReputationConfig.mjs';
 
-// After changes in the System, this global is required to keep sheets working.  Not ideal!
-if (typeof globalThis.localizedValues === 'undefined') {
-  globalThis.localizedValues = { resolute: '{{localize \'sta.actor.character.talents.resolute\'}}' };
-}
-
-export class STACharacterEnhancedSheet extends STACharacterSheet {
+export class STACharacterEnhancedSheet2E extends STACharacterSheet2e {
   /** @inheritDoc */
   static get defaultOptions() {
     return foundry.utils.mergeObject(super.defaultOptions, {
@@ -29,29 +24,27 @@ export class STACharacterEnhancedSheet extends STACharacterSheet {
         personality: characterFlags?.personality,
         enrichedBackstory: await TextEditor.enrichHTML(characterFlags?.backstory, { async: true }), // Async copied from PF2E but maybe not actually used?
       },
-      new1ERep: false,
+      repLabels: {
+        positive: '',
+        negative: '',
+      },
     };
 
-    // New fields to show when the 'Klingon' reputation variant is used.
-    const repVariant = await game.settings.get('sta-enhanced', 'reputationVariant');
-    if (repVariant === SETTINGS_CONSTS.reputation.variant['1stEdNew']) {
-      const new1ERep = {
-        labels: {
-          positive: '',
-          negative: '',
-        },
-      };
-      const labelSettings = await game.settings.get('sta-enhanced', 'reputationLabels');
-      if (labelSettings === SETTINGS_CONSTS.reputation.resultLabels.generic) {
-        new1ERep.labels.positive = game.i18n.localize('sta-enhanced.reputation.variant.generic.positive.label');
-        new1ERep.labels.negative = game.i18n.localize('sta-enhanced.reputation.variant.generic.negative.label');
-      }
-      else {
-        new1ERep.labels.positive = game.i18n.localize('sta-enhanced.reputation.variant.klingon.positive.label');
-        new1ERep.labels.negative = game.i18n.localize('sta-enhanced.reputation.variant.klingon.negative.label');
-      }
-      context['sta-enhanced'].new1ERep = new1ERep;
+    const repLabels = {
+      positive: '',
+      negative: '',
+    };
+
+    const labelSettings = await game.settings.get('sta-enhanced', 'reputationLabels');
+    if (labelSettings === SETTINGS_CONSTS.reputation.resultLabels.generic) {
+      repLabels.positive = game.i18n.localize('sta-enhanced.reputation.variant.generic.positive.label');
+      repLabels.negative = game.i18n.localize('sta-enhanced.reputation.variant.generic.negative.label');
     }
+    else {
+      repLabels.positive = game.i18n.localize('sta-enhanced.reputation.variant.klingon.positive.label');
+      repLabels.negative = game.i18n.localize('sta-enhanced.reputation.variant.klingon.negative.label');
+    }
+    context['sta-enhanced'].repLabels = repLabels;
 
     // We're using the prosemirror editor on Notes, so we should be enriching accordingly.
     context.system.notes = await TextEditor.enrichHTML(context.system.notes);
@@ -62,7 +55,7 @@ export class STACharacterEnhancedSheet extends STACharacterSheet {
   /** @inheritDoc */
   get template() {
     if (!game.user.isGM && this.actor.limited) return 'systems/sta/templates/actors/limited-sheet.html';
-    return 'modules/sta-enhanced/templates/actors/character-sheet.hbs';
+    return 'modules/sta-enhanced/templates/actors/character-sheet-2e.hbs';
   }
 
   /** @inheritDoc */
