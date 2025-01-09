@@ -2,11 +2,6 @@ import { STACharacterSheet } from '../../../../systems/sta/module/actors/sheets/
 import { CONSTS as SETTINGS_CONSTS } from '../../settings.mjs';
 import ReputationConfig from '../../applications/ReputationConfig.mjs';
 
-// After changes in the System, this global is required to keep sheets working.  Not ideal!
-if (typeof globalThis.localizedValues === 'undefined') {
-  globalThis.localizedValues = { resolute: '{{localize \'sta.actor.character.talents.resolute\'}}' };
-}
-
 export class STACharacterEnhancedSheet extends STACharacterSheet {
   /** @inheritDoc */
   static get defaultOptions() {
