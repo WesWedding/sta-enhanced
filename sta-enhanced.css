@@ -170,11 +170,12 @@
 }
 
 .sta-enhanced.sheet.actor .row.horizontal-fields {
-  align-items: baseline;
+  padding: 0 1em;
   width: 100%;
 }
 .sta-enhanced.sheet.actor .row.horizontal-fields > .title {
-  min-width: 4em;
+  flex-shrink: 0;
+  margin-right: 0.2em;
   width: auto;
 }
 
