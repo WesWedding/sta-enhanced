@@ -55,6 +55,7 @@ async function preloadHandlebarsTemplates() {
     [`sta-enhanced.tabs.extras2e`]: 'modules/sta-enhanced/templates/actors/tabs/extras2e.hbs',
 
     [`sta-enhanced.parts.character-items-weapon`]: 'modules/sta-enhanced/templates/actors/parts/character-items-weapon.hbs',
+    [`sta-enhanced.parts.character-items-weapon2e`]: 'modules/sta-enhanced/templates/actors/parts/character-items-weapon2e.hbs',
   };
 
   return loadTemplates(paths);
