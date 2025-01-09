@@ -115,6 +115,8 @@
               </div>
             {{/with}}
             {{/each}}
+            {{!-- TODO: Figure out why this checkbox just won't work right; have to click multiple times for it to change. Hidden for now, required for button handler. --}}
+            <input class="checkbox" type="hidden" name="system.rollrepnotdis" data-dtype="Boolean" value="false">
             <div class="check-button btn attribute">{{localize 'sta.actor.attdis.task'}}</div>
           </div>
       </div>
