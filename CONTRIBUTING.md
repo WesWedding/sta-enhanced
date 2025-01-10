@@ -1,4 +1,4 @@
-# Helping the develop STA Enhanced Plugin
+# Help develop the STA Enhanced Plugin
 Thanks for investing your time in contributing to our project!
 
 These are some general guidelines to follow when making a contribution.
@@ -6,7 +6,7 @@ These are some general guidelines to follow when making a contribution.
 ## Issues
 ### Create a new issue
 If you spot a problem, please search if an issue already exists.  If a related
-issue doesn't exist, you can open a new issue using the relevant issue form.
+issue doesn't exist, you can open a new issue using the [relevant issue form](https://github.com/WesWedding/sta-enhanced/issues/new/choose).
 
 ### Solve an issue
 Scan through our existing issues to find one that interests you.  If you find

@@ -1,4 +1,5 @@
 # Star Trek Adventures: Enhanced #
+Find this on Foundry: https://foundryvtt.com/packages/sta-enhanced
 
 A plugin that enhances the [Unofficial Star Trek Adventures system](https://foundryvtt.com/packages/sta)
 with fresher tab-based navigation to improve readability, organization, and
@@ -24,7 +25,9 @@ Many sheet elements live in dedicated tabs now.
 - Reputation
   - Fields related to the reputation system goes here.
 - Biography
-  - The notes field, environment and upbringing, and Biography (new!) go here.
+  - The environment and upbringing, Backstory (new!), and other biographical fields go here.
+- Notes
+  - The Notes field has been given an entire tab, so that there is plenty of room for notes.
 
 ### New fields! ###
 The introduction of tabs also means we have space to add additional fields that can
@@ -34,22 +37,14 @@ or external notes.
 - Personality: It can be helpful to write this down, especially if you're a GM
   and have to switch between several characters or otherwise need a reminder to
   get in-character.
-- Gender/Pronouns: Sometimes it can be hard to keep pronouns straight when all
-  you have are alien names and portraits.  Maybe you have a species that
-  doesn't use the typical Earth gender dynamics at all!  It's sci-fi, anything
-  can happen!
-- Biography: The Notes field provided by the System was really tiny, but there
+- Backstory: The Notes field provided by the System was really tiny, but there
   is also a difference between a Biography and Notes.  Put your fancy backstory
   here, instead.  Plenty of space is given for this purpose.
+- Pronouns: Originally not included in the STA system, this field is now provided
+  on the 2E sheets.  This plugin makes sure 1E players have access to this field
+  as well.
 
 ### New Editors ###
 Text editors have been updated from the TinyMCE editor to ProseMirror (TinyMCE
 will eventually get deprecated).  A side effect of this means that the minimum
 supporting Foundry version supported is Foundry v10.
-
-## Hypothetical Future Features ##
-- Cleaner Weapon sheets - Clearly defined "Effects" and "Qualities" sections
-  with room for custom qualities.
-- Improved labelling of chat cards when sharing Values, Talents, and Focuses.
-- Career Events!  These are not tracked on any official sheets nor any VTT sheets,
-  but they seem like really useful background information for a GM to refer to.
