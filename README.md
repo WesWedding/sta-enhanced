@@ -5,6 +5,15 @@ A plugin that enhances the [Unofficial Star Trek Adventures system](https://foun
 with fresher tab-based navigation to improve readability, organization, and
 a few new bells and whistles.
 
+## How to Switch Sheets
+1. Open your character sheet
+2. Click on "Sheet" at the top of the sheet
+3. Click the current sheet
+4. Select either the _Enhanced STA (1st Ed)_ or _Enhanced STA (2nd Ed)_ sheets
+5. Click "Save Sheet Configuration"
+
+![](docs\how-to-switch.gif)
+
 ## Requirements
 - Foundry v12 or later
 - Foundry v12 Client or Latest Chrome, Firefox, or Safari
