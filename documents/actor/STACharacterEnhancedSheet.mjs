@@ -1,4 +1,4 @@
-import { STACharacterSheet } from '../../../../systems/sta/module/actors/sheets/character-sheet.js';
+import { STACharacterSheet } from '../../../../systems/sta/module/actors/character-sheet.mjs';
 import { CONSTS as SETTINGS_CONSTS } from '../../settings.mjs';
 import ReputationConfig from '../../applications/ReputationConfig.mjs';
 

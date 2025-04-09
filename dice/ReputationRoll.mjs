@@ -200,7 +200,7 @@ export class ReputationRoll extends TaskRoll {
   }
 
   static chatListeners(html) {
-    html.on('click', '.chat-message button[data-action]', this._onChatCardAction.bind(this));
+    $(html).on('click', '.chat-message button[data-action]', this._onChatCardAction.bind(this));
   }
 
   static async _onChatCardAction(event) {

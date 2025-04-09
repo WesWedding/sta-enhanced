@@ -1,4 +1,4 @@
-import { STACharacterSheet2e } from '../../../../systems/sta/module/actors/sheets/character-sheet2e.js';
+import { STACharacterSheet2e } from '../../../../systems/sta/module/actors/character-sheet2e.mjs';
 import { CONSTS as SETTINGS_CONSTS } from '../../settings.mjs';
 import ReputationConfig from '../../applications/ReputationConfig.mjs';
 
