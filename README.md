@@ -15,8 +15,18 @@ a few new bells and whistles.
 ![](docs\how-to-switch.gif)
 
 ## Requirements
-- Foundry v12 or later
-- Foundry v12 Client or Latest Chrome, Firefox, or Safari
+- Foundry v13 or later
+- Foundry v13 Client or Latest Chrome, Firefox, or Safari
+
+### Support for the Foundry v12 Version of Star Trek Adventures
+Foundry v12 and v13 both differ in some fundamentally incompatible ways,
+and this resulted in the STA system substantially changing as well.  As
+a result, new STA Enhanced development will be focusing on the newer System
+implementation with STA Enhanced 2.0.
+
+Bug fixing and other issues related to verison 1.x will continue to be addressed
+until early 2026, after which you will be encouraged to migrate to a more
+recent version.
 
 ## New Features and Updates ##
 
